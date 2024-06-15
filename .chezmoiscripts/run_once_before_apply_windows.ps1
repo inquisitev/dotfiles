@@ -14,5 +14,5 @@ if ($env:OS -eq "Windows_NT") {
   }
 
   # Apply the chezmoi nvim configuration
-  chezmoi apply --source-path ~/.local/share/chezmoi/dot_config/nvim_windows -destination $nvimConfigPath
+  chezmoi apply --source-path ~/.local/share/chezmoi/dot_config/nvim_windows $nvimConfigPath
 }
