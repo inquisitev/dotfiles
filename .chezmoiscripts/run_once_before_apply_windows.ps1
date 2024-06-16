@@ -8,11 +8,6 @@ if ($env:OS -eq "Windows_NT") {
     New-Item -ItemType Directory -Path $nvimConfigPath
   }
 
-  # Backup existing nvim configuration if it exists
-  if (Test-Path -Path $nvimConfigPath) {
-    Move-Item -Path $nvimConfigPath -Destination "$nvimConfigPath_backup_windows" -Force
-  }
-
   # Apply the chezmoi nvim configuration
-  chezmoi apply --source-path ~/.local/share/chezmoi/dot_config/nvim $nvimConfigPath
+  chezmoi apply --source-path ~/.local/share/chezmoi/dot_config/nvim $env:LOCALAPPDATA\\nvim
 }
