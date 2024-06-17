@@ -1,8 +1,0 @@
-[data]
-  {{ if eq .chezmoi.os "windows" -}}
-  nvim_config_path = "C:\\Users\\{{ .chezmoi.username }}\\AppData\\Local\\nvim"
-  wezterm_config_path = "C:\\Users\\{{ .chezmoi.username }}\\AppData\\Local\\wezterm"
-  {{- else if eq .chezmoi.os "darwin" -}}
-  nvim_config_path = "/Users/{{ .chezmoi.username }}/.config/nvim"
-  wezterm_config_path = "/Users/{{ .chezmoi.username }}/.config/wezterm"
-  {{- end }}
