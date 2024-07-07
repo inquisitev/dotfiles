@@ -44,7 +44,7 @@ wezterm.on("gui-startup", function(cmd)
 
 	local editor_pane = build_pane:split({
 		direction = "Top",
-		size = 0.9,
+		size = 0.95,
 		cwd = project_dir,
 	})
 	local deploy_pane = build_pane:split({
