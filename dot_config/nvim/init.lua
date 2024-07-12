@@ -24,29 +24,15 @@ require("lazy").setup({
       require "options"
     end,
   },
-  
 
   { import = "plugins" },
 }, lazy_config)
-
-
-
 
 -- load theme
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
 require "nvchad.autocmds"
-require("mason").setup()
-require("mason-lspconfig").setup()
-
-require("lspconfig").rust_analyzer.setup {}
-
-require("mason-lspconfig").setup {
-  ensure_installed = { "lua_ls", "rust_analyzer" },
-}
-
-require('Navigator').setup()
 
 vim.schedule(function()
   require "mappings"
