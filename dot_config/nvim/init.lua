@@ -47,6 +47,15 @@ require("lazy").setup({
   { import = "plugins" },
 }, lazy_config)
 
+local lspconfig = require('lspconfig')
+lspconfig.ccls.setup {
+  init_options = {
+    cache = {
+      directory = ".ccls-cache";
+    };
+  }
+}
+
 -- load theme
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
