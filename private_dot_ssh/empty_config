@@ -1,10 +1,11 @@
-Host hostname1
-    SSH_OPTION value
-    SSH_OPTION value
+Host g5
+    HostName 172.16.0.5
+    User root
 
-Host hostname2
-    SSH_OPTION value
+Host ws
+    HostName wdxmxl3221j34
+    User l6ti0g0
 
-Host *
-    SSH_OPTION value
-
+Host jdnative
+    HostName wd7c57583bdebb
+    User l6ti0g0
