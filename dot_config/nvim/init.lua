@@ -63,6 +63,8 @@ lspconfig.ccls.setup {
   }
 }
 
+lspconfig.anakin_language_server.setup{}
+
 local harpoon = require("harpoon")
 
 -- REQUIRED
