@@ -1,4 +1,6 @@
-Requires https://github.com/jesseduffield/lazygit Installed. 
+# Dotfiles
 
-
-wezterm ssh l6ti0g0@wd7c57583bdebb
+Dotfile configuration is managed by chezmoi. 
+Terminal emulator of choice is wezterm
+editor of choice is nvim, (based heavily on nvchad)
+git TUI of choice is lazy git.
