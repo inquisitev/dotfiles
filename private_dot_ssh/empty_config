@@ -1,6 +1,7 @@
 Host g5
     HostName 172.16.0.5
     User root
+    IdentityFile ~/.ssh/id_g5
 
 Host ws
     HostName wdxmxl3221j34
