@@ -25,6 +25,13 @@ require("lazy").setup({
     end,
   },
   {
+    "mfussenegger/nvim-dap",
+  },
+
+  {
+    "mfussenegger/nvim-dap-python",
+  },
+  {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" }
@@ -58,7 +65,7 @@ local lspconfig = require('lspconfig')
 lspconfig.ccls.setup {
   init_options = {
     cache = {
-      directory = ".ccls-cache";
+      directory = "~/.ccls-cache";
     };
   }
 }
@@ -83,8 +90,25 @@ vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
 vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
 vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
 
-
--- load theme
+require('dap-python').setup('python')
+table.insert(require('dap').configurations.python, {
+  type = 'python',
+  request = 'launch',
+  module = 'pytest',
+  name = 'Run Tests',
+  args={
+        "${file}"
+    }
+  -- ... more options, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
+})
+vim.keymap.set("n", "<leader>dc", function() require('dap').continue() end, {desc="Continue debugging"})
+vim.keymap.set("n", "<leader>dx", function() require('dap').terminate() end, {desc="Terminate debugging"})
+vim.keymap.set("n", "<leader>dtc", function() require('dap-python').test_method() end,{desc="Debug test method"} )
+vim.keymap.set("n", "<leader>dtt", function() require('dap-python').test_class() end,{desc="Debug test class"} )
+vim.keymap.set("n", "<leader>di", function() require('dap.ui.widgets').hover() end,{desc="inspect value"} )
+vim.keymap.set("n", "m", function() require('dap').step_over() end,{desc="Step Over"} )
+vim.keymap.set("n", "n", function() require('dap').step_into() end,{desc="Step Into"} )
+vim.keymap.set("n", "<leader>dp", function() require('dap').toggle_breakpoint() end, {desc="Toggle Breakpoint"})
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
