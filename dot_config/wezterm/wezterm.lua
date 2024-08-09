@@ -60,5 +60,5 @@ wezterm.on("gui-startup", function(cmd)
 	mux.set_active_workspace("coding")
 end)
 config.color_scheme = "Catppuccin Mocha"
-
+config.hide_tab_bar_if_only_one_tab = true 
 return config
