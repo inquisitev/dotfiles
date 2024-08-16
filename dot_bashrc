@@ -122,3 +122,6 @@ export NVM_DIR="$HOME/.nvm"
 
 alias wezterm='flatpak run org.wezfurlong.wezterm'
 export TARGET=172.16.0.5
+export DENO_INSTALL="/home/l6ti0g0/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+

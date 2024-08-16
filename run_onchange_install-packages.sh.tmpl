@@ -9,9 +9,6 @@ curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/lates
 tar xf lazygit.tar.gz lazygit
 sudo install lazygit /usr/local/bin
 sudo snap install nvim --classic
-
-sudo apt install flatpak
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub org.wezfurlong.wezterm
-
+curl -fsSL https://deno.land/install.sh | sh
+sudo apt install sshpass
 {{ end -}}
