@@ -19,3 +19,5 @@ map({ "n", "t" }, "<A-i>", function()
         height = 0.5
     }}
 end, { desc = "terminal toggle floating term" })
+
+

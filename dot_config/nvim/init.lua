@@ -63,7 +63,8 @@ require("lazy").setup({
   keys = {
     { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
     { "<leader>tf", "<cmd>Telescope find_files<cr>", desc = "Telescope find files" },
-    { "<leader>tc", "<cmd>Telescope live_grep<cr>", desc = "Telescope live grep" }
+    { "<leader>tc", "<cmd>Telescope live_grep<cr>", desc = "Telescope live grep" },
+    { "<leader>ty", "<cmd>Telescope yank_history<cr>", desc = "Telescope yank_history" }
   }
 },
 
@@ -132,3 +133,4 @@ set.softtabstop = 4
 set.shiftwidth = 4
 
 vim.wo.relativenumber = true
+require("telescope").load_extension("yank_history")
