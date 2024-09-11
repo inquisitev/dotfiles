@@ -108,7 +108,6 @@ table.insert(require('dap').configurations.python, {
   args={
         "${file}"
     }
-  -- ... more options, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
 })
 vim.keymap.set("n", "<leader>dc", function() require('dap').continue() end, {desc="Continue debugging"})
 vim.keymap.set("n", "<leader>dx", function() require('dap').terminate() end, {desc="Terminate debugging"})
