@@ -128,9 +128,15 @@ vim.schedule(function()
 end)
 
 local set = vim.opt -- set options
+vim.opt.clipboard=unnamedplus
 set.tabstop = 4
 set.softtabstop = 4
 set.shiftwidth = 4
-
+vim.opt.clipboard:append { 'unnamed', 'unnamedplus' }
 vim.wo.relativenumber = true
+
 require("telescope").load_extension("yank_history")
+
+
+ 
+
