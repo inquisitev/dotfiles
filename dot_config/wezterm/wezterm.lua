@@ -27,38 +27,27 @@ wezterm.on("gui-startup", function(cmd)
 
 	-- Set a workspace for coding on a current project
 	-- Top pane is for the editor, bottom pane is for the build tool
-	local project_dir = wezterm.home_dir .. ".config/"
 
-	local tab, build_pane, window = mux.spawn_window({
-		workspace = "coding",
-		cwd = project_dir,
+	local tab, code_pane, window = mux.spawn_window({
+		workspace = "jdnative-ws",
 		args = args,
 	})
 
-	local tab2, b2, w = window:spawn_tab({
-
-		workspce = "coding0",
-		cwd = project_dir,
+	local tab2, appsync_pane, w = window:spawn_tab({
+		workspce = "g5-debugging",
 		args = args,
 	})
-
-	local editor_pane = build_pane:split({
-		direction = "Top",
-		size = 0.95,
-		cwd = project_dir,
-	})
-	local deploy_pane = build_pane:split({
+	local log_pane = appsync_pane:split({
 		direction = "Right",
-		size = 0.6,
-		cwd = project_dir,
+		size = 0.7,
 	})
 	-- may as well kick off a build in that pane
-	build_pane:send_text("cargo build\n")
-	editor_pane:send_text("nvim .\n")
-
+	appsync_pane:send_text("appsync \n")
+	log_pane:send_text("ssh g5 \"journalctl -fu cfd-services | grep -Eiv \'OCD\'\" \n")
+  code_pane.send_text("ssh jdnative")
 	-- We want to startup in the coding workspace
-	mux.set_active_workspace("coding")
+	mux.set_active_workspace("jdnative-ws")
 end)
 config.color_scheme = "Catppuccin Mocha"
-config.hide_tab_bar_if_only_one_tab = true 
+
 return config

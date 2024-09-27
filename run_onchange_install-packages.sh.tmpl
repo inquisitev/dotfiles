@@ -1,0 +1,27 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+
+# Install lazygit
+LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+tar xf lazygit.tar.gz lazygit
+sudo install lazygit /usr/local/bin
+sudo apt install ripgrep
+pip install anakin-language-server
+
+# install nvim 
+sudo snap install nvim --classic
+curl -fsSL https://deno.land/install.sh | sh
+
+# install sshpass 
+sudo apt install sshpass
+
+curl -sSL http://github.com/Slackadays/Clipboard/raw/main/install.sh | sh
+
+# install go for lemonade
+sudo snap install go --classic
+go install github.com/lemonade-command/lemonade@latest
+
+flatpak install flathub org.wezfurlong.wezterm
+
+{{ end -}}

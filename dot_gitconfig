@@ -1,0 +1,7 @@
+[user]
+	email = KeeganTrevor@JohnDeere.com
+	name = Trevor Keegan
+[pull]
+	rebase = false
+[init]
+	defaultBranch = master

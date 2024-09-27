@@ -25,14 +25,25 @@ require("lazy").setup({
     end,
   },
   {
+    "mfussenegger/nvim-dap",
+  },
+  {
+    "toppair/peek.nvim",
+    event = { "VeryLazy" },
+    build = "deno task --quiet build:fast",
+    config = function()
+        require("peek").setup()
+        vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+        vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap-python",
+  },
+  {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" }
-  },
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^4', -- Recommended
-    lazy = false, -- This plugin is already lazy
   },
   {
   "kdheepak/lazygit.nvim",
@@ -52,7 +63,8 @@ require("lazy").setup({
   keys = {
     { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
     { "<leader>tf", "<cmd>Telescope find_files<cr>", desc = "Telescope find files" },
-    { "<leader>tc", "<cmd>Telescope live_grep<cr>", desc = "Telescope live grep" }
+    { "<leader>tc", "<cmd>Telescope live_grep<cr>", desc = "Telescope live grep" },
+    { "<leader>ty", "<cmd>Telescope yank_history<cr>", desc = "Telescope yank_history" }
   }
 },
 
@@ -63,10 +75,12 @@ local lspconfig = require('lspconfig')
 lspconfig.ccls.setup {
   init_options = {
     cache = {
-      directory = ".ccls-cache";
+      directory = "~/.ccls-cache";
     };
   }
 }
+
+lspconfig.anakin_language_server.setup{}
 
 local harpoon = require("harpoon")
 
@@ -86,8 +100,24 @@ vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
 vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
 vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
 
-
--- load theme
+require('dap-python').setup('python')
+table.insert(require('dap').configurations.python, {
+  type = 'python',
+  request = 'launch',
+  module = 'pytest',
+  name = 'Run Tests',
+  args={
+        "${file}"
+    }
+})
+vim.keymap.set("n", "<leader>dc", function() require('dap').continue() end, {desc="Continue debugging"})
+vim.keymap.set("n", "<leader>dx", function() require('dap').terminate() end, {desc="Terminate debugging"})
+vim.keymap.set("n", "<leader>dtc", function() require('dap-python').test_method() end,{desc="Debug test method"} )
+vim.keymap.set("n", "<leader>dtt", function() require('dap-python').test_class() end,{desc="Debug test class"} )
+vim.keymap.set("n", "<leader>di", function() require('dap.ui.widgets').hover() end,{desc="inspect value"} )
+vim.keymap.set("n", "m", function() require('dap').step_over() end,{desc="Step Over"} )
+vim.keymap.set("n", "n", function() require('dap').step_into() end,{desc="Step Into"} )
+vim.keymap.set("n", "<leader>dp", function() require('dap').toggle_breakpoint() end, {desc="Toggle Breakpoint"})
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
@@ -96,3 +126,17 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+local set = vim.opt -- set options
+vim.opt.clipboard=unnamedplus
+set.tabstop = 4
+set.softtabstop = 4
+set.shiftwidth = 4
+vim.opt.clipboard:append { 'unnamed', 'unnamedplus' }
+vim.wo.relativenumber = true
+
+require("telescope").load_extension("yank_history")
+
+
+ 
+
