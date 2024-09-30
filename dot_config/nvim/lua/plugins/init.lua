@@ -1,3 +1,5 @@
+local map = vim.keymap.set
+
 return {
   {
     "stevearc/conform.nvim",
@@ -25,6 +27,11 @@ return {
       require("nvchad.configs.lspconfig").defaults()
       require "configs.lspconfig"
       require('lspconfig').clangd.setup{}
+      map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
+      map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+      map("n", "gl", "<cmd>lua require('telescope.builtin').lsp_references()<CR>", { noremap = true, silent = true })
+      map("n", "gr", "<cmd>lua vim.lsp.buf.rename()<CR>", { noremap = true, silent = true })
+
     end,
   },
 
