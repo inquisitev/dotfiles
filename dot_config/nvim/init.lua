@@ -71,6 +71,15 @@ require("lazy").setup({
   { import = "plugins" },
 }, lazy_config)
 
+-- OR setup with some options
+require("nvim-tree").setup({
+    git = {
+      enable = true,
+      ignore = false,
+       timeout = 400,
+    },
+})
+
 local lspconfig = require('lspconfig')
 lspconfig.ccls.setup {
   init_options = {
