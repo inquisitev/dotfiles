@@ -15,3 +15,7 @@ Host jdnative
     User l6ti0g0
     IdentityFile ~/.ssh/id_jdnative
 
+Host vm
+    HostName 10.66.100.129
+    User l6ti0g0
+    IdentityFile ~/.ssh/id_vm

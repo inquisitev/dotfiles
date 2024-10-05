@@ -16,40 +16,50 @@ config.keys = {
 	},
 }
 
-wezterm.on("gui-startup", function(cmd)
-	-- allow `wezterm start -- something` to affect what we spawn
-	-- in our initial window
-	local args = {}
-	if cmd then
-		args = cmd.args
-		print(args)
-	end
+-- wezterm.on("gui-startup", function(cmd)
+-- 	-- allow `wezterm start -- something` to affect what we spawn
+-- 	-- in our initial window
+--
+-- end)
+config.color_scheme = "darkmoss (base16)"
 
-	-- Set a workspace for coding on a current project
-	-- Top pane is for the editor, bottom pane is for the build tool
+local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+tabline.setup({
+  options = {
+    icons_enabled = true,
+    theme = 'Catppuccin Mocha',
+    color_overrides = {},
+    section_separators = {
+      left = wezterm.nerdfonts.pl_left_hard_divider,
+      right = wezterm.nerdfonts.pl_right_hard_divider,
+    },
+    component_separators = {
+      left = wezterm.nerdfonts.pl_left_soft_divider,
+      right = wezterm.nerdfonts.pl_right_soft_divider,
+    },
+    tab_separators = {
+      left = wezterm.nerdfonts.pl_left_hard_divider,
+      right = wezterm.nerdfonts.pl_right_hard_divider,
+    },
+  },
+  sections = {
+    tab_active = {
+      'index',
+      { 'parent', padding = 0 },
+      '/',
+      { 'cwd', padding = { left = 0, right = 1 } },
+      { 'zoomed', padding = 0 },
+    },
+    tab_inactive = { 'index', { 'process', padding = { left = 0, right = 1 } } },
+    tabline_x = { 'ram', 'cpu' },
+    tabline_y = { 'datetime', 'battery' },
+    tabline_z = { 'hostname' },
+  },
+  extensions = {},
+})
 
-	local tab, code_pane, window = mux.spawn_window({
-		workspace = "jdnative-ws",
-		args = args,
-	})
 
-	local tab2, appsync_pane, w = window:spawn_tab({
-		workspce = "g5-debugging",
-		args = args,
-	})
-	local log_pane = appsync_pane:split({
-		direction = "Right",
-		size = 0.7,
-	})
-	-- may as well kick off a build in that pane
-	appsync_pane:send_text("appsync \n")
-	log_pane:send_text("ssh g5 \"journalctl -fu cfd-services | grep -Eiv \'OCD\'\" \n")
-  code_pane.send_text("ssh jdnative")
-	-- We want to startup in the coding workspace
-	mux.set_active_workspace("jdnative-ws")
-end)
-config.color_scheme = "Catppuccin Mocha"
-
+config.tab_bar_at_bottom = true
 config.window_padding = {
   left = 0,
   right = 0,
