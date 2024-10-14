@@ -23,3 +23,4 @@ end, { desc = "terminal toggle floating term" })
 
   map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
   map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+  map("n", "gs", "<cmd>ClangdSwitchSourceHeader<CR>", {})
