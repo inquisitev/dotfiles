@@ -1,20 +1,7 @@
 local wezterm = require("wezterm")
-local mux = wezterm.mux
 local config = {}
 
-local act = wezterm.action
-config.keys = {
-	{
-		key = "-",
-		mods = "SHIFT|CMD",
-		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
-	},
-	{
-		key = "=",
-		mods = "SHIFT|CMD",
-		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-	},
-}
+config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
 
 -- wezterm.on("gui-startup", function(cmd)
 -- 	-- allow `wezterm start -- something` to affect what we spawn
@@ -58,6 +45,36 @@ tabline.setup({
   extensions = {},
 })
 
+local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
+
+config.keys = {
+  -- ...
+  {
+    key = "w",
+    mods = "ALT",
+    action = wezterm.action_callback(function(win, pane)
+        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+      end),
+  },
+  {
+    key = "W",
+    mods = "ALT",
+    action = resurrect.window_state.save_window_action(),
+  },
+  {
+    key = "T",
+    mods = "ALT",
+    action = resurrect.tab_state.save_tab_action(),
+  },
+  {
+    key = "s",
+    mods = "ALT",
+    action = wezterm.action_callback(function(win, pane)
+        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+        resurrect.window_state.save_window_action()
+      end),
+  },
+}
 
 config.tab_bar_at_bottom = true
 config.window_padding = {

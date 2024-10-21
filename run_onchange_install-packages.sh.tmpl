@@ -1,5 +1,6 @@
-{{ if eq .chezmoi.os "linux" -}}
 #!/bin/sh
+python -m ensurepip --upgrade
+pip install anakin-language-server
 
 # Install lazygit
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
@@ -24,5 +25,6 @@ go install github.com/lemonade-command/lemonade@latest
 
 flatpak install flathub org.wezfurlong.wezterm
 
+sudo snap install bw 
+export BW_SESSION=$( bw login --raw )
 
-{{ end -}}
