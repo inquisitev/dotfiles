@@ -1,6 +1,8 @@
 local wezterm = require("wezterm")
-local mux = wezterm.mux
+local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 local config = {}
+
+config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
 
 local act = wezterm.action
 config.keys = {
@@ -14,40 +16,112 @@ config.keys = {
 		mods = "SHIFT|CMD",
 		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
+  {
+    key = "w",
+    mods = "SHIFT|CMD",
+        action = wezterm.action_callback(function(win, pane)
+        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+      end),
+  },
+  {
+  -- ...
+    key = "d",
+    mods = "SHIFT|CMD",
+    action = resurrect.window_state.save_window_action(),
+  },
+  {
+    key = "T",
+    mods = "SHIFT|CMD",
+    action = resurrect.tab_state.save_tab_action(),
+  },
+  {
+    key = "s",
+    mods = "SHIFT|CMD",
+    action = wezterm.action_callback(function(win, pane)
+        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+        resurrect.window_state.save_window_action()
+      end),
+  },
 }
 
-wezterm.on("gui-startup", function(cmd)
-	-- allow `wezterm start -- something` to affect what we spawn
-	-- in our initial window
-	local args = {}
-	if cmd then
-		args = cmd.args
-		print(args)
-	end
+-- wezterm.on("gui-startup", function(cmd)
+-- 	-- allow `wezterm start -- something` to affect what we spawn
+-- 	-- in our initial window
+--
+-- end)
+config.color_scheme = "darkmoss (base16)"
 
-	-- Set a workspace for coding on a current project
-	-- Top pane is for the editor, bottom pane is for the build tool
+local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+tabline.setup({
+  options = {
+    icons_enabled = true,
+    theme = 'Catppuccin Mocha',
+    color_overrides = {},
+    section_separators = {
+      left = wezterm.nerdfonts.pl_left_hard_divider,
+      right = wezterm.nerdfonts.pl_right_hard_divider,
+    },
+    component_separators = {
+      left = wezterm.nerdfonts.pl_left_soft_divider,
+      right = wezterm.nerdfonts.pl_right_soft_divider,
+    },
+    tab_separators = {
+      left = wezterm.nerdfonts.pl_left_hard_divider,
+      right = wezterm.nerdfonts.pl_right_hard_divider,
+    },
+  },
+  sections = {
+    tab_active = {
+      'index',
+      { 'parent', padding = 0 },
+      '/',
+      { 'cwd', padding = { left = 0, right = 1 } },
+      { 'zoomed', padding = 0 },
+    },
+    tab_inactive = { 'index', { 'process', padding = { left = 0, right = 1 } } },
+    tabline_x = { 'ram', 'cpu' },
+    tabline_y = { 'datetime', 'battery' },
+    tabline_z = { 'hostname' },
+  },
+  extensions = {},
+})
 
-	local tab, code_pane, window = mux.spawn_window({
-		workspace = "jdnative-ws",
-		args = args,
-	})
+local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 
-	local tab2, appsync_pane, w = window:spawn_tab({
-		workspce = "g5-debugging",
-		args = args,
-	})
-	local log_pane = appsync_pane:split({
-		direction = "Right",
-		size = 0.7,
-	})
-	-- may as well kick off a build in that pane
-	appsync_pane:send_text("appsync \n")
-	log_pane:send_text("ssh g5 \"journalctl -fu cfd-services | grep -Eiv \'OCD\'\" \n")
-  code_pane.send_text("ssh jdnative")
-	-- We want to startup in the coding workspace
-	mux.set_active_workspace("jdnative-ws")
-end)
-config.color_scheme = "Catppuccin Mocha"
+config.keys = {
+  -- ...
+  {
+    key = "w",
+    mods = "ALT",
+    action = wezterm.action_callback(function(win, pane)
+        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+      end),
+  },
+  {
+    key = "W",
+    mods = "ALT",
+    action = resurrect.window_state.save_window_action(),
+  },
+  {
+    key = "T",
+    mods = "ALT",
+    action = resurrect.tab_state.save_tab_action(),
+  },
+  {
+    key = "s",
+    mods = "ALT",
+    action = wezterm.action_callback(function(win, pane)
+        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+        resurrect.window_state.save_window_action()
+      end),
+  },
+}
 
+config.tab_bar_at_bottom = true
+config.window_padding = {
+  left = 0,
+  right = 0,
+  top = 0,
+  bottom = 0,
+}
 return config
