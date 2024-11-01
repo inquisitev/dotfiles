@@ -128,3 +128,5 @@ export CLIPBOARD_SILENT=1
 alias clip="flatpak run app.getclipboard.Clipboard"
 
 PATH="$PATH:~/go/bin"
+source ~/.config/bash/G5DevScripts.sh
+source ~/.config/bash/workspaceSetup.sh
