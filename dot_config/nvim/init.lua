@@ -97,10 +97,23 @@ harpoon:setup()
 vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
 vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
-vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
-vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
-vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<C-1>", function()
+    harpoon:list():select(1)
+    vim.cmd('normal! zz')
+end)
+vim.keymap.set("n", "<C-2>", function()
+    harpoon:list():select(2)
+    vim.cmd('normal! zz')
+end)
+
+vim.keymap.set("n", "<C-3>", function()
+    harpoon:list():select(3) 
+    vim.cmd('normal! zz')
+end)
+vim.keymap.set("n", "<C-4>", function()
+    harpoon:list():select(4)
+    vim.cmd('normal! zz')
+end)
 
 -- Toggle previous & next buffers stored within Harpoon list
 vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
@@ -179,7 +192,7 @@ require('mason-tool-installer').setup {
 }
 
 require('dap-python').setup('python')
-require('yanky').setup()
+-- require('yanky').setup()
 table.insert(require('dap').configurations.python, {
   type = 'python',
   request = 'launch',
@@ -210,6 +223,7 @@ local set = vim.opt -- set options
 vim.opt.clipboard=unnamedplus
 set.tabstop = 4
 set.softtabstop = 4
+
 set.shiftwidth = 4
 vim.opt.clipboard:append { 'unnamed', 'unnamedplus' }
 vim.wo.relativenumber = true
