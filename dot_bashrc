@@ -128,4 +128,3 @@ export CLIPBOARD_SILENT=1
 alias clip="flatpak run app.getclipboard.Clipboard"
 
 PATH="$PATH:~/go/bin"
-

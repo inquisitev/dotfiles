@@ -1,48 +1,7 @@
 local wezterm = require("wezterm")
-local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 local config = {}
 
 config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
-
-local act = wezterm.action
-config.keys = {
-	{
-		key = "-",
-		mods = "SHIFT|CMD",
-		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
-	},
-	{
-		key = "=",
-		mods = "SHIFT|CMD",
-		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-	},
-  {
-    key = "w",
-    mods = "SHIFT|CMD",
-        action = wezterm.action_callback(function(win, pane)
-        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-      end),
-  },
-  {
-  -- ...
-    key = "d",
-    mods = "SHIFT|CMD",
-    action = resurrect.window_state.save_window_action(),
-  },
-  {
-    key = "T",
-    mods = "SHIFT|CMD",
-    action = resurrect.tab_state.save_tab_action(),
-  },
-  {
-    key = "s",
-    mods = "SHIFT|CMD",
-    action = wezterm.action_callback(function(win, pane)
-        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-        resurrect.window_state.save_window_action()
-      end),
-  },
-}
 
 -- wezterm.on("gui-startup", function(cmd)
 -- 	-- allow `wezterm start -- something` to affect what we spawn
