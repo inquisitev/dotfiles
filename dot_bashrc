@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
@@ -115,18 +115,8 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+export PATH="$PATH:/home/trevor:/opt/nvim-linux64/bin"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+alias python='python3'
+alias lazygit='/home/trevor/lazygit'
 
-alias wezterm='flatpak run org.wezfurlong.wezterm'
-export TARGET=172.16.0.5
-export DENO_INSTALL="/home/l6ti0g0/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
-export CLIPBOARD_SILENT=1
-alias clip="flatpak run app.getclipboard.Clipboard"
-
-PATH="$PATH:~/go/bin"
-source ~/.config/bash/G5DevScripts.sh
-source ~/.config/bash/workspaceSetup.sh
