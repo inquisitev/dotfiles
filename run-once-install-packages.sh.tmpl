@@ -1,0 +1,9 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+{{-   template "linux_setup.sh.tmpl" . -}}
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+{{-   template "mac_setup.sh.tmpl" . -}}
+{{ else if eq .chezmoi.os "windows" -}}
+{{-   template "windows_setup.bat.tmpl" . -}}
+{{ end -}}

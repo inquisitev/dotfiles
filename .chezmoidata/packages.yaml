@@ -1,0 +1,16 @@
+packages:
+  darwin:
+    brews:
+      - git
+      - gh
+      - tree
+      - fzf
+      - nvim
+  linux:
+    apt:
+      - git
+      - gh
+      - tree
+      - fzf
+      - neovim
+      - wezterm

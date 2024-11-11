@@ -28,10 +28,7 @@ require("lazy").setup({
     "mfussenegger/nvim-dap",
   },
   {
-    "nvim-lua/plenary.nvim",
-  },
-  {
-    "nvim-pack/nvim-spectre",
+    "mfussenegger/nvim-dap",
   },
   {
     "toppair/peek.nvim",
@@ -204,18 +201,6 @@ table.insert(require('dap').configurations.python, {
   args={
         "${file}"
     }
-})
-vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
-    desc = "Toggle Spectre"
-})
-vim.keymap.set('n', '<leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-    desc = "Search current word"
-})
-vim.keymap.set('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
-    desc = "Search current word"
-})
-vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
-    desc = "Search on current file"
 })
 vim.keymap.set("n", "<leader>dc", function() require('dap').continue() end, {desc="Continue debugging"})
 vim.keymap.set("n", "<leader>dx", function() require('dap').terminate() end, {desc="Terminate debugging"})
