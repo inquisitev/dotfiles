@@ -1,7 +1,9 @@
 
+{{ if contains "jdnet.deere.com" .chezmoi.fqdnHostname }}
 [user]
 	email = KeeganTrevor@JohnDeere.com
 	name = Trevor Keegan
+{{ end }}
 
 [pull]
 	rebase = false

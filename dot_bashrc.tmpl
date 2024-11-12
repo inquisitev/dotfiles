@@ -1,4 +1,4 @@
-{{ if contains .chezmoi.fqdnHostname "jdnet.deere.com" }}
+{{ if contains "jdnet.deere.com" .chezmoi.fqdnHostname }}
 {{-   include ".chezmoitemplates/dot_bashrc" -}}
 {{-   include "private-dotfiles/dot_config/bash/external_dot_config" -}}
 {{ end }}
