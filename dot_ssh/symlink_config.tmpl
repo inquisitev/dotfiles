@@ -1,1 +1,3 @@
+{{ if contains .chezmoi.fqdnHostname "jdnet.deere.com" }}
 {{ .chezmoi.sourceDir }}/private-dotfiles/private_dot_ssh/config
+{{ end }}
