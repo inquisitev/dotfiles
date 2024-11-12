@@ -1,3 +1,0 @@
-[submodule "private-dotfiles"]
-	path = private-dotfiles
-	url = git@github.deere.com:l6ti0g0/private-dotfiles.git
