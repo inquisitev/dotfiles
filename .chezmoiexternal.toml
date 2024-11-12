@@ -1,4 +1,0 @@
-["~/.local/share/chezmoi"]
-    type = "git-repo"
-    url = "git@github.deere.com:l6ti0g0/private-dotfiles.git"
-    refreshPeriod = "12h"
