@@ -145,7 +145,10 @@ lspconfig.ccls.setup {
   }
 }
 
+lspconfig.clangd.setup {}
+
 lspconfig.anakin_language_server.setup{}
+
 
 local harpoon = require("harpoon")
 
