@@ -1,0 +1,6 @@
+{{ if eq .chezmoi.os "linux" }}
+*.bat
+{{ end }}
+{{ if eq .chezmoi.os "windows" }}
+*.sh
+{{ end }}
