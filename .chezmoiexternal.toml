@@ -1,0 +1,6 @@
+{{ if contains "jdnet.deere.com" .chezmoi.fqdnHostname }}
+[".local/share/private-dotfiles"]
+    type = "git-repo"
+    url = "git@github.deere.com:l6ti0g0/private-dotfiles.git"
+    refreshPeriod = "168h"
+{{ end }}

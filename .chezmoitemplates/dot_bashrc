@@ -120,3 +120,14 @@ export PATH="$PATH:/home/trevor:/opt/nvim-linux64/bin"
 alias python='python3'
 alias lazygit='/home/trevor/lazygit'
 
+alias wezterm='flatpak run org.wezfurlong.wezterm'
+export DENO_INSTALL="/home/l6ti0g0/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+export CLIPBOARD_SILENT=1
+alias clip="flatpak run app.getclipboard.Clipboard"
+PATH="$PATH:~/go/bin"
+
+{{ if contains "jdnet.deere.com" .chezmoi.fqdnHostname }}
+{{-   include "../private-dotfiles/dot_config/bash/external_dot_config" -}}
+{{ end }}
+
