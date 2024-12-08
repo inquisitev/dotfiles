@@ -4,7 +4,6 @@ return {
     config = function()
       require('mason-tool-installer').setup {
         ensure_installed = {
-
           { 'bash-language-server', auto_update = true },
           'lua-language-server',
           'json-to-struct',
@@ -19,7 +18,6 @@ return {
           'cpplint',
           'flake8',
           'jsonlint',
-          'matlab-language-server',
           'pydocstyle',
           'pyright',
           'python-lsp-server',
