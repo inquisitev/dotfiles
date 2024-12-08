@@ -1,5 +1,5 @@
 
-{{ if contains "jdnet.deere.com" .chezmoi.fqdnHostname }}
+{{- if or (contains "jdnet" .chezmoi.fqdnHostname) (contains "wdx" .chezmoi.fqdnHostname) -}}
 [user]
 	email = KeeganTrevor@JohnDeere.com
 	name = Trevor Keegan

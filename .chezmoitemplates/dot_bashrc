@@ -1,4 +1,4 @@
-#.gi ~/.bashrc: executed by bash(1) for non-login shells.
+
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -126,8 +126,4 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 export CLIPBOARD_SILENT=1
 alias clip="flatpak run app.getclipboard.Clipboard"
 PATH="$PATH:~/go/bin"
-
-{{ if contains "jdnet.deere.com" .chezmoi.fqdnHostname }}
-{{-   include "../private-dotfiles/dot_config/bash/external_dot_config" -}}
-{{ end }}
 

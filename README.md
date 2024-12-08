@@ -7,6 +7,7 @@ git TUI of choice is lazy git.
 
 ## Setup
 ```bash
+gh repo clone github.deere.com/l6ti0g0/private-dotfiles ~/.local/share/private-dotfiles
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.deere.com:l6ti0g0/dotfiles.git
 ```
 
