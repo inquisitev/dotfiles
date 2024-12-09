@@ -22,12 +22,4 @@ go install github.com/lemonade-command/lemonade@latest
 flatpak install flathub org.wezfurlong.wezterm
 
 
-
-
-{{- if eq .chezmoi.os "darwin" -}}
-curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
-tar xzf nvim-macos-arm64.tar.gz
-./nvim-macos-arm64/bin/nvim
-{{ end -}}
-
 sudo snap install bw 
