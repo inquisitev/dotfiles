@@ -1,6 +1,10 @@
+
+{{- if or (contains "jdnet" .chezmoi.fqdnHostname) (contains "wdx" .chezmoi.fqdnHostname) -}}
 [user]
 	email = KeeganTrevor@JohnDeere.com
 	name = Trevor Keegan
+{{ end }}
+
 [pull]
 	rebase = false
 [init]

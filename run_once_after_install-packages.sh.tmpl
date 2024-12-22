@@ -1,6 +1,4 @@
-{{- if eq .chezmoi.os "linux" -}}
-#!/bin/bash
-
+{{ if eq .chezmoi.os "linux" -}}
 {{-   template "linux_setup.sh.tmpl" . -}}
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
