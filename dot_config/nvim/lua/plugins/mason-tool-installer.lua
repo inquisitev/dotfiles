@@ -16,7 +16,6 @@ return {
           'clangd',
           'cpptools',
           'cpplint',
-          'flake8',
           'jsonlint',
           'pydocstyle',
           'pyright',
