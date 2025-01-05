@@ -1,3 +1,4 @@
+{{- if not (or (contains "jdnet" .chezmoi.fqdnHostname) (contains "wdx" .chezmoi.fqdnHostname)) -}}
 .ssh/config
 .ssh/id_g5
 .ssh/id_g5.pub
@@ -7,3 +8,4 @@
 .ssh/id_ws.pub
 .ssh/id_jdnative
 .ssh/id_jdnative.pub
+{{ end }}
