@@ -1,0 +1,9 @@
+dot_ssh/encrypted_config.asc
+dot_ssh/encrypted_id_g5.asc
+dot_ssh/encrypted_id_g5.pub.asc
+dot_ssh/encrypted_id_vm.asc
+dot_ssh/encrypted_id_vm.pub.asc
+dot_ssh/encrypted_id_ws.asc
+dot_ssh/encrypted_id_ws.pub.asc
+dot_ssh/encrypted_id_jdnative.asc
+dot_ssh/encrypted_id_jdnative.pub.asc
