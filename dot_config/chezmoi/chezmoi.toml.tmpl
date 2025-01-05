@@ -1,0 +1,8 @@
+{{ $passphrase := (bitwarden "item" "chezmoi_encryption").login.password -}}
+
+encryption = "gpg"
+[data]
+    passphrase = {{ $passphrase | quote }}
+[gpg]
+    symmetric = true
+    args = ["--batch", "--passphrase", {{ $passphrase | quote }}, "--no-symkey-cache"]
