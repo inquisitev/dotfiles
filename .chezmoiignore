@@ -1,11 +1,11 @@
 {{- if not (or (contains "jdnet" .chezmoi.fqdnHostname) (contains "wdx" .chezmoi.fqdnHostname)) -}}
-.ssh/config
-.ssh/id_g5
-.ssh/id_g5.pub
-.ssh/id_vm
-.ssh/id_vm.pub
-.ssh/id_ws
-.ssh/id_ws.pub
-.ssh/id_jdnative
-.ssh/id_jdnative.pub
+.ssh/config*
+.ssh/id_g5*
+.ssh/id_vm*
+.ssh/id_ws*
+.ssh/id_jdnative*
+.config/bash/G5DevScripts.sh*
+.config/bash/edbScripts.sh*
+.config/bash/external_dot_config*
+.config/bash/workspaceSetup.sh*
 {{ end }}

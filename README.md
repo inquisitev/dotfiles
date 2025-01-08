@@ -8,5 +8,6 @@ git TUI of choice is lazy git.
 ## Setup
 ```bash
 sudo snap install bw
+brew install gnupg
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/inquisitev/dotfiles.git
 ```
