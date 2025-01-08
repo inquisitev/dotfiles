@@ -7,9 +7,6 @@ git TUI of choice is lazy git.
 
 ## Setup
 ```bash
-gh repo clone github.deere.com/l6ti0g0/private-dotfiles ~/.local/share/private-dotfiles
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.deere.com:l6ti0g0/dotfiles.git
+sudo snap install bw
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/inquisitev/dotfiles.git
 ```
-
-## G5 Hw setup
-cat ~/.ssh/id_g5.pub | xargs -I {} sshpass -p PW ssh root@172.16.0.5 "mount -o remount,rw / && echo {} >> ~/.ssh/authorized_keys"
