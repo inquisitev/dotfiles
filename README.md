@@ -16,6 +16,8 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/inquisit
 Windows
 ```bash
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+choco install sed
+choco install lazygit
 choco install chezmoi
 choco install gpg4win
 choco install bitwarden-cli
