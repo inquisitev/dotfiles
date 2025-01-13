@@ -14,3 +14,31 @@ packages:
       - fzf
       - neovim
       - wezterm
+  windows:
+     choco:
+      - spotify
+      - putty
+      - neovim
+      - brave
+      - firefox
+      - fzf
+      - jq
+      - yarn
+      - curl
+      - ripgrep
+      - 7zip.install
+      - winscp.install
+      - bitwarden-cli
+      - azure-cli
+      - awscli
+      - ruby
+      - dart-sdk
+      - mingw
+      - python3
+      - nodejs.install
+      - sed
+      - lazygit
+     scoop:
+      - wezterm
+
+

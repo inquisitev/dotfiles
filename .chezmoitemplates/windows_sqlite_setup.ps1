@@ -1,3 +1,4 @@
+
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
   if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
     $CommandLine = "-NoExit -File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
@@ -56,12 +57,3 @@ if ($sqliteDllPath) {
 
     Write-Host "SQLite3 installed and added to PATH successfully."
 }
-
-# Suggest checking Neovim health
-Write-Host "`nTo check if Neovim is correctly set up with SQLite support, open Neovim and run:"
-Write-Host ":checkhealth"
-Write-Host ""
-
-# Prompt to restart the terminal (to apply changes to PATH)
-Write-Host "Please restart your terminal or system for the changes to take effect."
-

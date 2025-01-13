@@ -1,0 +1,29 @@
+{{ if eq .chezmoi.os "windows" -}}
+
+
+
+{{ range .packages.windows.choco -}}
+$package = {{ . | quote }}
+$installed = choco list --local-only | Select-String -Pattern $package
+
+ # If the package is not installed, install it
+ if (-not $installed) {
+     Write-Host "$package is not installed. Installing..."
+     choco install $package -y
+ } else {
+     Write-Host "$package is already installed."
+ }
+{{ end -}}
+
+
+scoop bucket rm extras
+scoop bucket add extras
+{{ range .packages.windows.scoop -}}
+scoop install {{ . | quote }}
+{{ end -}}
+
+
+. {{ .chezmoi.sourceDir }}/.chezmoitemplates/windows_sqlite_setup.ps1
+
+
+{{ end -}}

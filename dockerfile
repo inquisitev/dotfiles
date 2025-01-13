@@ -45,7 +45,6 @@ RUN gh auth setup-git
 RUN ssh-keyscan -H github.deere.com >> ~/.ssh/known_hosts
 RUN ssh-keygen -t rsa -b 3072 -f ~/.ssh/id_ed25519
 RUN gh ssh-key add ~/.ssh/id_ed25519.pub
-RUN gh repo clone github.deere.com/l6ti0g0/private-dotfiles /home/l6ti0g0/.local/share/private-dotfiles
 ADD . /home/l6ti0g0/.local/share/chezmoi
 
 RUN chezmoi apply || echo "failed"
