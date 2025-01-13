@@ -1,3 +1,10 @@
+if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
+  if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
+    $CommandLine = "-NoExit -File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
+    Start-Process -Wait -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
+    Exit
+  }
+}
 # Check if SQLite3 is already in the PATH
 Write-Host "Checking if SQLite3 is in PATH..."
 
@@ -13,7 +20,7 @@ if ($sqliteDllPath) {
     
     # Define the directory for downloading and extracting SQLite3
     $downloadDir = "$env:USERPROFILE\Downloads\sqlite"
-    $extractDir = "$downloadDir\sqlite3"
+    $extractDir = "C:\Tools\sqlite3"
     
     # Create download directory if it doesn't exist
     if (-Not (Test-Path -Path $downloadDir)) {
