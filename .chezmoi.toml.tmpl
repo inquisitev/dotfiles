@@ -1,4 +1,4 @@
-{{ $passphrase := (bitwarden "item" "chezmoi_encryption").login.password -}}
+{{ $passphrase := promptStringOnce . "passphrase" "passphrase" -}}
 
 encryption = "gpg"
 [data]
