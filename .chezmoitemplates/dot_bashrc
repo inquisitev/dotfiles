@@ -126,4 +126,5 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 export CLIPBOARD_SILENT=1
 alias clip="flatpak run app.getclipboard.Clipboard"
 PATH="$PATH:~/go/bin"
+export EDITOR="nvim"
 
