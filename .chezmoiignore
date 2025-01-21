@@ -1,6 +1,4 @@
-{{- if not (or (contains "jdnet" .chezmoi.fqdnHostname) (contains "wdx" .chezmoi.fqdnHostname)) -}}
-.ssh/config
-{{ end }}
+
 
 {{ if ne .chezmoi.os "windows" }}
 .chezmoiscripts/windows_sqlite_setup_for_yanky.ps1
