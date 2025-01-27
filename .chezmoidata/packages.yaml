@@ -13,7 +13,7 @@ packages:
       - tree
       - fzf
       - neovim
-      - wezterm
+      - ripgrep
   windows:
      choco:
       - spotify
