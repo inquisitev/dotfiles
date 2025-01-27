@@ -24,3 +24,10 @@ choco install bitwarden-cli
 bw login
 chezmoi init https://github.com/iniquisitev/chezmoi.git
 ```
+
+Raspian
+```
+sudo apt update
+sudo apt install libsqlite3-dev
+89  sudo ln -s /usr/lib/aarch64-linux-gnu/libsqlite3.so.0 /usr/lib/libsqlite3.so
+```
