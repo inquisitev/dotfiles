@@ -25,7 +25,7 @@ bw login
 chezmoi init https://github.com/iniquisitev/chezmoi.git
 ```
 
-Raspian
+Raspian fix libsqlite3 missing
 ```
 sudo apt update
 sudo apt install libsqlite3-dev
