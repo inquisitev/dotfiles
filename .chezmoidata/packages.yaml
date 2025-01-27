@@ -12,7 +12,6 @@ packages:
       - gh
       - tree
       - fzf
-      - neovim
       - ripgrep
   windows:
      choco:

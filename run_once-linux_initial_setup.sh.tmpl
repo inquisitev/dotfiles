@@ -1,6 +1,10 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+sudo mv nvim.appimage /usr/bin/nvim
+sudo chmod u+x /usr/bin/nvim
+
 {{ range .packages.linux.apt -}}
 sudo apt install -y {{ . | quote }}
 {{ end -}}

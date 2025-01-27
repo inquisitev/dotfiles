@@ -3,3 +3,7 @@
 {{-   include "dot_config/bash/encrypted_external_dot_config.asc" | decrypt -}}
 {{ end }}
 
+{{ if eq .chezmoi.os "linux" -}}
+alias nvim='/usr/bin/nvim'
+{{ end -}}
+
