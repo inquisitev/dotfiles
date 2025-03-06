@@ -13,6 +13,11 @@ bw login
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/inquisitev/dotfiles.git
 ```
 
+If libc is missing
+```
+sh -c "$(curl -fsLS get.chezmoi.io | sed -e 's/${GOOS_EXTRA}_${arch}/-musl_${arch}/')" -- init --apply https://github.com/inquisitev/dotfiles.git
+```
+
 Windows
 ```bash
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
