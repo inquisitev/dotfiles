@@ -1,0 +1,10 @@
+{{-   include ".chezmoitemplates/dot_bashrc" -}}
+
+
+eval "$(ssh-agent)" > /dev/null
+ssh-add ~/.ssh/id_personal_github_com_token 2> /dev/null
+
+{{ if eq .chezmoi.os "linux" -}}
+alias nvim='/usr/bin/nvim'
+{{ end -}}
+

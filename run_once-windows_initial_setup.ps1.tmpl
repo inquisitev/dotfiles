@@ -1,0 +1,35 @@
+{{ if eq .chezmoi.os "windows" -}}
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+{{- $isWork := false -}}
+{{- $hostname := .chezmoi.hostname -}}
+{{- $fqdn := .chezmoi.fqdnHostname -}}
+{{- $isPersonal := or (contains "DESKTOP" $hostname) (contains .chezmoi.username $hostname) -}}
+
+{{- if $isPersonal }}
+# Personal installations
+{{ range .packages.personal.windows.choco -}}
+$package = {{ . | quote }}
+$installed = choco list --local-only | Select-String -Pattern $package
+# If the package is not installed, install it
+if (-not $installed) {
+    Write-Host "$package is not installed. Installing..."
+    choco install $package -y
+} else {
+    Write-Host "$package is already installed."
+}
+{{ end -}}
+
+scoop bucket rm extras
+scoop bucket add extras
+{{ range .packages.personal.windows.scoop -}}
+scoop install {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.personal.windows.winget -}}
+winget install -e --id {{ . }}
+{{ end -}}
+
+# Run Windows SQLite setup script
+. {{ .chezmoi.sourceDir }}/.chezmoitemplates/windows_sqlite_setup.ps1
+{{- end }}
+{{- end }}

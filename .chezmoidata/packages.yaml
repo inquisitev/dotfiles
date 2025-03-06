@@ -1,0 +1,86 @@
+packages:
+  darwin:
+    brews:
+      - git
+      - gh
+      - tree
+      - fzf
+  linux:
+    apt:
+      - git
+      - gh
+      - tree
+      - fzf
+      - ripgrep
+  windows:
+    choco:
+      - spotify
+      - putty
+      - brave
+      - firefox
+      - fzf
+      - jq
+      - yarn
+      - curl
+      - ripgrep
+      - 7zip.install
+      - winscp.install
+      - bitwarden-cli
+      - azure-cli
+      - awscli
+      - ruby
+      - dart-sdk
+      - mingw
+      - python3
+      - nodejs.install
+      - sed
+      - lazygit
+    scoop:
+      - wezterm
+  personal:
+    windows:
+      scoop:
+      winget:
+        - Blizzard.BattleNet
+        - Valve.Steam
+        - Nvidia.RTXVoice
+        - Discord.Discord
+        - Nvidia.GeForceExperience
+        - Python.Python.3.11 --scope machine
+        - Python.Python.3.13
+        - Logitech.GHUB
+        - DygmaLabs.Bazecor
+        - GitHub.GitHubDesktop
+        - Oracle.VirtualBox
+        - EpicGames.EpicGamesLauncher
+        - Logitech.OptionsPlus
+        - Ubisoft.Connect
+        - Bambulab.Bambustudio
+        - Docker.DockerDesktop
+        - GnuWin32.Make
+        - 7zip.7zip
+        - Neovim.Neovim
+        - wez.wezterm
+        - Mojang.MinecraftLauncher
+      choco:
+        - spotify
+        - putty
+        - brave
+        - firefox
+        - fzf
+        - jq
+        - yarn
+        - curl
+        - ripgrep
+        - 7zip.install
+        - winscp.install
+        - bitwarden-cli
+        - azure-cli
+        - awscli
+        - ruby
+        - dart-sdk
+        - mingw
+        - python3
+        - nodejs.install
+        - sed
+        - lazygit
