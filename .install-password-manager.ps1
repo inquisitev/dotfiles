@@ -1,2 +1,1 @@
-choco install gpg4win
-choco install bitwarden-cli
+winget install --id=KeePassXCTeam.KeePassXC -e
