@@ -1,7 +1,7 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 
-https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-arm64.appimage
+curl -LO https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-arm64.appimage
 sudo mv nvim-linux-arm64.appimage /usr/bin/nvim
 sudo chmod u+x /usr/bin/nvim
 
