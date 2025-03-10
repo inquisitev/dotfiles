@@ -1,9 +1,10 @@
 {{ if ne .chezmoi.os "windows" }}
-.chezmoiscripts/windows_sqlite_setup_for_yanky.ps1
+.chezmoitemplates/windows_sqlite_setup_for_yanky.ps1
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
-.chezmoiscripts/linux_initial_setup.sh
+.chezmoitemplates/linux_initial_setup.sh
+.chezmoitemplates/install-nvim.sh
 {{ end }}
 
 
