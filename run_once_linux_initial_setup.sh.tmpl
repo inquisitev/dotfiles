@@ -1,0 +1,15 @@
+#!{{ lookPath "bash" }}
+{{ if eq .chezmoi.os "linux" -}}
+
+{{-   include ".chezmoitemplates/unix_common.sh" -}}
+{{-   include ".chezmoitemplates/install-nvim.sh.tmpl" -}}
+
+{{ range .packages.linux.apt -}}
+sudo apt install -y {{ . | quote }}
+{{ end -}}
+
+
+{{ end -}}
+
+
+
