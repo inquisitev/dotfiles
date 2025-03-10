@@ -1,8 +1,34 @@
 #!{{ lookPath "bash" }}
 {{ if eq .chezmoi.os "linux" -}}
 
+
+{{- $isRaspian := contains "rpi" .chezmoi.kernel.osrelease -}}
+
+{{- if $isRaspian }}
+git clone https://github.com/neovim/neovim.git
+cd neovim
+git checkout v0.10.4
+sudo apt install gettext
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+sudo make install
+{{ else }}
+
+{{ if eq .chezmoi.os "linux" -}}
+curl -LO https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+{{ end -}}
+
+{{ if eq .chezmoi.os "darwin" -}}
+curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
+tar xzf nvim-macos-arm64.tar.gz
+./nvim-macos-arm64/bin/nvim
+{{ end -}}
+{{ end -}}
+
 {{-   include ".chezmoitemplates/unix_common.sh" -}}
-{{-   include ".chezmoitemplates/install-nvim.sh.tmpl" -}}
+
+
 
 {{ range .packages.linux.apt -}}
 sudo apt install -y {{ . | quote }}
@@ -10,6 +36,7 @@ sudo apt install -y {{ . | quote }}
 
 
 {{ end -}}
+
 
 
 
