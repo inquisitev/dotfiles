@@ -3,11 +3,6 @@ local config = {}
 
 config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
 
--- wezterm.on("gui-startup", function(cmd)
--- 	-- allow `wezterm start -- something` to affect what we spawn
--- 	-- in our initial window
---
--- end)
 config.color_scheme = "darkmoss (base16)"
 
 local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")

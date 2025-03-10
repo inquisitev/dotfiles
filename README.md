@@ -7,10 +7,10 @@ git TUI of choice is lazy git.
 
 ## Setup
 ```bash
-sudo snap install bw
-brew install gnupg
-bw login
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/inquisitev/dotfiles.git
+curl -H 'Cache-Control: no-cache' -s https://raw.githubusercontent.com/inquisitev/dotfiles/master/install.sh | sudo bash
+```
+```bash
+
 ```
 
 If libc is missing
