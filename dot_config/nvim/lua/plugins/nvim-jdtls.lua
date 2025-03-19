@@ -201,8 +201,14 @@ return {
           
           -- Enable debug adapter
           jdtls_dap.setup_dap_main_class_configs()
-          
-          -- Setup which-key mappings to show available commands
+          local cmp = require("cmp")
+          cmp.setup({
+            sources = {
+              { name = "nvim_lsp" },
+              -- Other sources...
+            },
+            -- Other settings...
+          })          -- Setup which-key mappings to show available commands
           if pcall(require, "which-key") then
             local wk = require("which-key")
             local opts = {
