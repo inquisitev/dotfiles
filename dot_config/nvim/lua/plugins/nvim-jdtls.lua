@@ -199,16 +199,24 @@ return {
           vim.keymap.set('v', '<leader>dv', function() jdtls.extract_variable(true) end, bufopts)
           vim.keymap.set('n', '<leader>dv', jdtls.extract_variable, bufopts)
           
-          -- Enable debug adapter
           jdtls_dap.setup_dap_main_class_configs()
           local cmp = require("cmp")
           cmp.setup({
             sources = {
               { name = "nvim_lsp" },
-              -- Other sources...
             },
-            -- Other settings...
+            mapping = cmp.mapping.preset.insert({
+                ['<Tab>'] = cmp.mapping(function(fallback)
+                  if cmp.visible() then
+                    cmp.select_next_item()
+                  else
+                    fallback()
+                  end
+                end, { 'i', 's' }),
+                ['<CR>'] = cmp.mapping.confirm({ select = true }),
+              }),
           })          -- Setup which-key mappings to show available commands
+
           if pcall(require, "which-key") then
             local wk = require("which-key")
             local opts = {
