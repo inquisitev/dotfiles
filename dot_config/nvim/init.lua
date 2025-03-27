@@ -57,5 +57,8 @@ vim.schedule(function()
   require "mappings"
 end)
 
+local map = vim.keymap.set
+
+
 vim.wo.relativenumber = true
 

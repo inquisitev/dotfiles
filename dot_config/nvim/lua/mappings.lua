@@ -22,7 +22,8 @@ map({ "n", "t" }, "<A-i>", function()
     }}
 end, { desc = "terminal toggle floating term" })
 
+map("n", "<C-j>", "<cmd>cnext<CR>", {desc = "quickfix next"})
+map("n", "<C-k>", "<cmd>cprev<CR>", {desc = "quickfix previous"})
 
-map("n", "m", "<cmd>cnext<CR>")
-map("n", "M", "<cmd>cprev<CR>")
-map("n", "<C-m>", "<cmd>cclose<CR>")
+
+-- map("n", "<C-m>", "<cmd>cclose<CR>")
