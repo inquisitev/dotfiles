@@ -7,14 +7,14 @@
 {{- if $isRaspian }}
 git clone https://github.com/neovim/neovim.git
 cd neovim
-git checkout v0.10.4
+git checkout v0.11.0
 sudo apt install gettext
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 {{ else }}
 
 {{ if eq .chezmoi.os "linux" -}}
-curl -LO https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.tar.gz
+curl -LO https://github.com/neovim/neovim-releases/releases/download/v0.11.0/nvim-linux-x86_64.tar.gz
 sudo rm -rf /opt/nvim
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
