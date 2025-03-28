@@ -1,12 +1,12 @@
 #!{{ lookPath "bash" }}
 {{ if eq .chezmoi.os "linux" -}}
 
-
-{{ if eq .chezmoi.os "darwin" -}}
-{{- $isRaspian := eq .chezmoi.os "linux" -}}
-{{ else }}
-{{- $isRaspian := contains "rpi" .chezmoi.kernel.osrelease -}}
-{{ end -}}
+{{- $isRaspian := false -}}
+{{- if eq .chezmoi.os "linux" -}}
+  {{- if contains "rpi" .chezmoi.kernel.osrelease -}}
+    {{- $isRaspian = true -}}
+  {{- end -}}
+{{- end -}}
 
 {{- if $isRaspian }}
 git clone https://github.com/neovim/neovim.git
