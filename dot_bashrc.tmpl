@@ -6,11 +6,11 @@ ssh-add ~/.ssh/id_personal_github_com_token 2> /dev/null
 
 alias ppwm="keepassxc-cli"
 
+{{ if eq .chezmoi.os "linux" -}}
 {{- $isRaspian := contains "rpi" .chezmoi.kernel.osrelease -}}
 {{- if $isRaspian }}
 alias nvim='~/neovim/build/bin/nvim'
 {{ else }}
-{{ if eq .chezmoi.os "linux" -}}
 alias nvim='/opt/nvim-linux-x86_64/bin/nvim'
 {{ end -}}
 {{ end -}}

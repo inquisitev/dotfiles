@@ -1,5 +1,3 @@
--- Create this file at ~/.config/nvim/lua/plugins/jdtls.lua
-
 return {
   {
     "nvim-java/nvim-java",
@@ -10,5 +8,3 @@ return {
     end,
   }
 }
-
-

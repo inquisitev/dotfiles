@@ -38,24 +38,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-vim.lsp.enable({'clangd'})
+vim.lsp.enable({'clangd', 'pyright', 'lua-lsp-server', 'rust-analyzer'})
 
 vim.cmd("set completeopt+=noselect")
 
 require "nvchad.autocmds"
 
--- vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { guibg=Transparent, guifg=Red })
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  underline = true,
-  update_in_insert = false,
-  severity_sort = false,
-})
+-- vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { guibg=Transparent,
+-- guifg=Red })
+vim.diagnostic.config({ virtual_text = true, signs = true, underline = true,
+update_in_insert = false, severity_sort = false, })
 
-vim.schedule(function()
-  require "mappings"
-end)
+vim.schedule(function() require "mappings" end)
 
 local map = vim.keymap.set
 
