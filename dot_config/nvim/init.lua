@@ -46,8 +46,14 @@ require "nvchad.autocmds"
 
 -- vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { guibg=Transparent,
 -- guifg=Red })
-vim.diagnostic.config({ virtual_text = true, signs = true, underline = true,
-update_in_insert = false, severity_sort = false, })
+vim.diagnostic.config({ 
+   virtual_text = true,
+   signs = true,
+   underline = true,
+   update_in_insert = false,
+   severity_sort = false,
+   current_line = true
+})
 
 vim.schedule(function() require "mappings" end)
 
