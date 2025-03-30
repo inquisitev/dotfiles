@@ -1,9 +1,7 @@
 return {
   cmd = { "anakinls" },
-  filetypes = { "python" },
-  root_dir = function(fname)
-    return vim.fs.root(fname, { "pyproject.toml", "setup.py", ".git", "requirements.txt" })
-  end,
+  filetypes = { "python", "py" },
+  root_marker =  {"pyproject.toml", "setup.py", ".git", "requirements.txt"},
   -- settings = {
   --   anakinls = {
   --
