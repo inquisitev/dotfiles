@@ -14,7 +14,7 @@ local lazy_config = require "configs.lazy"
 -- load plugins
 require("lazy").setup({
   {
-    "NvChad/NvChad",
+    "inquisitev/NvChad",
     lazy = false,
     branch = "v2.5",
     import = "nvchad.plugins",
@@ -34,27 +34,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if client:supports_method('textDocument/completion') then
       vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+      vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
     end
   end,
 })
 
-vim.lsp.enable({'clangd', 'pyright', 'lua-lsp-server', 'rust-analyzer'})
+vim.lsp.enable({'clangd', 'pyright', 'lua-lsp-server', 'rust-analyzer', 'qmlls'})
 
 vim.cmd("set completeopt+=noselect")
 
 require "nvchad.autocmds"
-
--- vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { guibg=Transparent,
--- guifg=Red })
-vim.diagnostic.config({ 
-   virtual_text = true,
-   signs = true,
-   underline = true,
-   update_in_insert = false,
-   severity_sort = false,
-   current_line = true
-})
-
 vim.schedule(function() require "mappings" end)
 
 local map = vim.keymap.set
