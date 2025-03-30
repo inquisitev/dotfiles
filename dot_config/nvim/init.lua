@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-vim.lsp.enable({'clangd', 'pyright', 'lua-lsp-server', 'rust-analyzer', 'qmlls'})
+vim.lsp.enable({'clangd', 'pyright', 'lua-lsp-server', 'rust-analyzer', 'qmlls', 'anakinls'})
 
 vim.cmd("set completeopt+=noselect")
 
