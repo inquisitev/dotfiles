@@ -3,6 +3,7 @@
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
+linux_initial_setup.sh
 .chezmoitemplates/linux_initial_setup.sh
 .chezmoitemplates/install-nvim.sh
 {{ end }}
