@@ -6,32 +6,14 @@ return {
       require('mason-tool-installer').setup {
         ensure_installed = {
           { 
-             'jdtls',
-             'java-debug-adapter',
-             'java-test',
              'bash-language-server', auto_update = true },
              'lua-language-server',
-             'json-to-struct',
-             'luacheck',
-             'misspell',
-             'revive',
-             'shellcheck',
-             'shfmt',
-             'staticcheck',
              'clangd',
-             'cpptools',
-             'cpplint',
-             'jsonlint',
-             'pydocstyle',
-             'pyright',
-             'python-lsp-server',
-             'reorder-python-imports',
+             'anakin-language-server',
              'rust-analyzer',
-             'rust-fmt',
-             'sqlfluff',
-             'sqlfmt',
              'docker-compose-language-server',
              'dockerfile-language-server',
+             'groovy-language-server'
         },
 
         -- if set to true this will check each tool for updates. If updates
@@ -50,7 +32,7 @@ return {
         -- effective if run_on_start is set to true.
         -- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
         -- Default: 0
-        start_delay = 3000, -- 3 second delay
+        -- start_delay = 3000, -- 3 second delay
 
         -- Only attempt to install if 'debounce_hours' number of hours has
         -- elapsed since the last time Neovim was started. This stores a
@@ -58,7 +40,7 @@ return {
         -- This is only relevant when you are using 'run_on_start'. It has no
         -- effect when running manually via ':MasonToolsInstall' etc....
         -- Default: nil
-        debounce_hours = 5, -- at least 5 hours between attempts to install/update
+        -- debounce_hours = 5, -- at least 5 hours between attempts to install/update
 
         -- By default all integrations are enabled. If you turn on an integration
         -- and you have the required module(s) installed this means you can use
