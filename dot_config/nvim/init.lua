@@ -1,6 +1,11 @@
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
 vim.g.mapleader = " "
 
+local map = vim.keymap.set
+
+map("n", "<A-a>", "<C-a>", {noremap = "increment number"})
+map("n", "<A-f>", "<C-x>", {noremap = "decrement number"})
+
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
@@ -14,7 +19,7 @@ local lazy_config = require "configs.lazy"
 -- load plugins
 require("lazy").setup({
   {
-    "inquisitev/NvChad",
+    "NvChad/NvChad",
     lazy = false,
     branch = "v2.5",
     import = "nvchad.plugins",
@@ -53,7 +58,6 @@ vim.cmd("set completeopt+=noselect")
 require "nvchad.autocmds"
 vim.schedule(function() require "mappings" end)
 
-local map = vim.keymap.set
 
 
 vim.wo.relativenumber = true
