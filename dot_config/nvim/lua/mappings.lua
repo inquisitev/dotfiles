@@ -28,5 +28,4 @@ map("n", "<A-o>", "<cmd>copen<CR>", {desc = "quickfix open"})
 map("n", "<A-x>", "<cmd>cclose<CR>", {desc = "quickfix close"})
 
 
-
 -- map("n", "<C-m>", "<cmd>cclose<CR>")
