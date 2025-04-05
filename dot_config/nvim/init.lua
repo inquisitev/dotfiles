@@ -61,3 +61,4 @@ vim.schedule(function() require "mappings" end)
 
 vim.wo.relativenumber = true
 
+require("copilot").setup()
