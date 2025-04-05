@@ -48,6 +48,8 @@ end
 
 M.setup = function()
   vim.keymap.set("n", "<leader>ts", live_multigrep)
+  vim.keymap.set("n", "<leader>td", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>")
+  vim.keymap.set("n", "<leader>tr", "<cmd>Telescope lsp_references<CR>")
 end
 
 return M
