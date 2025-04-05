@@ -34,6 +34,22 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+   vim.diagnostic.config({
+      virtual_lines = { current_line = true },
+      virtual_text = false,
+      float = {
+       border = "rounded",
+       source = "always",
+     }
+   })
+  end,
+})
+
+
+
 vim.lsp.enable({'clangd', 'pyright', 'lua-lsp-server', 'rust-analyzer', 'qmlls', 'anakinls', 'lua-language-server' })
 
 -- vim.cmd("set completeopt+=noselect")
