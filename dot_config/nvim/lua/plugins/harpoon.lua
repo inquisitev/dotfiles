@@ -8,7 +8,7 @@ return {
       local harpoon = require("harpoon")
       harpoon:setup()
 
-      vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, {desc="Harpoon Add"})
+      vim.keymap.set("n", "<leader>z", function() harpoon:list():add() end, {desc="Harpoon Add"})
       vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
       local keys = { 
          1, 
@@ -18,7 +18,7 @@ return {
       }
 
       for _, index in ipairs(keys) do
-         vim.keymap.set("n", "<C-" .. index .. ">", function()
+         vim.keymap.set("n", "<A-" .. index .. ">", function()
              harpoon:list():select(index)
              vim.cmd('normal! zz')
          end, { desc = "Open harpooned buffer" .. index })
