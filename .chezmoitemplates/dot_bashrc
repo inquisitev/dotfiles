@@ -126,7 +126,8 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 export CLIPBOARD_SILENT=1
 alias clip="flatpak run app.getclipboard.Clipboard"
 PATH="$PATH:~/go/bin"
-export EDITOR="nvim"
+alias nvim="/opt/nvim-linux-x86_64/bin/nvim"
+export EDITOR="/opt/nvim-linux-x86_64/bin/nvim"
 
 
 if [ -f ~/.config/bash/work_bash_rc.sh ]; then
