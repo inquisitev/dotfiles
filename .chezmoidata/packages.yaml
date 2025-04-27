@@ -12,6 +12,7 @@ packages:
       - tree
       - fzf
       - ripgrep
+      - tmux
   windows:
     choco:
       - spotify

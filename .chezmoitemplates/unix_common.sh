@@ -11,11 +11,8 @@ tar xf lazygit.tar.gz lazygit
 sudo apt install ripgrep
 sudo apt install sshpass
 
-curl -sSL http://github.com/Slackadays/Clipboard/raw/main/install.sh | sh
+# curl -sSL http://github.com/Slackadays/Clipboard/raw/main/install.sh | sh
 
 # install go for lemonade
-sudo snap install go --classic
-go install github.com/lemonade-command/lemonade@latest
-
 flatpak install flathub org.wezfurlong.wezterm
 sudo snap install bw 
