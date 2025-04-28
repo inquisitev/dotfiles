@@ -8,6 +8,8 @@ return {
     config = function()
       -- Mappings
       local opts = { noremap = true, silent = true }
+
+    
       vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
       vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
       vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
@@ -18,6 +20,30 @@ return {
       local on_attach = function(client, bufnr)
         -- Enable completion triggered by <c-x><c-o>
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+        vim.keymap.set('n', '<leader>gs', function()
+        -- Get current buffer number
+        local current_bufnr = vim.api.nvim_get_current_buf()
+        
+        -- Request clangd to switch between header and source
+        vim.lsp.buf_request(
+          current_bufnr, 
+          'textDocument/switchSourceHeader', 
+          { uri = vim.uri_from_bufnr(current_bufnr) },
+          function(err, result)
+            if err then
+              vim.notify("Error switching between source/header: " .. err.message, vim.log.levels.ERROR)
+              return
+            end
+            if not result then
+              vim.notify("Corresponding file not found", vim.log.levels.WARN)
+              return
+            end
+            -- Open the result file
+            vim.cmd('edit ' .. vim.uri_to_fname(result))
+          end
+        )
+       end, { buffer = bufnr, desc = "Switch header/source" })
 
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -44,17 +70,26 @@ return {
       -- Setup language servers (examples)
       local lspconfig = require('lspconfig')
       
-      -- Configure for Python
-      lspconfig.pyright.setup {
+      lspconfig.lua_ls.setup {
         on_attach = on_attach,
         capabilities = capabilities,
       }
 
+      lspconfig.anakin_language_server.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      }
 
       lspconfig.rust_analyzer.setup {
         on_attach = on_attach,
         capabilities = capabilities,
       }
+   
+      lspconfig.clangd.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      }
+      
     end,
   },
 }

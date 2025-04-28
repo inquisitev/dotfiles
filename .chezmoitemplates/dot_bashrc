@@ -119,7 +119,7 @@ export PATH="$PATH:/home/trevor:/opt/nvim-linux64/bin"
 
 alias python='python3'
 alias lazygit='/home/trevor/lazygit'
-alias chezmoi='~/bin/chezmoi'
+# alias chezmoi='~/bin/chezmoi'
 
 alias wezterm='flatpak run org.wezfurlong.wezterm'
 export DENO_INSTALL="/home/l6ti0g0/.deno"
