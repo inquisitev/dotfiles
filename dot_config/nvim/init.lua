@@ -50,3 +50,5 @@ vim.schedule(function() require "mappings" end)
 vim.wo.relativenumber = true
 
 require("copilot").setup()
+
+vim.env.PATH = vim.env.PATH .. ':' .. "/snap/bin/yazi"
