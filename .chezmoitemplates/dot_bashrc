@@ -133,6 +133,7 @@ export EDITOR="/opt/nvim-linux-x86_64/bin/nvim"
 
 if [ -f ~/.config/bash/work_bash_rc.sh ]; then
     source ~/.config/bash/work_bash_rc.sh
+    . ~/.config/bash/add_ssh_keys_to_agent.sh
 fi
 
 
