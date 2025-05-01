@@ -77,6 +77,6 @@ vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {desc='Go to implementatio
 vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, {desc='Go to type definition'})
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, {desc='Go to references'})
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, {desc='Show documentation'})
-vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, {desc='Show signature help'})
+-- vim.keymap.set('n', '<C-K>', vim.lsp.buf.signature_help, {desc='Show signature help'})
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {desc='Rename symbol'})
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {desc='Code actions'})
