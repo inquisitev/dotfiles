@@ -29,10 +29,12 @@ end
 
 require "nvchad.mappings"
 
+
 -- add yours here
 
 local map = vim.keymap.set
 
+map("n", "<leader>e", function() Snacks.explorer() end, {desc = "File Explorer"})
 map("n", "<", ",", { desc = "CMD enter command mode" })
 map("n", ",", ";", { desc = "CMD enter command mode" })
 map("n", ";", ":", { desc = "CMD enter command mode" })
