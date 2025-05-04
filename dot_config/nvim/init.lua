@@ -38,7 +38,7 @@ require('lsptoggle').setup({
   keymap = '<leader>vd'
 })
 
-vim.lsp.enable({'clangd', 'pyright', 'lua-lsp-server', 'rust-analyzer', 'qmlls', 'anakinls', 'lua-language-server' })
+-- vim.lsp.enable({'clangd', 'pyright', 'lua-lsp-server', 'rust-analyzer', 'qmlls', 'anakinls', 'lua-language-server' })
 
 -- vim.cmd("set completeopt+=noselect")
 
@@ -49,6 +49,9 @@ vim.schedule(function() require "mappings" end)
 
 vim.wo.relativenumber = true
 
-require("copilot").setup()
+require("copilot").setup({
+  suggestion = { enabled = false },
+  panel = { enabled = false },
+})
 
 vim.env.PATH = vim.env.PATH .. ':' .. "/snap/bin/yazi"

@@ -69,7 +69,7 @@ return {
 
       -- Setup language servers (examples)
       local lspconfig = require('lspconfig')
-      
+
       lspconfig.lua_ls.setup {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -84,12 +84,10 @@ return {
         on_attach = on_attach,
         capabilities = capabilities,
       }
-   
       lspconfig.clangd.setup {
         on_attach = on_attach,
         capabilities = capabilities,
       }
-      
     end,
   },
 }
