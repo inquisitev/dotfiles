@@ -4,3 +4,4 @@ vim.cmd.colorscheme("horizon")
 
 -- To specify dark mode (which is what you want):
 vim.o.background = "dark"
+vim.lsp.enable({ "clangd", "rust-analyer" })
