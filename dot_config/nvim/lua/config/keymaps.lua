@@ -17,3 +17,8 @@ map("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
 map("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
 map("n", "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
 map("n", "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
+
+map("n", "<A-j>", "<cmd>cnext<CR>", { desc = "quickfix next" })
+map("n", "<A-k>", "<cmd>cprev<CR>", { desc = "quickfix previous" })
+map("n", "<A-o>", "<cmd>copen<CR>", { desc = "quickfix open" })
+map("n", "<A-x>", "<cmd>cclose<CR>", { desc = "quickfix close" })
