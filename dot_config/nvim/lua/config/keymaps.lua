@@ -4,4 +4,16 @@
 local map = vim.keymap.set
 map("n", "<S-tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
-map("n", ";", ":", { desc = "enter commandc" })
+map("n", ";", ":", { desc = "enter command" })
+map("n", "<leader>lg", function()
+  Snacks.lazygit()
+end, { desc = "Lazygit" })
+
+local nvim_tmux_nav = require("nvim-tmux-navigation")
+
+map("n", "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+map("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+map("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+map("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+map("n", "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
+map("n", "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
