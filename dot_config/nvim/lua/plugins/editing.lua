@@ -302,4 +302,4 @@ return {
       require("nvim-surround").setup({})
     end,
   },
-}
+  }
