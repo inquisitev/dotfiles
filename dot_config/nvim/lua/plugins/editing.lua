@@ -23,7 +23,7 @@ return {
     requires = { "kkharji/sqlite.lua" },
     keys = {
       {
-        "<leader>p",
+        "<leader>ty",
         function()
           if LazyVim.pick.picker.name == "telescope" then
             require("telescope").extensions.yank_history.yank_history({})
@@ -302,4 +302,23 @@ return {
       require("nvim-surround").setup({})
     end,
   },
-  }
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "bash",
+        "python",
+        "groovy",
+        "json",
+        "rust",
+        "cpp",
+        "query",
+        "regex",
+        "tsx",
+        "typescript",
+        "vim",
+        "yaml",
+      },
+    },
+  },
+}
