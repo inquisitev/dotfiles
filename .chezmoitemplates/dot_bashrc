@@ -122,7 +122,7 @@ alias lazygit='/home/trevor/lazygit'
 # alias chezmoi='~/bin/chezmoi'
 
 alias wezterm='flatpak run org.wezfurlong.wezterm'
-export DENO_INSTALL="/home/l6ti0g0/.deno"
+export DENO_INSTALL="~/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 export CLIPBOARD_SILENT=1
 alias clip="flatpak run app.getclipboard.Clipboard"
