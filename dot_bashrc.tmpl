@@ -1,8 +1,4 @@
-{{-   include ".chezmoitemplates/dot_bashrc" -}}
-
-
-eval "$(ssh-agent)" > /dev/null
-ssh-add ~/.ssh/id_personal_github_com_token 2> /dev/null
+{{- include ".chezmoitemplates/dot_bashrc" -}}
 
 alias ppwm="keepassxc-cli"
 
@@ -16,6 +12,5 @@ alias nvim='/opt/nvim-linux-x86_64/bin/nvim'
 {{ end -}}
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
