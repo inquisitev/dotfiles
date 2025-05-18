@@ -10,7 +10,11 @@ git TUI of choice is lazy git.
 curl -H 'Cache-Control: no-cache' -s https://raw.githubusercontent.com/inquisitev/dotfiles/master/install.sh | sudo bash
 ```
 ```bash
+# Build the Docker image
+sudo docker build -t chezmoi-setup .
 
+# Run the Docker container
+sudo docker run -it chezmoi-setup
 ```
 
 If libc is missing
