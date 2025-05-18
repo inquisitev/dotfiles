@@ -3,7 +3,7 @@ local config = {}
 
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 
-config.color_scheme = "darkmoss (base16)"
+config.color_scheme = "Dark Ocean (terminal.sexy)"
 
 local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
 tabline.setup({

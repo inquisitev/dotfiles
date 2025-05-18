@@ -5,6 +5,11 @@ return {
     version = false,
     opts = {
       provider = "copilot",
+      cursor_applying_provider = "copilot", -- In this example, use Groq for applying, but you can also use any provider you want.
+      behaviour = {
+        --- ... existing behaviours
+        enable_cursor_planning_mode = true, -- enable cursor planning mode!
+      },
     },
     build = "make",
     dependencies = {
