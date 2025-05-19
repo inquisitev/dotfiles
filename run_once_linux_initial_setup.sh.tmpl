@@ -28,5 +28,10 @@ source  .chezmoitemplates/linux_tools.sh
 {{ if eq .chezmoi.os "darwin" -}}
 source  .chezmoitemplates/mac_os_tools.sh
 {{ end -}}
+
+{{ range .packages.linux.apt -}}
+install_{{ . }}
+{{ end -}}
+
 {{ end -}}
 {{ end -}}

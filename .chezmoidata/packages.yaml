@@ -18,6 +18,15 @@ packages:
       - python-is-python3
       - pipx
       - python3-pip
+    custom:
+      - wezterm
+      - lazygit
+      - nvim
+      - yazi
+      - gh
+      - rust
+      - nvm
+      - node
   windows:
     choco:
       - spotify
