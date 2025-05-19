@@ -20,10 +20,12 @@ sudo apt install -y {{ . | quote }}
 
 {{- if $isRaspian }}
 source  .chezmoitemplates/raspberry_pi_tools.sh
-{{ else }}
+{{ end -}}
+
 
 {{ if eq .chezmoi.os "linux" -}}
 source  .chezmoitemplates/linux_tools.sh
+{{ end -}}
 
 {{ if eq .chezmoi.os "darwin" -}}
 source  .chezmoitemplates/mac_os_tools.sh
