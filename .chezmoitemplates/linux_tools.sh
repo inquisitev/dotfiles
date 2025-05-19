@@ -79,3 +79,7 @@ install_node(){
     init_nvm
     nvm install node
 }
+
+init_node(){
+    :
+}
