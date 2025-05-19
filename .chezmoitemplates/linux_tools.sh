@@ -7,7 +7,7 @@ install_wezterm(){
 }
 
 init_wezterm(){
-
+   : 
 }
 
 # lazygit
@@ -51,7 +51,7 @@ install_gh(){
     sudo apt install -y gh
 }
 init_gh(){
-
+    :
 }
 
 # rust
