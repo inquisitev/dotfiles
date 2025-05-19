@@ -3,7 +3,7 @@ sudo apt update
 sudo apt install -y {{ . | quote }}
 {{ end -}}
 
-source {{.chezmoi.sourceDir}}/.chezmoitemplates/tools/linux_tools.sh
+source {{.chezmoi.sourceDir}}/.chezmoitemplates/linux_tools.sh
 
 {{ range .packages.linux.custom -}}
 init_{{ . }}
