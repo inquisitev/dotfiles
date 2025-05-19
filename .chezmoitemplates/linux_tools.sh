@@ -56,5 +56,6 @@ init_nvm(){
 }
 
 install_node(){
+    init_nvim
     nvm install node
 }

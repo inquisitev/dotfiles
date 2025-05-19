@@ -26,6 +26,7 @@ packages:
       - gh
       - rust
       - nvm
+      - node
   windows:
     choco:
       - spotify
