@@ -24,15 +24,16 @@ source  .chezmoitemplates/raspberry_pi_tools.sh
 
 
 {{ if eq .chezmoi.os "linux" -}}
-source  .chezmoitemplates/linux_tools.sh
+{{-   include ".chezmoitemplates/linux_tools.sh" -}}
+{{ range .packages.linux.apt -}}
+install_{{ . }}
+{{ end -}}
+
 {{ end -}}
 
 {{ if eq .chezmoi.os "darwin" -}}
 source  .chezmoitemplates/mac_os_tools.sh
 {{ end -}}
 
-{{ range .packages.linux.apt -}}
-install_{{ . }}
-{{ end -}}
 
 {{ end -}}
