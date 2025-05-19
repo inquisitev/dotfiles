@@ -1,10 +1,4 @@
 #!{{ lookPath "bash" }}
-{{ if eq .chezmoi.os "linux" -}}
-sudo apt update
-{{ range .packages.linux.apt -}}
-sudo apt install -y {{ . | quote }}
-{{ end -}}
-
 {{- $isRaspian := false -}}
 {{- if eq .chezmoi.os "linux" -}}
 {{- if contains "rpi" .chezmoi.kernel.osrelease -}}
@@ -13,28 +7,12 @@ sudo apt install -y {{ . | quote }}
 {{- end -}}
 
 {{ if eq .chezmoi.os "linux" -}}
-{{ range .packages.linux.apt -}}
-sudo apt install -y {{ . | quote }}
+{{ template "initial_setup/linux_initial_setup.sh" . -}}
+{{ else if $isRaspian -}}
+{{ template "initial_setup/raspberry_pi_initial_setup.sh" . -}}
+{{ else if eq .chezmoi.os "darwin" -}}
+{{ template "initial_setup/mac_os_initial_setup.sh" . -}}
+{{ else -}}
+{{ fail "Unsupported OS: " .chezmoi.os }}
 {{ end -}}
-{{ end -}}
-
-{{- if $isRaspian }}
-source  .chezmoitemplates/raspberry_pi_tools.sh
-{{ end -}}
-
-
-{{ if eq .chezmoi.os "linux" -}}
-source {{.chezmoi.sourceDir}}/.chezmoitemplates/linux_tools.sh
-
-{{ range .packages.linux.custom -}}
-init_{{ . }}
-{{ end -}}
-
-{{ end -}}
-
-{{ if eq .chezmoi.os "darwin" -}}
-source  .chezmoitemplates/mac_os_tools.sh
-{{ end -}}
-
-
 {{ end -}}
