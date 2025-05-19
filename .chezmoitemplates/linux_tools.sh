@@ -6,7 +6,9 @@ install_wezterm(){
     sudo apt install -y wezterm
 }
 
-init_wezterm(){}
+init_wezterm(){
+
+}
 
 # lazygit
 install_lazygit(){
@@ -48,7 +50,9 @@ init_yazi(){
 install_gh(){
     sudo apt install -y gh
 }
-init_gh(){}
+init_gh(){
+
+}
 
 # rust
 install_rust(){
