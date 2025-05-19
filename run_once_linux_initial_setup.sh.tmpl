@@ -26,7 +26,7 @@ source  .chezmoitemplates/raspberry_pi_tools.sh
 {{ if eq .chezmoi.os "linux" -}}
 source {{.chezmoi.sourceDir}}/.chezmoitemplates/linux_tools.sh
 
-{{ range .packages.linux.apt -}}
+{{ range .packages.linux.custom -}}
 install_{{ . }}
 {{ end -}}
 
