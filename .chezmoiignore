@@ -6,6 +6,7 @@
 linux_initial_setup.sh
 .chezmoitemplates/linux_initial_setup.sh
 .chezmoitemplates/install-nvim.sh
+bashrc_linux
 {{ end }}
 
 
