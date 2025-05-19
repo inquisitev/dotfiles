@@ -1,4 +1,5 @@
 #!{{ lookPath "bash" }}
+
 {{- $isRaspian := false -}}
 {{- if eq .chezmoi.os "linux" -}}
 {{- if contains "rpi" .chezmoi.kernel.osrelease -}}
