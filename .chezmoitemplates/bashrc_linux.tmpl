@@ -114,29 +114,17 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-export PATH="$PATH:/home/trevor:/opt/nvim-linux64/bin"
 
 alias python='python3'
-alias lazygit='/home/trevor/lazygit'
-# alias chezmoi='~/bin/chezmoi'
 
-alias wezterm='flatpak run org.wezfurlong.wezterm'
-export DENO_INSTALL="/home/l6ti0g0/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
-export CLIPBOARD_SILENT=1
-alias clip="flatpak run app.getclipboard.Clipboard"
-PATH="$PATH:~/go/bin"
-alias nvim="/opt/nvim-linux-x86_64/bin/nvim"
-export EDITOR="/opt/nvim-linux-x86_64/bin/nvim"
+source {{.chezmoi.sourceDir}}/.chezmoitemplates/linux_tools.sh
+
+{{ range .packages.linux.custom -}}
+init_{{ . }}
+{{ end -}}
 
 if [ -f ~/.config/bash/work_bash_rc.sh ]; then
   source ~/.config/bash/work_bash_rc.sh
-  . ~/.config/bash/add_ssh_keys_to_agent.sh
 fi
 
 alias ppwm="keepassxc-cli"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-

@@ -6,12 +6,17 @@ install_wezterm(){
     sudo apt install -y wezterm
 }
 
+init_wezterm(){}
+
 # lazygit
 install_lazygit(){
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
     tar xf lazygit.tar.gz lazygit
     sudo install lazygit -D -t /usr/local/bin/
+}
+init_lazygit(){
+    export PATH="~/bin:$PATH"
 }
 
 # nvim
@@ -20,6 +25,10 @@ install_nvim(){
     sudo rm -rf /opt/nvim
     sudo tar -C ~/bin -xzf nvim-linux-x86_64.tar.gz
     rm nvim-linux-x86_64.tar.gz
+}
+
+init_nvim(){
+    export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
 }
 
 # yazi
@@ -31,17 +40,24 @@ install_yazi(){
         mv target/release/yazi target/release/ya ~/bin
     )
 }
+init_yazi(){
+    export PATH="~/bin:$PATH"
+}
 
 # gh
 install_gh(){
     sudo apt install -y gh
 }
+init_gh(){}
 
 # rust
 install_rust(){
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain stable --profile minimal --component cargo
     export PATH="$HOME/.cargo/bin:$PATH"
     rustup update
+}
+init_rust(){
+    export PATH="$HOME/.cargo/bin:$PATH"
 }
 
 # nvm
