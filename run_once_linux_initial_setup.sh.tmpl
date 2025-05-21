@@ -1,5 +1,7 @@
 #!{{ lookPath "bash" }}
 
+# Run once install scripts
+
 {{- $isRaspian := false -}}
 {{- if eq .chezmoi.os "linux" -}}
 {{- if contains "rpi" .chezmoi.kernel.osrelease -}}

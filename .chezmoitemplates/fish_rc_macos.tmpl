@@ -1,0 +1,8 @@
+
+source {{.chezmoi.sourceDir}}/.chezmoitemplates/mac_os_tools.fish
+
+{{ range .packages.linux.custom -}}
+init_{{ . }}
+{{ end -}}
+
+

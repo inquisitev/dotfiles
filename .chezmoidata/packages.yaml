@@ -18,6 +18,8 @@ packages:
       - python-is-python3
       - pipx
       - python3-pip
+
+    # A custom installer must define an install_x and init_x in {{os}}_tools.sh, and init_x in {{os}}_tools.fish, if you use fish
     custom:
       - wezterm
       - lazygit
@@ -27,6 +29,7 @@ packages:
       - rust
       - nvm
       - node
+      - fish
   windows:
     choco:
       - spotify
