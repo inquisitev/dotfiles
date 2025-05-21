@@ -1,64 +1,20 @@
 #!{{ lookPath "bash" }}
-{{ if eq .chezmoi.os "linux" -}}
+
+# Run once install scripts
 
 {{- $isRaspian := false -}}
 {{- if eq .chezmoi.os "linux" -}}
-  {{- if contains "rpi" .chezmoi.kernel.osrelease -}}
-    {{- $isRaspian = true -}}
-  {{- end -}}
+{{- if contains "rpi" .chezmoi.kernel.osrelease -}}
+{{- $isRaspian = true -}}
+{{- end -}}
 {{- end -}}
 
-{{- if $isRaspian }}
-git clone https://github.com/neovim/neovim.git
-cd neovim
-git checkout v0.11.0
-sudo apt install gettext
-make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install
-{{ else }}
-
 {{ if eq .chezmoi.os "linux" -}}
-curl -LO https://github.com/neovim/neovim-releases/releases/download/v0.11.0/nvim-linux-x86_64.tar.gz
-sudo rm -rf /opt/nvim
-sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-
-LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
-curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-tar xf lazygit.tar.gz lazygit
-sudo install lazygit -D -t /usr/local/bin/
-
-rustup update
-git clone https://github.com/sxyazi/yazi.git
-cd yazi
-cargo build --release --locked
-mv target/release/yazi target/release/ya /usr/local/bin/
-
+{{ template "linux_initial_setup.sh" . -}}
+{{ else if $isRaspian -}}
+{{ template "raspberry_pi_initial_setup.sh" . -}}
+{{ else if eq .chezmoi.os "darwin" -}}
+{{ template "mac_os_initial_setup.sh" . -}}
+{{ else -}}
+{{ fail "Unsupported OS: " .chezmoi.os }}
 {{ end -}}
-
-{{ if eq .chezmoi.os "darwin" -}}
-curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
-tar xzf nvim-macos-arm64.tar.gz
-./nvim-macos-arm64/bin/nvim
-{{ end -}}
-{{ end -}}
-
-{{-   include ".chezmoitemplates/unix_common.sh" -}}
-
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-nvm install node
-
-{{ range .packages.linux.apt -}}
-sudo apt install -y {{ . | quote }}
-{{ end -}}
-
-
-{{ end -}}
-
-
-
-

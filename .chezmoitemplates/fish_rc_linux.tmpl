@@ -1,0 +1,17 @@
+
+source {{.chezmoi.sourceDir}}/.chezmoitemplates/linux_tools.fish
+
+{{ range .packages.linux.custom -}}
+init_{{ . }}
+{{ end -}}
+
+if test -f ~/.config/fish/work_bash_rc.fish
+    source ~/.config/fish/work_bash_rc.fish
+end
+
+set -g theme_powerline_fonts no
+
+
+
+
+

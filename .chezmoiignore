@@ -6,6 +6,12 @@
 linux_initial_setup.sh
 .chezmoitemplates/linux_initial_setup.sh
 .chezmoitemplates/install-nvim.sh
+bashrc_linux
 {{ end }}
+
+
+{{ if ne .chezmoi.os "darwin" }}
+darwin_initial_setup.sh
+{{end}}
 
 
