@@ -23,8 +23,11 @@ init_lazygit() {
 
 # nvim
 install_nvim() {
-   curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
-   tar xzf nvim-macos-arm64.tar.gz
+   curl -LO https://github.com/neovim/neovim/releases/download/v0.11.0/nvim-macos-arm64.tar.gz
+   sudo rm -rf /opt/nvim
+   sudo tar -C ~/bin -xzf nvim-macos-arm64.tar.gz
+   rm nvim-macos-arm64.tar.gz
+
 }
 init_nvim() {
    export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
