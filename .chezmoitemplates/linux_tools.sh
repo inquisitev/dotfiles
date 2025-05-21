@@ -23,7 +23,7 @@ init_lazygit() {
 
 # nvim
 install_nvim() {
-   curl -LO https://github.com/neovim/neovim/releases/download/v0.11.0/nvim-linux-x86_64.tar.gz
+   curl -LO https://github.com/neovim/neovim-releases/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz
    sudo rm -rf /opt/nvim
    sudo tar -C ~/bin -xzf nvim-linux-x86_64.tar.gz
    rm nvim-linux-x86_64.tar.gz
@@ -94,4 +94,3 @@ install_fish() {
 init_fish() {
    :
 }
-
