@@ -10,3 +10,8 @@ bashrc_linux
 {{ end }}
 
 
+{{ if ne .chezmoi.os "darwin" }}
+darwin_initial_setup.sh
+{{end}}
+
+
