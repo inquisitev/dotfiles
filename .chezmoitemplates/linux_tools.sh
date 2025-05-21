@@ -85,10 +85,20 @@ init_node() {
 }
 
 install_fish() {
+   (
+      git clone https://github.com/powerline/fonts.git --depth=1
+      cd fonts
+      ./install.sh
+      cd ..
+      rm -rf fonts
+   )
+
    sudo apt-add-repository ppa:fish-shell/release-4
    sudo apt update
    sudo apt install fish
    fish -c "fisher install jorgebucaran/nvm.fish"
+   curl -L https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+   fish -c "omf install bobthefish"
 }
 
 init_fish() {
