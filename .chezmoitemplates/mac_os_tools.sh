@@ -1,4 +1,4 @@
-# wezterm
+
 install_wezterm() {
    curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
    echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
@@ -23,14 +23,15 @@ init_lazygit() {
 
 # nvim
 install_nvim() {
+   mkdir -p ~/tools
    curl -LO https://github.com/neovim/neovim/releases/download/v0.11.0/nvim-macos-arm64.tar.gz
    sudo rm -rf /opt/nvim
-   sudo tar -C ~/bin -xzf nvim-macos-arm64.tar.gz
+   sudo tar -C ~/tools -xzf nvim-macos-arm64.tar.gz
    rm nvim-macos-arm64.tar.gz
-
 }
+
 init_nvim() {
-   export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
+   export PATH="$HOME/tools/nvim-macos-arm64/bin:$PATH"
 }
 
 # yazi
@@ -43,7 +44,7 @@ install_yazi() {
    )
 }
 init_yazi() {
-   export PATH="~/bin:$PATH"
+   export PATH="~/tools:$PATH"
 }
 
 # gh
@@ -105,6 +106,9 @@ install_fish() {
    fish -c "fisher install jorgebucaran/nvm.fish"
    curl -L https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
    fish -c "omf install bobthefish"
+
+   sudo sh -c 'echo /opt/homebrew/bin/fish >> /etc/shells'
+   chsh -s /opt/homebrew/bin/fish $USER
 }
 
 init_fish() {
