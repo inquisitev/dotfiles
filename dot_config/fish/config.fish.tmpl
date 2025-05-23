@@ -3,3 +3,5 @@
 {{- else if eq .chezmoi.os "linux" -}}
 {{- template "fish_rc_macos.tmpl" . -}}
 {{- end -}}
+
+set TERM "xterm-256color"

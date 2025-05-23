@@ -3,3 +3,6 @@
 {{- else if eq .chezmoi.os "linux" -}}
 {{- template "bashrc_linux.tmpl" . -}}
 {{- end -}}
+
+
+export TERM="xterm-256color"
