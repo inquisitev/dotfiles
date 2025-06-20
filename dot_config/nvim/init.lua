@@ -2,7 +2,7 @@
 require("config.lazy")
 
 vim.diagnostic.config({ virtual_text = false })
-require("gitblame").setup({
-  --Note how the `gitblame_` prefix is omitted in `setup`
-  enabled = false,
-})
+-- require("gitblame").setup({
+--   --Note how the `gitblame_` prefix is omitted in `setup`
+--   enabled = false,
+-- })
