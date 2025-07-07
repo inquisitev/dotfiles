@@ -6,3 +6,7 @@ vim.diagnostic.config({ virtual_text = false })
 --   --Note how the `gitblame_` prefix is omitted in `setup`
 --   enabled = false,
 -- })
+
+require("lsptoggle").setup({
+  keymap = "<leader>vd",
+})

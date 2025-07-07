@@ -7,7 +7,7 @@ map("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", ";", ":", { desc = "enter command" })
 map("n", "<leader>lg", function()
   Snacks.lazygit()
-end, { desc = "Lazygit" })
+end, { desc = "Lazygit", remap = true })
 
 local nvim_tmux_nav = require("nvim-tmux-navigation")
 
@@ -28,6 +28,11 @@ end, { desc = "Delete Buffer" })
 
 vim.keymap.set("n", "<leader>tc", LazyVim.pick("grep", { cwd = "." }), { remap = true })
 vim.keymap.set("n", "<leader>tf", LazyVim.pick("files", { cwd = ".", root = false }), { remap = true })
+vim.keymap.set("n", "<leader>th", function()
+  require('telescope.builtin').colorscheme({
+    enable_preview = true
+  })
+end, { desc = "Select Colorscheme" })
 
 vim.keymap.del("n", "<leader>/")
 vim.keymap.set("n", "<leader>/", "gcc", { remap = true })

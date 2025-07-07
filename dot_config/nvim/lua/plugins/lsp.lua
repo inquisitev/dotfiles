@@ -50,7 +50,7 @@ return {
         vim.keymap.set("n", "gd", function()
           vim.lsp.buf.definition({ reuse_win = true })
         end, bufopts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+        vim.keymap.set("n", "K", vim.lsp.buf.signature_help, bufopts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
         -- vim.keymap.set('n', '<C-K>', vim.lsp.buf.signature_help, bufopts)
         vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
@@ -85,6 +85,10 @@ return {
         capabilities = capabilities,
       })
       lspconfig.clangd.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+      lspconfig.pyright.setup({
         on_attach = on_attach,
         capabilities = capabilities,
       })
