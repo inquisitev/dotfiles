@@ -35,17 +35,6 @@ return {
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
-    opts = {
-       filesystem = {
-          filtered_items = {
-             hide_hidden = false,
-             hide_gitignored = false,
-             hide_dotfiles = false
-
-          }
-       }
-    },
-  }
+    enabled = false,
+  },
 }
-
-

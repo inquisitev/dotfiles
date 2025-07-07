@@ -26,8 +26,8 @@ map("n", "<leader>x", function()
   Snacks.bufdelete()
 end, { desc = "Delete Buffer" })
 
-vim.keymap.set("n", "<leader>tc", LazyVim.pick("grep"), { remap = true })
-vim.keymap.set("n", "<leader>tf", LazyVim.pick("files", { root = false }), { remap = true })
+vim.keymap.set("n", "<leader>tc", LazyVim.pick("grep", { cwd = "." }), { remap = true })
+vim.keymap.set("n", "<leader>tf", LazyVim.pick("files", { cwd = ".", root = false }), { remap = true })
 
 vim.keymap.del("n", "<leader>/")
 vim.keymap.set("n", "<leader>/", "gcc", { remap = true })
