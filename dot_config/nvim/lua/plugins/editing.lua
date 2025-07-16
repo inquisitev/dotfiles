@@ -1,6 +1,9 @@
 -- better yank/paste
 return {
   {
+
+  },
+  {
     "alexghergh/nvim-tmux-navigation",
     config = function()
       local nvim_tmux_nav = require("nvim-tmux-navigation")
@@ -340,6 +343,7 @@ return {
           "clangd",
           "pyright",
           "python-lsp-server",
+          "cpptools"
         },
 
         auto_update = false,
