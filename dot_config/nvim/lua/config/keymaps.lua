@@ -19,17 +19,15 @@ map("n", "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
 map("n", "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
 map("n", "<A-j>", "<cmd>cnext<CR>", { desc = "quickfix next" })
 map("n", "<A-k>", "<cmd>cprev<CR>", { desc = "quickfix previous" })
-map("n", "<A-o>", "<cmd>copen<CR>", { desc = "quickfix open" })
-map("n", "<A-x>", "<cmd>cclose<CR>", { desc = "quickfix close" })
 
 map("n", "<leader>x", function()
   Snacks.bufdelete()
 end, { desc = "Delete Buffer" })
 
 vim.keymap.set("n", "<leader>tf", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
-vim.keymap.set("n", "<leader>tg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
+vim.keymap.set("n", "<leader>tc", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
 vim.keymap.set("n", "<leader>tb", "<cmd>Telescope buffers<cr>", { desc = "Find Buffers" })
-vim.keymap.set("n", "<leader>th", "<cmd>Telescope help_tags<cr>", { desc = "Help Tags" })
+vim.keymap.set("n", "<leader>thh", "<cmd>Telescope help_tags<cr>", { desc = "Help Tags" })
 vim.keymap.set("n", "<leader>to", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
 vim.keymap.set("n", "<leader>ts", "<cmd>Telescope grep_string<cr>", { desc = "Search Current Word" })
 vim.keymap.set("n", "<leader>tt", "<cmd>Telescope treesitter<cr>", { desc = "Treesitter Symbols" })
@@ -41,10 +39,15 @@ vim.keymap.set("n", "<leader>tl", "<cmd>Telescope loclist<cr>", { desc = "Locati
 vim.keymap.set("n", "<leader>ta", "<cmd>Telescope autocommands<cr>", { desc = "Autocommands" })
 vim.keymap.set("n", "<leader>fi", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "Fuzzy Find in Buffer" })
 
-vim.keymap.set("n", "<leader>tf", LazyVim.pick("files", { cwd = ".", root = false }), {desc="Find file", remap = true })
+vim.keymap.set(
+  "n",
+  "<leader>tf",
+  LazyVim.pick("files", { cwd = ".", root = false }),
+  { desc = "Find file", remap = true }
+)
 vim.keymap.set("n", "<leader>th", function()
-  require('telescope.builtin').colorscheme({
-    enable_preview = true
+  require("telescope.builtin").colorscheme({
+    enable_preview = true,
   })
 end, { desc = "Select Colorscheme" })
 
