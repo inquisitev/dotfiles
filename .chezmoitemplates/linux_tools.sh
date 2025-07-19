@@ -41,6 +41,8 @@ install_yazi() {
       ~/.cargo/bin/cargo build --release --locked
       mv target/release/yazi target/release/ya ~/bin
    )
+
+   git clone https://github.com/DreamMaoMao/easyjump.yazi.git ~/.config/yazi/plugins/easyjump.yazi
 }
 init_yazi() {
    export PATH="~/bin:$PATH"
