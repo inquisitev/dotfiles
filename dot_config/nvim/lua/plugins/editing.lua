@@ -1,9 +1,6 @@
 -- better yank/paste
 return {
   {
-
-  },
-  {
     "alexghergh/nvim-tmux-navigation",
     config = function()
       local nvim_tmux_nav = require("nvim-tmux-navigation")
@@ -336,7 +333,6 @@ return {
       require("mason-tool-installer").setup({
 
         ensure_installed = {
-
           "bash-language-server",
           "lua-language-server",
           "vim-language-server",
