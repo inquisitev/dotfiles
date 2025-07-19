@@ -1,0 +1,6 @@
+return{
+      {
+         "neotest",
+         enabled = false
+      }
+}
