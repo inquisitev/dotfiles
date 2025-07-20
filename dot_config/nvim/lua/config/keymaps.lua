@@ -90,3 +90,6 @@ end, { desc = "Select Colorscheme" })
 vim.keymap.del("n", "<leader>/")
 map("n", "<leader>/", "gcc", { remap = true })
 map("v", "<leader>/", "gc", { remap = true })
+
+vim.keymap.set("n", "<leader>o", "<cmd>Portal jumplist backward<cr>")
+vim.keymap.set("n", "<leader>i", "<cmd>Portal jumplist forward<cr>")
