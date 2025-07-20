@@ -339,7 +339,7 @@ return {
           "clangd",
           "pyright",
           "python-lsp-server",
-          "cpptools"
+          "cpptools",
         },
 
         auto_update = false,
