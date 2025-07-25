@@ -20,15 +20,6 @@ return {
         load_breakpoints_event = { "BufReadPost" },
       })
 
-      local home_dir = vim.fn.getenv("HOME")
-
-      dap.adapters.cppdbg = {
-        id = "cppdbg",
-        type = "executable",
-        command = home_dir .. "/.local/share/nvim/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
-      }
-
-      -- if the system is configured with this particular adapter, use it.
       local jd_debug_adapter_name = vim.fn.getenv("JD_DEBUG_ADAPTER")
       local ok, jd_debug_adapter = pcall(require, jd_debug_adapter_name)
       if ok and jd_debug_adapter.is_supported_repo() then
@@ -79,15 +70,15 @@ return {
         end, { desc = "DAP UI Toggle" })
 
         vim.keymap.set("n", "<Leader>db", function()
-          pdap.toggle_breakpoint()
+          dap.set_breakpoint()
         end, { desc = "DAP Toggle Breakpoint" })
 
         vim.keymap.set("n", "<Leader>dC", function()
-          pdap.set_conditional_breakpoint()
+          dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
         end, { desc = "DAP Set Custom Conditional Breakpoint" })
 
         vim.keymap.set("n", "<Leader>dl", function()
-          pdap.set_log_point()
+          dap.set_breakpoint(nil, nil, vim.fn.input("Log message: "))
         end, { desc = "DAP Add Log Point" })
       end
     end,
