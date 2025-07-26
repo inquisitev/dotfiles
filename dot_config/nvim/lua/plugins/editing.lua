@@ -333,7 +333,12 @@ return {
           "clangd",
           "pyright",
           "python-lsp-server",
-          "cpptools",
+          "black",
+          "isort",
+          "rustfmt",
+          "qmlfmt",
+          "google-java-format",
+          "clang-format",
         },
 
         auto_update = false,
