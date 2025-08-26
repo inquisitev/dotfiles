@@ -24,16 +24,15 @@ return {
   {
     "stevearc/conform.nvim",
     opts = function(_, opts)
-      -- Add formatters for your languages
       opts.formatters_by_ft = vim.tbl_extend("force", opts.formatters_by_ft or {}, {
         cpp = { "uncrustify", "clang-format" },
         c = { "clang-format", "uncrustify" },
         qml = { "qmlformat" },
-        python = { "black", "isort" }, -- or { "ruff_format", "ruff_organize_imports" }
+        python = { "black", "isort" },
         rust = { "rustfmt" },
-        java = { "google-java-format", "uncrustify" }, -- or "clang-format"
-        cmake = { "cmake_custom_formatter" },
-        sql = { "sqlfluff" }, -- or "sql_formatter"
+        java = { "google-java-format" },
+        cmake = { "cmake_format" },
+        sql = { "sqlfluff" },
         bash = { "shfmt" },
         sh = { "shfmt" },
         fish = { "fish_indent" },
@@ -86,6 +85,12 @@ return {
       return opts
     end,
     
+  },
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    config = function()
+      -- Optional: nothing needed if you're happy with default config
+    end,
   },
 }
 
