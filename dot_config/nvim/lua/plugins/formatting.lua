@@ -1,26 +1,26 @@
 return {
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    dependencies = { "mason.nvim" },
-    opts = {
-      ensure_installed = {
-        -- Formatters
-        "clang-format", -- C/C++
-        "black", -- Python
-        "isort", -- Python imports
-        "rustfmt", -- Rust
-        "google-java-format", -- Java
-        "cmake-format", -- CMake
-        "sqlfluff", -- SQL
-        "shfmt", -- Bash/Shell
-        "taplo", -- TOML
-        "prettier", -- JSON, INI, and more
-        "uncrustify", -- C/C++/Java/C#
-      },
-      auto_update = false,
-      run_on_start = true,
-    },
-  },
+  -- {
+  --   "WhoIsSethDaniel/mason-tool-installer.nvim",
+  --   dependencies = { "mason.nvim" },
+  --   opts = {
+  --     ensure_installed = {
+  --       -- Formatters
+  --       "clang-format", -- C/C++
+  --       "black", -- Python
+  --       "isort", -- Python imports
+  --       "rustfmt", -- Rust
+  --       "google-java-format", -- Java
+  --       "cmake-format", -- CMake
+  --       "sqlfluff", -- SQL
+  --       "shfmt", -- Bash/Shell
+  --       "taplo", -- TOML
+  --       "prettier", -- JSON, INI, and more
+  --       "uncrustify", -- C/C++/Java/C#
+  --     },
+  --     auto_update = false,
+  --     run_on_start = true,
+  --   },
+  -- },
   {
     "stevearc/conform.nvim",
     opts = function(_, opts)
@@ -31,7 +31,7 @@ return {
         python = { "black", "isort" },
         rust = { "rustfmt" },
         java = { "google-java-format" },
-        cmake = { "cmake_format" },
+        cmake = { "cmake_custom_formatter" },
         sql = { "sqlfluff" },
         bash = { "shfmt" },
         sh = { "shfmt" },
@@ -68,7 +68,7 @@ return {
         cmake_custom_formatter = {
           command = "cmake-format",
           args = function()
-            return {"-c", vim.fn.expand("$HOME") .. "/.local/share/chezmoi/dot_config/cmake_format/config.py", "-i", "$FILENAME"}
+            return { "--config-file", vim.fn.expand("$HOME/.config/cmake_format/config.py"), "-i", "$FILENAME" }
           end,
           temp_file = false,
           stdin = false,
@@ -84,12 +84,10 @@ return {
 
       return opts
     end,
-    
   },
   {
     "HiPhish/rainbow-delimiters.nvim",
     config = function()
-      -- Optional: nothing needed if you're happy with default config
     end,
   },
 }
