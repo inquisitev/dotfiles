@@ -68,7 +68,7 @@ return {
         cmake_custom_formatter = {
           command = "cmake-format",
           args = function()
-            return {"-c", vim.fn.expand("$HOME") .. "/.local/share/chezmoi/dot_config/cmake_format/config.json", "-i", "$FILENAME"}
+            return {"-c", vim.fn.expand("$HOME") .. "/.local/share/chezmoi/dot_config/cmake_format/config.py", "-i", "$FILENAME"}
           end,
           temp_file = false,
           stdin = false,
