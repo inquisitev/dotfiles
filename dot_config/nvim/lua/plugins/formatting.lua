@@ -15,6 +15,7 @@ return {
         "shfmt", -- Bash/Shell
         "taplo", -- TOML
         "prettier", -- JSON, INI, and more
+        "uncrustify", -- C/C++/Java/C#
       },
       auto_update = false,
       run_on_start = true,
@@ -25,13 +26,13 @@ return {
     opts = function(_, opts)
       -- Add formatters for your languages
       opts.formatters_by_ft = vim.tbl_extend("force", opts.formatters_by_ft or {}, {
-        cpp = { "clang-format" },
-        c = { "clang-format" },
+        cpp = { "uncrustify", "clang-format" },
+        c = { "clang-format", "uncrustify" },
         qml = { "qmlformat" },
         python = { "black", "isort" }, -- or { "ruff_format", "ruff_organize_imports" }
         rust = { "rustfmt" },
-        java = { "google-java-format" }, -- or "clang-format"
-        cmake = { "cmake_format" },
+        java = { "google-java-format", "uncrustify" }, -- or "clang-format"
+        cmake = { "cmake_custom_formatter" },
         sql = { "sqlfluff" }, -- or "sql_formatter"
         bash = { "shfmt" },
         sh = { "shfmt" },
@@ -42,16 +43,49 @@ return {
         jsonc = { "prettier" },
       })
 
-      -- Custom qmlformat if needed
       opts.formatters = {
-        qmlformat = {
-          command = "qmlformat",
-          args = { "-i", "$FILENAME" },
+        uncrustify = {
+          command = "uncrustify",
+          args = function()
+            local cfg_path = vim.fn.findfile("uncrustify.cfg", ".;")
+            if cfg_path == "" then
+              local current_dir = vim.fn.getcwd()
+              local home_dir = vim.fn.expand("$HOME")
+              local one_level_cfg = vim.fn.expand(home_dir .. "/" .. vim.fn.fnamemodify(current_dir, ":h:t") .. "/" .. "uncrustify/uncrustify.cfg")
+              print("test: " .. one_level_cfg)
+              if vim.fn.filereadable(one_level_cfg) == 1 then
+                cfg_path = one_level_cfg
+              else
+                cfg_path = vim.fn.expand("$HOME/.config/uncrustify/uncrustify.cfg")
+              end
+
+              print("Uncrustify config path:", cfg_path)
+            end
+            return { "-c", cfg_path, "--replace", "$FILENAME" }
+          end,
+          temp_file = false,
           stdin = false,
         },
+        cmake_custom_formatter = {
+          command = "cmake-format",
+          args = function()
+            return {"-c", vim.fn.expand("$HOME") .. "/.local/share/chezmoi/dot_config/cmake_format/config.json", "-i", "$FILENAME"}
+          end,
+          temp_file = false,
+          stdin = false,
+        }
       }
+
+      vim.api.nvim_create_autocmd("User", {
+       pattern = "ConformPost",
+        callback = function()
+          print("Formatting finished!")
+        end,
+      })
 
       return opts
     end,
+    
   },
 }
+

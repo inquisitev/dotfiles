@@ -42,7 +42,10 @@ install_yazi() {
       mv target/release/yazi target/release/ya ~/bin
    )
 
-   git clone https://github.com/DreamMaoMao/easyjump.yazi.git ~/.config/yazi/plugins/easyjump.yazi
+   ya pack -a ourongxing/fast-enter
+   ya pack -a DreamMaoMao/easyjump
+   ya pack -a AnirudhG07/rich-preview
+   ya pack -a dedukun/relative-motions
 }
 init_yazi() {
    export PATH="~/bin:$PATH"

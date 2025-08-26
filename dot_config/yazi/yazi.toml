@@ -2,3 +2,9 @@
 [manager]
 show_hidden = true
 show_symlink = true
+
+[filter]
+hidden = [
+  ".conform.*.unc-backup",    # Hide Conform.nvim backup files
+]
+

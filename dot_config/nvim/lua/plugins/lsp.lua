@@ -84,10 +84,17 @@ return {
         on_attach = on_attach,
         capabilities = capabilities,
       })
+
       lspconfig.clangd.setup({
         on_attach = on_attach,
         capabilities = capabilities,
       })
+
+lspconfig.qmlls.setup({
+  cmd = { "qmlls", "-E" }, -- Replace with your desired custom command and arguments
+  on_attach = on_attach,
+  capabilities = capabilities,
+ })
       lspconfig.pyright.setup({
         on_attach = on_attach,
         capabilities = capabilities,
