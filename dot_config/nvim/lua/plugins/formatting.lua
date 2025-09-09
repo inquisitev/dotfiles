@@ -25,7 +25,24 @@ return {
     "stevearc/conform.nvim",
     opts = function(_, opts)
       opts.formatters_by_ft = vim.tbl_extend("force", opts.formatters_by_ft or {}, {
-        cpp = { "uncrustify", "clang-format" },
+        cpp = function ()
+            local function get_git_branch()
+              local handle = io.popen("git rev-parse --abbrev-ref HEAD 2>/dev/null")
+              if not handle then
+                return nil
+              end
+              local branch = handle:read("*a"):gsub("%s+", "")
+              handle:close()
+              return branch ~= "" and branch or nil
+            end
+
+            local branch = get_git_branch()
+            if branch and branch:match("^release%-") then
+              return {}
+            end
+
+            return { "uncrustify", "clang-format" }
+        end,
         c = { "clang-format", "uncrustify" },
         qml = { "qmlformat" },
         python = { "black", "isort" },
