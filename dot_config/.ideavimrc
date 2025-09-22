@@ -1,0 +1,6 @@
+nnoremap ; :
+
+
+set number
+set relativenumber
+
