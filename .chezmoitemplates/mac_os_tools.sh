@@ -1,4 +1,3 @@
-
 install_wezterm() {
    curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
    echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
@@ -24,7 +23,7 @@ init_lazygit() {
 # nvim
 install_nvim() {
    mkdir -p ~/tools
-   curl -LO https://github.com/neovim/neovim/releases/download/v0.11.0/nvim-macos-arm64.tar.gz
+   curl -LO https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-macos-arm64.tar.gz
    sudo rm -rf /opt/nvim
    sudo tar -C ~/tools -xzf nvim-macos-arm64.tar.gz
    rm nvim-macos-arm64.tar.gz
@@ -36,15 +35,24 @@ init_nvim() {
 
 # yazi
 install_yazi() {
-   git clone https://github.com/sxyazi/yazi.git
    (
-      cd yazi
-      ~/.cargo/bin/cargo build --release --locked
-      mv target/release/yazi target/release/ya ~/bin
+      cd ~/tools
+      sudo rm -r yazi
+      git clone https://github.com/sxyazi/yazi.git
+      (
+         cd yazi
+         ~/.cargo/bin/cargo build --release --locked
+         mv target/release/yazi target/release/ya ~/bin
+      )
+
+      ya pack -a ourongxing/fast-enter
+      ya pack -a DreamMaoMao/easyjump
+      ya pack -a AnirudhG07/rich-preview
+      ya pack -a dedukun/relative-motions
    )
 }
 init_yazi() {
-   export PATH="~/tools:$PATH"
+   export PATH="~/tools/yazi/target/release:$PATH"
 }
 
 # gh

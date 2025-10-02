@@ -8,11 +8,11 @@ function init_lazygit
 end
 
 function init_nvim
-    set -x PATH $HOME/bin/nvim/bin $PATH
+    set -x PATH $HOME/tools/nvim-macos-arm64/bin $PATH
 end
 
 function init_yazi
-    set -x PATH ~/bin $PATH
+    set -x PATH $HOME/tools/yazi/target/release $PATH
 end
 
 function init_gh

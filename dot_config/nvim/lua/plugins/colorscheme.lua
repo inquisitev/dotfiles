@@ -6,7 +6,7 @@ return {
   { "rebelot/kanagawa.nvim" },
   { "scottmckendry/cyberdream.nvim" },
   {
-    "inquisitev/LazyVim",
+    "LazyVim/LazyVim",
     opts = {
       colorscheme = "kanagawa",
     },
