@@ -44,6 +44,7 @@ return {
           "qmlfmt",
           "google-java-format",
           "clang-format",
+          "tree-sitter-cli@v0.24.7"
         },
 
         auto_update = false,
