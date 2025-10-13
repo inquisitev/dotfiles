@@ -41,3 +41,7 @@ sudo apt update
 sudo apt install libsqlite3-dev
 89  sudo ln -s /usr/lib/aarch64-linux-gnu/libsqlite3.so.0 /usr/lib/libsqlite3.so
 ```
+
+# use bare nvim config
+```NVIM_APPNAME=nvim-based nvim 12+
+```
