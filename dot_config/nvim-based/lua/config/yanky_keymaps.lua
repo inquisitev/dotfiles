@@ -1,11 +1,7 @@
 local map = vim.keymap.set
 
 map({ "n", "x" }, "<leader>ty", function()
-   if LazyVim.pick.picker.name == "telescope" then
-      require("telescope").extensions.yank_history.yank_history({})
-   else
-      vim.cmd([[YankyRingHistory]])
-   end
+   require("telescope").extensions.yank_history.yank_history({})
 end, { desc = "Open Yank History" })
 
 map({ "n", "x" }, "y", "<Plug>(YankyYank)", { desc = "Yank text" })
