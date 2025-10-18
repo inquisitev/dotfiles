@@ -1,0 +1,10 @@
+vim.pack.add({
+   {
+      src = "https://github.com/nvim-lua/plenary.nvim",
+   },
+   {
+      src = "https://github.com/ThePrimeagen/harpoon",
+      branch = "harpoon2",
+   },
+   { src = "https://github.com/cbochs/portal.nvim" },
+})
