@@ -15,5 +15,11 @@ map("n", "<c-k>", "<c-w>k", { remap = true, desc = "Window Up" })
 map("n", "<c-j>", "<c-w>j", { remap = true, desc = "Window Down" })
 map("n", "<c-h>", "<c-w>h", { remap = true, desc = "Window Left" })
 
-map("n", "L", "<cmd>BufferPrevious<CR>", { remap = true, desc = "Window Rightj" })
+map("n", "L", "<cmd>BufferPrevious<CR>", { remap = true, desc = "Window Right" })
 map("n", "H", "<cmd>BufferNext<CR>", { remap = true, desc = "Window Up" })
+
+map("n", "<leader>bo", ":%bd|e#|bd#<CR>", { noremap = true, silent = true, desc = "Close other buffers" })
+
+map("n", "<leader>bn", ":enew<CR>", { noremap = true, silent = true, desc = "New blank buffer" })
+
+map("n", "<leader>x", ":bd<CR>", { noremap = true, silent = true, desc = "Close this buffer" })

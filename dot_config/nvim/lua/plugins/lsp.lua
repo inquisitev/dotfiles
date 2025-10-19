@@ -68,7 +68,7 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- Setup language servers (examples)
-      local lspconfig = require("lspconfig")
+      local lspconfig = vim.lsp.config
 
       lspconfig.lua_ls.setup({
         on_attach = on_attach,
@@ -90,11 +90,11 @@ return {
         capabilities = capabilities,
       })
 
-lspconfig.qmlls.setup({
-  cmd = { "qmlls", "-E" }, -- Replace with your desired custom command and arguments
-  on_attach = on_attach,
-  capabilities = capabilities,
- })
+      lspconfig.qmlls.setup({
+        cmd = { "qmlls", "-E" }, -- Replace with your desired custom command and arguments
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
       lspconfig.pyright.setup({
         on_attach = on_attach,
         capabilities = capabilities,

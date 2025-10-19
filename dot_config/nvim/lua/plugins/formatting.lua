@@ -1,47 +1,26 @@
 return {
-  -- {
-  --   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  --   dependencies = { "mason.nvim" },
-  --   opts = {
-  --     ensure_installed = {
-  --       -- Formatters
-  --       "clang-format", -- C/C++
-  --       "black", -- Python
-  --       "isort", -- Python imports
-  --       "rustfmt", -- Rust
-  --       "google-java-format", -- Java
-  --       "cmake-format", -- CMake
-  --       "sqlfluff", -- SQL
-  --       "shfmt", -- Bash/Shell
-  --       "taplo", -- TOML
-  --       "prettier", -- JSON, INI, and more
-  --       "uncrustify", -- C/C++/Java/C#
-  --     },
-  --     auto_update = false,
-  --     run_on_start = true,
-  --   },
-  -- },
+
   {
     "stevearc/conform.nvim",
     opts = function(_, opts)
       opts.formatters_by_ft = vim.tbl_extend("force", opts.formatters_by_ft or {}, {
-        cpp = function ()
-            local function get_git_branch()
-              local handle = io.popen("git rev-parse --abbrev-ref HEAD 2>/dev/null")
-              if not handle then
-                return nil
-              end
-              local branch = handle:read("*a"):gsub("%s+", "")
-              handle:close()
-              return branch ~= "" and branch or nil
+        cpp = function()
+          local function get_git_branch()
+            local handle = io.popen("git rev-parse --abbrev-ref HEAD 2>/dev/null")
+            if not handle then
+              return nil
             end
+            local branch = handle:read("*a"):gsub("%s+", "")
+            handle:close()
+            return branch ~= "" and branch or nil
+          end
 
-            local branch = get_git_branch()
-            if branch and branch:match("^release%-") then
-              return {}
-            end
+          local branch = get_git_branch()
+          if branch and branch:match("^release%-") then
+            return {}
+          end
 
-            return { "uncrustify", "clang-format" }
+          return { "uncrustify", "clang-format" }
         end,
         c = { "clang-format", "uncrustify" },
         qml = { "qmlformat" },
@@ -67,7 +46,9 @@ return {
             if cfg_path == "" then
               local current_dir = vim.fn.getcwd()
               local home_dir = vim.fn.expand("$HOME")
-              local one_level_cfg = vim.fn.expand(home_dir .. "/" .. vim.fn.fnamemodify(current_dir, ":h:t") .. "/" .. "uncrustify/uncrustify.cfg")
+              local one_level_cfg = vim.fn.expand(
+                home_dir .. "/" .. vim.fn.fnamemodify(current_dir, ":h:t") .. "/" .. "uncrustify/uncrustify.cfg"
+              )
               print("test: " .. one_level_cfg)
               if vim.fn.filereadable(one_level_cfg) == 1 then
                 cfg_path = one_level_cfg
@@ -89,11 +70,11 @@ return {
           end,
           temp_file = false,
           stdin = false,
-        }
+        },
       }
 
       vim.api.nvim_create_autocmd("User", {
-       pattern = "ConformPost",
+        pattern = "ConformPost",
         callback = function()
           print("Formatting finished!")
         end,
@@ -102,10 +83,4 @@ return {
       return opts
     end,
   },
-  {
-    "HiPhish/rainbow-delimiters.nvim",
-    config = function()
-    end,
-  },
 }
-

@@ -4,8 +4,7 @@ vim.pack.add({ "nvim-treesitter/nvim-treesitter" }, {
       require("nvim-treesitter.configs").setup({
          ensure_installed = { "lua", "python", "cpp", "c", "javascript", "qmljs" }, -- or "all"
          highlight = {
-            enable = true, -- false will disable the whole extension
-            additional_vim_regex_highlighting = false,
+            enable = true,
          },
          indent = {
             enable = true,

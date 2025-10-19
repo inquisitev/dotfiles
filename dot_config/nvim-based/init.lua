@@ -1,5 +1,6 @@
 vim.g.mapleader = " "
 
+vim.diagnostic.config({ virtual_text = false })
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath("data") .. "/site/"
 local mini_path = path_package .. "pack/deps/start/mini.nvim"
@@ -36,3 +37,4 @@ end
 
 load_directory("config")
 load_directory("plugins")
+load_directory("treesitter_colors")
