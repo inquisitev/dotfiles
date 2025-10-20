@@ -8,12 +8,3 @@ vim.pack.add({
    "https://github.com/oxfist/night-owl.nvim",
    "https://github.com/navarasu/onedark.nvim",
 })
-
--- local selected = "onedark"
--- require(selected).load()
--- vim.cmd.colorscheme(selected)
--- Lua
-require("onedark").setup({
-   style = "darker",
-})
-require("onedark").load()

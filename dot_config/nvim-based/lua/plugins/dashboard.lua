@@ -32,5 +32,6 @@ require("dashboard").setup({
             key = "d",
          },
       },
+      project = { enable = false },
    },
 })
