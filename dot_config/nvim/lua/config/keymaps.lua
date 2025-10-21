@@ -45,8 +45,8 @@ map("n", "<leader>Tc", "<cmd>tabnew<cr>", { desc = "Create a new tab" })
 map("n", "<leader>Td", "<cmd>tabclose<cr>", { desc = "Close tab" })
 map("n", "<leader>Tn", "<cmd>tabnext<cr>", { desc = "Next tab" })
 map("n", "<leader>Tp", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
-map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "exit terminal mode" })
-map("t", "<leader><esc>", "<c-\\><c-n>", { desc = "exit terminal mode" })
+-- map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "exit terminal mode" })
+-- map("t", "<leader><esc>", "<c-\\><c-n>", { desc = "exit terminal mode" })
 
 map("n", "<leader>e", "", { desc = "Testing commands" })
 map("n", "<leader>et", function()
@@ -93,3 +93,20 @@ map("v", "<leader>/", "gc", { remap = true })
 
 vim.keymap.set("n", "<leader>o", "<cmd>Portal jumplist backward<cr>")
 vim.keymap.set("n", "<leader>i", "<cmd>Portal jumplist forward<cr>")
+
+
+
+vim.keymap.del({"n","t"}, "<c-/>")
+function _G.set_terminal_keymaps()
+   local opts = { buffer = 0 }
+   vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
+   vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
+   vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
+   vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
+   vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
+   vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
+   vim.keymap.set("t", "<C-w>", [[<C-\><C-n><C-w>]], opts)
+end
+
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
