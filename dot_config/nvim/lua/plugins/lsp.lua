@@ -91,7 +91,7 @@ return {
       })
 
 lspconfig.qmlls.setup({
-  cmd = { "qmlls", "-E" }, -- Replace with your desired custom command and arguments
+  cmd = { "qmlls", "-E", "-v" }, -- Replace with your desired custom command and arguments
   on_attach = on_attach,
   capabilities = capabilities,
  })
