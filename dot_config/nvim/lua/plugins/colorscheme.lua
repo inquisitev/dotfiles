@@ -1,19 +1,10 @@
-return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-  { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = {} },
-  { "rebelot/kanagawa.nvim" },
-  { "scottmckendry/cyberdream.nvim" },
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "kanagawa",
-    },
-  },
-  {
-    "vague2k/vague.nvim",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other plugins
-  },
-}
+vim.pack.add({
+   "https://github.com/rose-pine/neovim",
+   "https://github.com/folke/tokyonight.nvim",
+   "https://github.com/catppuccin/nvim",
+   "https://github.com/rebelot/kanagawa.nvim",
+   "https://github.com/nyoom-engineering/nyoom.nvim",
+   "https://github.com/scottmckendry/cyberdream.nvim",
+   "https://github.com/oxfist/night-owl.nvim",
+   "https://github.com/navarasu/onedark.nvim",
+})

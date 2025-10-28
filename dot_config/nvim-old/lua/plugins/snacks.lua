@@ -3,6 +3,7 @@ return {
   {
     "folke/snacks.nvim",
     opts = {
+       terminal = { enabled = false},
       picker = {
         -- global default for Snacks pickers
         hidden = true,
