@@ -18,3 +18,8 @@ map("n", "<leader>bo", ":%bd|e#|bd#<CR>", { noremap = true, silent = true, desc 
 map("n", "<leader>bn", ":enew<CR>", { noremap = true, silent = true, desc = "New blank buffer" })
 map("n", "<leader>x", ":bd<CR>", { noremap = true, silent = true, desc = "Close this buffer" })
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "exit terminal mode" })
+map("n", "<c-l>", "<c-w>l", { remap = true, desc = "Window Right" })
+
+
+map("n", "<A-j>", "<cmd>cnext<CR>", { desc = "quickfix next" })
+map("n", "<A-k>", "<cmd>cprev<CR>", { desc = "quickfix previous" })

@@ -7,4 +7,5 @@ vim.pack.add({
    "https://github.com/scottmckendry/cyberdream.nvim",
    "https://github.com/oxfist/night-owl.nvim",
    "https://github.com/navarasu/onedark.nvim",
+   "https://github.com/nvimdev/zephyr-nvim"
 })
