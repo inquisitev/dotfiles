@@ -10,7 +10,7 @@ require("yazi").setup({
          show_help = "<f1>",
       },
    },
-   init = function()
-      vim.g.loaded_netrwPlugin = 1
-   end,
+   -- init = function()
+      -- vim.g.loaded_netrwPlugin = 1
+   -- end,
 })

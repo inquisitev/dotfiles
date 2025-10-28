@@ -16,7 +16,7 @@ require("mason-tool-installer").setup({
       "rust_analyzer", -- Rust
       "qmlls", -- QML
       "cmake", -- CMake
-
+      "java-language-server",
       -- Formatters / linters (optional)
       "stylua",
       "black",
@@ -39,6 +39,19 @@ vim.lsp.config("lua_ls", {
 vim.lsp.config("clangd", {
    cmd = { "clangd", "--background-index", "--clang-tidy" },
    capabilities = vim.lsp.protocol.make_client_capabilities(),
+})
+
+
+vim.lsp.config("java_language_server", {
+    filetypes = { "java" },
+    root_dir = vim.fs.dirname(vim.fs.find({ "build.gradle", "pom.xml", ".git" }, { upward = true })[1]),
+    settings = {
+        java = {
+            format = {
+                enabled = true,
+            },
+        },
+    },
 })
 
 vim.lsp.config("pyright", {
@@ -76,4 +89,4 @@ vim.lsp.config("cmake", {
    },
 })
 
-vim.lsp.enable({ "pyright", "qmlls", "clangd" })
+vim.lsp.enable({ "pyright", "qmlls", "clangd", "java-language-server" })
