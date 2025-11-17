@@ -23,3 +23,8 @@ map("n", "<c-l>", "<c-w>l", { remap = true, desc = "Window Right" })
 
 map("n", "<A-j>", "<cmd>cnext<CR>", { desc = "quickfix next" })
 map("n", "<A-k>", "<cmd>cprev<CR>", { desc = "quickfix previous" })
+
+map('n', '<leader>rr', function()
+  dofile(vim.env.MYVIMRC)
+  print("Config reloaded!")
+end, {desc = "Reload config"} )
