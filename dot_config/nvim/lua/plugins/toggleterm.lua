@@ -8,27 +8,13 @@ require("toggleterm").setup({
 
 local Terminal = require('toggleterm.terminal').Terminal
 
-local G5_LOGS_COUNT = 97
-
-local g5_logs = Terminal:new({
-  cmd = "ssh g5 journalctl -fu cfd-services",
-  direction = "vertical",
-  size = 80,
-  count = G5_LOGS_COUNT,   -- <- unique identifier so other terminals still work
-  hidden = true,
-  close_on_exit = false,   -- keep the buffer even if the process exits
-})
-
-vim.keymap.set('n', '<leader>lt', function()
-  g5_logs:toggle()
-end, { desc = 'Toggle G5 cfd-services logs (right split terminal)' })
-
 local work_term = Terminal:new({
-  direction = "horizontal",
-  size = 80,
-  count = 3,   -- <- unique identifier so other terminals still work
-  hidden = true,
-  close_on_exit = false,   -- keep the buffer even if the process exits
+  direction = "float",
+   float_opts = {
+      border='curved',
+      -- width=vim.o.columns * 0.8,
+      -- height=vim.o.rows * 0.8
+   }
 })
 
 vim.keymap.set({"n", "t"}, "<c-y>", function() work_term:toggle() end, { desc = "Toggle Terminal", remap=true })

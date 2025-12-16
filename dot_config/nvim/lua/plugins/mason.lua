@@ -4,7 +4,7 @@ vim.pack.add({
 })
 require("mason-tool-installer").setup({
    ensure_installed = {
-      "clangd-format",
+      "clang-format",
       "black",
       "isort",
       "google-java-format",
@@ -24,7 +24,6 @@ require("mason-tool-installer").setup({
       "rustfmt",
       "qmlfmt",
       "google-java-format",
-      "clang-format",
       "tree-sitter-cli@v0.24.7",
    },
 

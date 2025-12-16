@@ -25,14 +25,21 @@ init_lazygit() {
 
 # nvim
 install_nvim() {
-   curl -LO https://github.com/neovim/neovim-releases/releases/download/v0.11.4/nvim-linux-x86_64.tar.gz
-   sudo rm -rf /opt/nvim
-   sudo tar -C ~/bin -xzf nvim-linux-x86_64.tar.gz
-   rm nvim-linux-x86_64.tar.gz
+   mkdir -p ~/tools
+   sudo apt-get install ninja-build gettext cmake unzip curl
+   (
+      cd ~/tools
+      sudo rm -r yazi
+      git clone https://github.com/neovim/neovim
+      cd neovim
+      git checkout bc2fe135d1
+      make CMAKE_BUILD_TYPE=RelWithDebInfo
+      sudo make install
+   )
 }
 
 init_nvim() {
-   export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
+   export PATH="$HOME/tools/neovim/bin/nvim:$PATH"
 }
 
 # yazi
