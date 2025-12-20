@@ -13,8 +13,6 @@ dapui.setup()
 require("nvim-dap-virtual-text").setup()
 
 local ok, jd_debug_adapter = pcall(require, jd_debug_adapter_name)
-local jd_debug_adapter = require(path)
-local ok = true
 if ok and jd_debug_adapter.is_supported_repo() then
   local target_ip = vim.fn.getenv("TARGET_IP")
   local gdb_server_port = vim.fn.getenv("GDB_SERVER_PORT")
