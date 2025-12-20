@@ -12,8 +12,7 @@ local dapui = require("dapui")
 dapui.setup()
 require("nvim-dap-virtual-text").setup()
 
-local path ="../jdx_dap_helper"
--- local ok, jd_debug_adapter = pcall(require, jd_debug_adapter_name)
+local ok, jd_debug_adapter = pcall(require, jd_debug_adapter_name)
 local jd_debug_adapter = require(path)
 local ok = true
 if ok and jd_debug_adapter.is_supported_repo() then
