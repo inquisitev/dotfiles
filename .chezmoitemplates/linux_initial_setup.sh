@@ -18,7 +18,7 @@ run_cmd() {
 
     echo -e "${BLUE}Installing apt packages: $*${NC}"
 
-    if $cmd "$@" 2> "$log_file"; then
+    if $cmd 2> "$log_file"; then
         echo -e "${GREEN}Successfully installed: $*${NC}"
         return 0
     else
@@ -31,7 +31,7 @@ run_cmd() {
 sudo apt update
 
 {{ range .packages.linux.apt -}}
-run_cmd "Installing  {{ . | quote }}" " sudo apt install -y {{ . | quote }}"
+run_cmd "Installing {{ . | quote }}" " sudo apt install -y {{ . | quote }}"
 {{ end -}}
 
 source {{.chezmoi.sourceDir}}/.chezmoitemplates/linux_tools.sh
