@@ -26,7 +26,7 @@ init_lazygit() {
 # nvim
 install_nvim() {
    mkdir -p ~/tools
-   sudo apt-get install ninja-build gettext cmake unzip curl
+   sudo apt-get install -y ninja-build gettext cmake unzip curl
    (
       cd ~/tools
       sudo rm -r yazi
@@ -112,7 +112,7 @@ install_fish() {
 
    sudo apt-add-repository ppa:fish-shell/release-4
    sudo apt update
-   sudo apt install fish
+   sudo apt install -y fish
    fish -c "fisher install jorgebucaran/nvm.fish"
    curl -L https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
    fish -c "omf install bobthefish"
