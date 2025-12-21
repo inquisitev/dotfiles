@@ -3,7 +3,6 @@ echo "Setting up linux tools"
 run_cmd() {
     local name="$1"           # logical name for logging (e.g. "curl", "docker")
     local cmd="$2"           # logical name for logging (e.g. "curl", "docker")
-    shift                     # remaining args are apt packages
 
     local log_dir="/tmp/chezmoi/apt/${name}"
     local log_file="${log_dir}/log.txt"
@@ -16,7 +15,7 @@ run_cmd() {
     local RED="\033[0;31m"
     local NC="\033[0m"
 
-    echo -e "${BLUE}Installing apt packages: $*${NC}"
+    echo -e "${BLUE}Installing package: $*${NC}"
 
     if $cmd 2> "$log_file"; then
         echo -e "${GREEN}Successfully installed: $*${NC}"

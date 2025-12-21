@@ -5,10 +5,10 @@
 echo "TEST"
 ( 
    cd /usr
-   sh -c "$(curl -fsLS get.chezmoi.io)"
+   sudo sh -c "$(curl -fsLS get.chezmoi.io)"
 )
 
 (
-   chezmoi init
-   chezmoi apply --no-tty --force
+   /usr/bin/chezmoi init
+   /usr/bin/chezmoi apply --no-tty --force
 )
