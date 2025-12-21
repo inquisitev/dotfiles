@@ -10,5 +10,5 @@ echo "TEST"
 
 (
    chezmoi init
-   chezmoi apply --no-tty
+   chezmoi apply --no-tty --force
 )
