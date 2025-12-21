@@ -17,7 +17,7 @@ run_cmd() {
 
     echo -e "${BLUE}Installing package: $*${NC}"
 
-    if $cmd 2> "$log_file"; then
+    if $cmd > "$log_file" 2>&1; then
         echo -e "${GREEN}Successfully installed: $*${NC}"
         return 0
     else
