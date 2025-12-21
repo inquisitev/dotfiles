@@ -10,10 +10,13 @@
 {{- end -}}
 
 {{ if eq .chezmoi.os "linux" -}}
+echo "Setting up linux"
 {{ template "linux_initial_setup.sh" . -}}
 {{ else if $isRaspian -}}
+echo "Setting up raspian"
 {{ template "raspberry_pi_initial_setup.sh" . -}}
 {{ else if eq .chezmoi.os "darwin" -}}
+echo "Setting up mac os"
 {{ template "mac_os_initial_setup.sh" . -}}
 {{ else -}}
 {{ fail "Unsupported OS: " .chezmoi.os }}
