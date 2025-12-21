@@ -2,7 +2,7 @@ echo "Setting up linux tools"
 
 run_cmd() {
     local name="$1"           # logical name for logging (e.g. "curl", "docker")
-    local cmd="$1"           # logical name for logging (e.g. "curl", "docker")
+    local cmd="$2"           # logical name for logging (e.g. "curl", "docker")
     shift                     # remaining args are apt packages
 
     local log_dir="/tmp/chezmoi/apt/${name}"
@@ -37,7 +37,7 @@ run_cmd "Installing  {{ . | quote }}" " sudo apt install -y {{ . | quote }}"
 source {{.chezmoi.sourceDir}}/.chezmoitemplates/linux_tools.sh
 
 {{ range .packages.linux.custom -}}
-run_cmd "Installing package {{.}}" install_{{ . }}
+run_cmd "Installing package {{.}}" "install_{{ . }}"
 {{ end -}}
 
 {{ range .packages.linux.custom -}}
