@@ -10,5 +10,6 @@ echo "TEST"
 
 (
    cd "~/.local/share/chezmoi"
-   chezmoi init --apply
+   chezmoi init
+   chezmoi apply --no-tty
 )
