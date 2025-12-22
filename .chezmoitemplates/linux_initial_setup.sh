@@ -27,7 +27,8 @@ run_cmd() {
     fi
 }
 
-sudo apt update > "/tmp/chezmoi/apt/update" 2>&1;
+mkdir -p /tmp/chezmoi/apt/update
+sudo apt update > "/tmp/chezmoi/apt/update/log.txt" 2>&1;
 
 {{ range .packages.linux.apt -}}
 run_cmd "Installing {{ . | quote }}" " sudo apt install -y {{ . | quote }}"
