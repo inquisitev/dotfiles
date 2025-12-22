@@ -109,7 +109,7 @@ install_fish() {
       rm -rf fonts
    )
 
-   sudo apt-add-repository ppa:fish-shell/release-4
+   sudo apt-add-repository -y ppa:fish-shell/release-4
    sudo apt update
    sudo apt install -y fish
    fish -c '
@@ -123,7 +123,7 @@ install_fish() {
       and fisher install jorgebucaran/nvm.fish
 
       curl -L https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | source
-      and omf install bobthefish
+      omf install bobthefish
       '
 }
 
