@@ -116,6 +116,7 @@ install_fish() {
       set -gx OMF_CONFIG $HOME/.config/omf
       set -gx OMF_PATH $HOME/.local/share/omf
       set -gx OMF_INSTALLER YES
+      set -gx NONINTERACTIVE 1
 
       curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
       and fisher install jorgebucaran/fisher
