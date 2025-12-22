@@ -112,9 +112,18 @@ install_fish() {
    sudo apt-add-repository ppa:fish-shell/release-4
    sudo apt update
    sudo apt install -y fish
-   fish -c "fisher install jorgebucaran/nvm.fish"
-   curl -L https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-   fish -c "omf install bobthefish"
+   fish -c '
+      set -gx OMF_CONFIG $HOME/.config/omf
+      set -gx OMF_PATH $HOME/.local/share/omf
+      set -gx OMF_INSTALLER YES
+
+      curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+      and fisher install jorgebucaran/fisher
+      and fisher install jorgebucaran/nvm.fish
+
+      curl -L https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | source
+      and omf install bobthefish
+      '
 }
 
 init_fish() {
