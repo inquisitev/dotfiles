@@ -23,7 +23,6 @@ packages:
     custom:
       - nvim
       - rust
-      - wezterm
       - lazygit
       - yazi
       - gh

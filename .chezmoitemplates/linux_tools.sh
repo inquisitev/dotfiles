@@ -4,8 +4,6 @@ install_wezterm() {
    echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
    sudo chmod 644 /usr/share/keyrings/wezterm-fury.gpg
    sudo apt install -y wezterm
-   # curl -Lo https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip?_gl=1*1afcrem*_gcl_au*MTU1NzExOTkxNi4xNzU0MzE0MjY4*FPAU*MTU1NzExOTkxNi4xNzU0MzE0MjY4*_ga*MTQwODUxMTc1Mi4xNzU0MzE0Mjcw*_ga_9J976DJZ68*czE3NTQ5NjMyNzAkbzIkZzEkdDE3NTQ5NjMyODYkajQ0JGwwJGgw
-
 }
 
 init_wezterm() {
@@ -51,6 +49,7 @@ install_yazi() {
       (
          cd yazi
          ~/.cargo/bin/cargo build --release --locked
+         export PATH="~/tools/yazi/target/release:$PATH"
       )
 
       ya pack -a ourongxing/fast-enter
