@@ -123,8 +123,8 @@ install_fish() {
       and fisher install jorgebucaran/nvm.fish
 
       curl -L https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | source
-      omf install bobthefish
       '
+   fish -c 'omf install bobthefish'
 }
 
 init_fish() {
