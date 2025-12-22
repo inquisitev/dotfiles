@@ -13,7 +13,6 @@ packages:
       - fzf
       - ripgrep
       - tmux
-      - wezterm
       - sshpass
       - python-is-python3
       - pipx

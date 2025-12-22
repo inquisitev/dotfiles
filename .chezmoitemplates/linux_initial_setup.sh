@@ -18,11 +18,11 @@ run_cmd() {
     echo -e "${BLUE}Installing package: $*${NC}"
 
     if $cmd > "$log_file" 2>&1; then
-        echo -e "${GREEN}Successfully installed: $*${NC}"
+        echo -e "${GREEN}-->    Successfully installed: $*${NC}"
         return 0
     else
-        echo -e "${RED}Error occurred while installing: $*${NC}"
-        echo -e "${RED}See log: ${log_file}${NC}"
+        echo -e "${RED}-->     Error occurred while installing: $*${NC}"
+        echo -e "${RED}            See log: ${log_file}${NC}"
         return 1
     fi
 }
