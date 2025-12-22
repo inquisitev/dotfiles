@@ -52,10 +52,10 @@ install_yazi() {
          export PATH="~/tools/yazi/target/release:$PATH"
       )
 
-      ~/tools/yazi/target/release/ya pack -a ourongxing/fast-enter
-      ~/tools/yazi/target/release/ya pack -a DreamMaoMao/easyjump
-      ~/tools/yazi/target/release/ya pack -a AnirudhG07/rich-preview
-      ~/tools/yazi/target/release/ya pack -a dedukun/relative-motions
+      ~/tools/yazi/target/release/ya pkg add ourongxing/fast-enter
+      ~/tools/yazi/target/release/ya pkg add DreamMaoMao/easyjump
+      ~/tools/yazi/target/release/ya pkg add AnirudhG07/rich-preview
+      ~/tools/yazi/target/release/ya pkg add dedukun/relative-motions
    )
 }
 init_yazi() {
