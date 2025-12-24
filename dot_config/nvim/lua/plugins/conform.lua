@@ -6,27 +6,28 @@ vim.pack.add({
    },
 })
 
+local function get_git_branch()
+   local handle = io.popen("git rev-parse --abbrev-ref HEAD 2>/dev/null")
+   if not handle then
+      return nil
+   end
+   local branch = handle:read("*a"):gsub("%s+", "")
+   handle:close()
+   return branch ~= "" and branch or nil
+end
+
+local branch = get_git_branch()
+local shouldFormat = branch and branch:match("^release%-")
+
 local opts = {
    format_on_save = true
 }
+
 opts.formatters_by_ft = vim.tbl_extend("force", opts.formatters_by_ft or {}, {
    cpp = function()
-      -- local function get_git_branch()
-      --    local handle = io.popen("git rev-parse --abbrev-ref HEAD 2>/dev/null")
-      --    if not handle then
-      --       return nil
-      --    end
-      --    local branch = handle:read("*a"):gsub("%s+", "")
-      --    handle:close()
-      --    return branch ~= "" and branch or nil
-      -- end
-      --
-      -- local branch = get_git_branch()
-      -- if branch and branch:match("^release%-") then
-      --    return {}
-      -- end
-
+      if shouldFormat then
       return { "uncrustify", "clang-format" }
+   end
    end,
    c = { "clang-format", "uncrustify" },
    qml = { "qmlformat" },
