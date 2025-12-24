@@ -5,10 +5,12 @@ vim.pack.add({
 "https://github.com/gbprod/yanky.nvim",
 })
 
+local storage = (pcall(require, "sqlite") and "sqlite") or "memory"
+
 require("yanky").setup({
   ring = {
     history_length = 100,
-    storage = "sqlite",
+    storage = storage,
     sync_with_numbered_registers = true,
     cancel_event = "update",
     ignore_registers = { "_" },
