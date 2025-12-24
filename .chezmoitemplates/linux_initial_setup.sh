@@ -37,7 +37,7 @@ run_cmd "Installing {{ . | quote }}" " sudo apt install -y {{ . | quote }}"
 source {{.chezmoi.sourceDir}}/.chezmoitemplates/linux_tools.sh
 
 {{ range .packages.linux.custom -}}
-run_cmd "Installing package {{.}}" "install_{{ . }}"
+run_cmd "Installing {{.}}" "install_{{ . }}"
 {{ end -}}
 
 {{ range .packages.linux.custom -}}
