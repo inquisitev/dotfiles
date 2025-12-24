@@ -8,7 +8,6 @@ require("mason-tool-installer").setup({
       "black",
       "isort",
       "google-java-format",
-      "cmake-format",
       "sqlfluff",
       "shfmt",
       "taplo",
