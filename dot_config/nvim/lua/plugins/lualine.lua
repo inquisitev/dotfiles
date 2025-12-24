@@ -2,7 +2,6 @@ vim.pack.add({
    "https://github.com/nvim-lualine/lualine.nvim",
 })
 
-vim.o.laststatus = 3
 
 vim.o.cmdheight = 0
 
