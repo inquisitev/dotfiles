@@ -59,8 +59,8 @@ install_yazi() {
    )
 }
 init_yazi() {
-   cp ~/tools/yazi/target/release/yazi /usr/bin
-   cp ~/tools/yazi/target/release/ya /usr/bin
+   sudo cp ~/tools/yazi/target/release/yazi /usr/bin
+   sudo cp ~/tools/yazi/target/release/ya /usr/bin
    export PATH="$HOME/tools/yazi/target/release:$PATH"
 }
 
