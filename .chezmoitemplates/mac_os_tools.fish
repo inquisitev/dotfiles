@@ -8,7 +8,7 @@ function init_lazygit
 end
 
 function init_nvim
-    set -x PATH $HOME/tools/nvim-macos-arm64/bin $PATH
+    set -x PATH $HOME/neovim/build/bin $PATH
 end
 
 function init_yazi
