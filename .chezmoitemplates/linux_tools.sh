@@ -127,6 +127,7 @@ install_fish() {
       curl -L https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | source
       '
    fish -c 'omf install bobthefish'
+   sudo chsh -s '/usr/bin/fish'
 }
 
 init_fish() {
