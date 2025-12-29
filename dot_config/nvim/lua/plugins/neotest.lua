@@ -21,19 +21,19 @@ neotest.setup({
   },
 })
 
-vim.keymap.set("n", "<leader>tt", function()
+vim.keymap.set("n", "<leader>Tt", function()
   require("neotest").run.run()
 end, { desc = "Run nearest test" })
 
-vim.keymap.set("n", "<leader>tf", function()
+vim.keymap.set("n", "<leader>Tf", function()
   require("neotest").run.run(vim.fn.expand("%"))
 end, { desc = "Run file tests" })
 
-vim.keymap.set("n", "<leader>ts", function()
+vim.keymap.set("n", "<leader>Ts", function()
   require("neotest").summary.toggle()
 end, { desc = "Toggle test summary" })
 
-vim.keymap.set("n", "<leader>to", function()
+vim.keymap.set("n", "<leader>To", function()
   require("neotest").output.open({ enter = true })
 end, { desc = "Open test output" })
 
