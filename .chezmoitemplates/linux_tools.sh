@@ -24,7 +24,7 @@ init_lazygit() {
 # nvim
 install_nvim() {
    mkdir -p ~/tools
-   sudo apt-get install -y ninja-build gettext cmake unzip curl sqlite3 libsqlite3-dev
+   sudo apt-get install -y ninja-build gettext cmake unzip curl sqlite3 libsqlite3-dev clangd
    (
       cd ~/tools
       sudo rm -r yazi
