@@ -29,7 +29,7 @@ function devcontainer_rebuild --description "Rebuild dev container and run setup
     devcontainer up --workspace-folder . --remove-existing-container
     or return 1
 
-    devc_setup
+    devcontainer_setup
 end
 
 function devcontainer_enter --description "Enter dev container (interactive fish shell)"
@@ -37,10 +37,10 @@ function devcontainer_enter --description "Enter dev container (interactive fish
 end
 
 function devcontainer_build --description "Build dev container and run setup"
-    devcontainer up --workspace-folder .
+    devcontainer up --workspace-folder . --mount type=bind,source="~/.ssh/config",target="$HOME/.ssh/config"
     or return 1
 
-    devc_setup
+    devcontainer_setup
 end
 
 
