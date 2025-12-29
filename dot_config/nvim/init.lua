@@ -38,3 +38,15 @@ end
 load_directory("config")
 load_directory("plugins")
 load_directory("treesitter_colors")
+
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = function () end,
+    ['*'] = function () end,
+  },
+}
