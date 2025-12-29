@@ -23,7 +23,7 @@ vim.schedule(function()
   neotest.setup({
     adapters = {
       ctest.setup({
-        ctest_command = "ctest",   -- DIRECT ctest (no tox)
+        ctest_command = "tox",   -- DIRECT ctest (no tox)
         build_dir = "build",
         args = { "--output-on-failure" },
       }),
