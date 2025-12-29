@@ -1,11 +1,11 @@
 -- neotest core
 vim.pack.add({
-  "nvim-neotest/neotest",
-  "nvim-lua/plenary.nvim",
-  "nvim-treesitter/nvim-treesitter",
+  "https://github.com/nvim-neotest/neotest",
+  "https://github.com/nvim-lua/plenary.nvim",
+  "https://github.com/nvim-treesitter/nvim-treesitter",
 
   -- CTest adapter
-  "nvim-neotest/neotest-ctest",
+  "https://github.com/nvim-neotest/neotest-ctest",
 })
 
 local neotest = require("neotest")
