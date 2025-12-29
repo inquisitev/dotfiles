@@ -129,3 +129,35 @@ if [ -f ~/.config/bash/work_bash_rc.sh ]; then
   source ~/.config/bash/work_bash_rc.sh
 fi
 
+# Put these in ~/.bashrc or ~/.bash_profile (or a sourced file)
+
+devcontainer_setup() {
+  devcontainer exec --workspace-folder . bash -lc '
+    DOTFILES=$HOME/.local/share/chezmoi;
+    mkdir -p $HOME/.ssh $HOME/.local/share;
+    ssh-keyscan github.com >> $HOME/.ssh/known_hosts;
+    chmod 700 $HOME/.ssh; chmod 600 $HOME/.ssh/known_hosts;
+    if [ ! -d "$DOTFILES/.git" ]; then
+      sudo git clone git@github.com:inquisitev/dotfiles.git "$DOTFILES" && "$DOTFILES/install.sh";
+    else
+      sudo /usr/bin/chezmoi update
+    fi'
+}
+
+devcontainer_build() {
+  devcontainer up --workspace-folder . || return 1
+  devc_setup || return 1
+}
+
+devcontainer_rebuild() {
+  devcontainer up --workspace-folder . --remove-existing-container || return 1
+  devc_setup || return 1
+}
+
+devcontainer_enter() {
+  devcontainer exec --workspace-folder . fish -l
+}
+
+
+
+
