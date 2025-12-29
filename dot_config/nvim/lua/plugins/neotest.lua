@@ -3,9 +3,7 @@ vim.pack.add({
   "https://github.com/nvim-neotest/neotest",
   "https://github.com/nvim-lua/plenary.nvim",
   "https://github.com/nvim-treesitter/nvim-treesitter",
-
-  -- CTest adapter
-  "https://github.com/nvim-neotest/neotest-ctest",
+  "https://github.com/orjangj/neotest-ctest"
 })
 
 local neotest = require("neotest")
