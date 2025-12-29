@@ -10,30 +10,12 @@ vim.pack.add({
 
 local neotest = require("neotest")
 
-neotest.setup({
+require("neotest").setup({
   adapters = {
     require("neotest-ctest").setup({
-      -- Optional but useful defaults
       ctest_command = "tox",
-      build_dir = "build",      -- common CMake out-of-source build dir
+      build_dir = "build",
       args = { "--output-on-failure" },
     }),
   },
 })
-
-vim.keymap.set("n", "<leader>Tt", function()
-  require("neotest").run.run()
-end, { desc = "Run nearest test" })
-
-vim.keymap.set("n", "<leader>Tf", function()
-  require("neotest").run.run(vim.fn.expand("%"))
-end, { desc = "Run file tests" })
-
-vim.keymap.set("n", "<leader>Ts", function()
-  require("neotest").summary.toggle()
-end, { desc = "Toggle test summary" })
-
-vim.keymap.set("n", "<leader>To", function()
-  require("neotest").output.open({ enter = true })
-end, { desc = "Open test output" })
-
