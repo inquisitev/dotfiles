@@ -51,4 +51,4 @@ vim.schedule(function()
     neotest.run.run_last()
   end, { desc = "Test: run last" })
 end)
-)
+
