@@ -24,11 +24,7 @@ local opts = {
 }
 
 opts.formatters_by_ft = vim.tbl_extend("force", opts.formatters_by_ft or {}, {
-   cpp = function()
-      if shouldFormat then
-      return { "uncrustify", "clang-format" }
-   end
-   end,
+   cpp = { "uncrustify" },
    c = { "clang-format", "uncrustify" },
    qml = { "qmlformat" },
    python = { "black", "isort" },
