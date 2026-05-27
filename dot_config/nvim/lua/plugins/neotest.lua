@@ -3,30 +3,17 @@ vim.pack.add({
   "https://github.com/nvim-neotest/neotest",
   "https://github.com/nvim-lua/plenary.nvim",
   "https://github.com/nvim-treesitter/nvim-treesitter",
-  "https://github.com/orjangj/neotest-ctest"
+  "https://github.com/nvim-neotest/neotest-python"
 })
+
 -- lua/config/neotest.lua
 -- 2) Defer setup until runtimepath is updated
 vim.schedule(function()
-  local ok_neotest, neotest = pcall(require, "neotest")
-  if not ok_neotest then
-    vim.notify("neotest not found", vim.log.levels.ERROR)
-    return
-  end
-
-  local ok_ctest, ctest = pcall(require, "neotest-ctest")
-  if not ok_ctest then
-    vim.notify("neotest-ctest not found", vim.log.levels.ERROR)
-    return
-  end
+  local neotest = require("neotest")
 
   neotest.setup({
     adapters = {
-      ctest.setup({
-        ctest_command = "ctest",   -- DIRECT ctest (no tox)
-        build_dir = "build",
-        args = { "--output-on-failure" },
-      }),
+      require("neotest-python")
     },
   })
 
@@ -50,5 +37,14 @@ vim.schedule(function()
   vim.keymap.set("n", "<leader>Tl", function()
     neotest.run.run_last()
   end, { desc = "Test: run last" })
+  
+   vim.api.nvim_create_autocmd("BufWritePost", {
+     pattern = { "test_*.py", "*_test.py" },
+     callback = function()
+       local neotest = require("neotest")
+       neotest.run.run(vim.fn.expand("%"))
+     end,
+   })
+
 end)
 
