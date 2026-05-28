@@ -134,3 +134,16 @@ install_fish() {
 init_fish() {
    :
 }
+
+install_treesitter() {
+   (
+      cd ~/tools
+      git clone https://github.com/tree-sitter/tree-sitter
+      cargo build --release
+      cargo install --path crates/cli
+   )
+}
+
+init_treesitter() {
+   :
+}
