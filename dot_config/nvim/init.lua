@@ -50,3 +50,4 @@ vim.g.clipboard = {
     ['*'] = function () end,
   },
 }
+
