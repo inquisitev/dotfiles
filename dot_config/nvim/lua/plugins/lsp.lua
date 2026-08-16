@@ -11,16 +11,15 @@ require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({
    ensure_installed = {
       "lua_ls",
-      "clangd", 
-      "pyright", 
-      "rust_analyzer", 
-      "qmlls", 
-      "cmake", 
+      "clangd",
+      "pyright",
+      "rust_analyzer",
+      "qmlls",
+      "cmake",
       "java-language-server",
       "stylua",
       "black",
       "clang-format",
-      "rustfmt",
    },
 })
 
@@ -36,6 +35,50 @@ vim.lsp.config("java_language_server", {
     },
 })
 
+vim.lsp.config("clangd", {
+   cmd = {
+      vim.fn.exepath("clangd") ~= "" and vim.fn.exepath("clangd")
+      or (vim.fn.stdpath("data") .. "/mason/bin/clangd"),
+   },
+   filetypes = {
+      "c",
+      "cpp",
+      "cuda",
+      "objc",
+      "objcpp",
+      "h",
+      "hh",
+      "hpp",
+      "hxx",
+   },
+   root_dir = function(bufnr, on_dir)
+      local filename = vim.api.nvim_buf_get_name(bufnr)
+      local compile_db = vim.fs.find({
+         "compile_commands.json",
+         "compile_flags.txt",
+         ".clangd",
+      }, { path = filename, upward = true })[1]
+
+      if compile_db then
+         on_dir(vim.fs.dirname(compile_db))
+         return
+      end
+
+      local repo_marker = vim.fs.find({
+         "Jenkinsfile",
+         "CMakeLists.txt",
+         "Makefile",
+         "meson.build",
+         ".git",
+      }, { path = filename, upward = true })[1]
+
+      if repo_marker then
+         on_dir(vim.fs.dirname(repo_marker))
+      end
+   end,
+   single_file_support = true,
+})
+
 vim.lsp.config("pyright", {
    settings = {
       python = {
@@ -49,4 +92,4 @@ vim.lsp.config("pyright", {
 })
 
 
-vim.lsp.enable({ "pyright", "qmlls", "clangd", "java-language-server" })
+vim.lsp.enable({"clangd", "pyright", "java-language-server" })

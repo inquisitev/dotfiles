@@ -20,7 +20,6 @@ require("mason-tool-installer").setup({
       "python-lsp-server",
       "black",
       "isort",
-      "rustfmt",
       "qmlfmt",
       "google-java-format",
       "tree-sitter-cli@v0.24.7",

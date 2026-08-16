@@ -29,7 +29,6 @@ if shouldFormat  then
       c = { "clang-format", "uncrustify" },
       qml = { "qmlformat" },
       python = { "python_black" },
-      rust = { "rustfmt" },
       java = { "google-java-format" },
       cmake = { "cmake_custom_formatter" },
       sql = { "sqlfluff" },
