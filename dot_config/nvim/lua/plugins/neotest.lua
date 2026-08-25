@@ -6,18 +6,24 @@ vim.pack.add({
   "https://github.com/nvim-neotest/neotest-python"
 })
 
--- lua/config/neotest.lua
--- 2) Defer setup until runtimepath is updated
 vim.schedule(function()
   local neotest = require("neotest")
 
   neotest.setup({
     adapters = {
-      require("neotest-python")
+      require("neotest-python"),
+      require("neotest-squish"),
+    },
+    watch = { enabled = false },
+    summary = {
+      mappings = { watch = {} },
     },
   })
 
-  -- 3) Keymaps (<leader>T...)
+  -- Custom squish watcher (w in explorer, runs on save, eye icon)
+  require("neotest-squish.watcher").setup()
+
+  -- Run
   vim.keymap.set("n", "<leader>Tt", function()
     neotest.run.run()
   end, { desc = "Test: run nearest" })
@@ -26,6 +32,20 @@ vim.schedule(function()
     neotest.run.run(vim.fn.expand("%"))
   end, { desc = "Test: run file" })
 
+  vim.keymap.set("n", "<leader>Tl", function()
+    neotest.run.run_last()
+  end, { desc = "Test: run last" })
+
+  -- Debug (neotest passes strategy="dap" to the adapter which handles it)
+  vim.keymap.set("n", "<leader>Td", function()
+    neotest.run.run({ strategy = "dap" })
+  end, { desc = "Test: debug nearest" })
+
+  vim.keymap.set("n", "<leader>TD", function()
+    neotest.run.run({ vim.fn.expand("%"), strategy = "dap" })
+  end, { desc = "Test: debug file" })
+
+  -- UI
   vim.keymap.set("n", "<leader>Ts", function()
     neotest.summary.toggle()
   end, { desc = "Test: summary toggle" })
@@ -34,17 +54,4 @@ vim.schedule(function()
     neotest.output.open({ enter = true })
   end, { desc = "Test: open output" })
 
-  vim.keymap.set("n", "<leader>Tl", function()
-    neotest.run.run_last()
-  end, { desc = "Test: run last" })
-  
-   vim.api.nvim_create_autocmd("BufWritePost", {
-     pattern = { "test_*.py", "*_test.py" },
-     callback = function()
-       local neotest = require("neotest")
-       neotest.run.run(vim.fn.expand("%"))
-     end,
-   })
-
 end)
-

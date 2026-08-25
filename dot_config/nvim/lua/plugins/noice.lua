@@ -4,17 +4,39 @@ vim.pack.add({
    "https://github.com/rcarriga/nvim-notify",
 })
 
+require("notify").setup({
+  max_width = 50,
+  max_height = 3,
+  render = "compact",
+  stages = "static",
+  top_down = false,
+})
+
 require("noice").setup({
    lsp = {
-      -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
       override = {
          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
          ["vim.lsp.util.stylize_markdown"] = true,
-         ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+         ["cmp.entry.get_documentation"] = true,
       },
    },
-   routes = {view = "notify",filter = { event = "msg_showmode" },},
+   routes = {
+     { view = "notify", filter = { event = "msg_showmode" } },
+     -- Dismiss old notifications so only latest shows
+     {
+       filter = { event = "notify" },
+       opts = { replace = true },
+     },
+     {
+       filter = { event = "msg_show", kind = "" },
+       opts = { replace = true },
+     },
+   },
    views = {
+      notify = {
+        replace = true,
+        merge = true,
+      },
       cmdline_popup = {
         position = {
           row = 5,

@@ -3,8 +3,8 @@ vim.pack.add({
 })
 
 require('gitblame').setup {
-  enabled = true,  -- if you want to enable the plugin
-  message_template = " <summary> • <date> • <author> • <<sha>>", -- template for the blame message, check the Message template section for more options
-  date_format = "%m-%d-%Y %H:%M:%S", -- template for the date, check Date format section for more options
-  virtual_text_column = 1,
+  enabled = true,
+  message_template = " <summary> • <date> • <author> • <<sha>>",
+  date_format = "%m-%d-%Y %H:%M:%S",
+  display_virtual_text = 0, -- disable inline virtual text
 }

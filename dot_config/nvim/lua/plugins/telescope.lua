@@ -5,4 +5,14 @@ vim.pack.add({
 })
 
 require("telescope").setup({})
-require("colorscheme-persist").setup()
+
+-- Override string color at the palette level so it's baked into the colorscheme
+require("suannhai").setup({
+   on_colors = function(colors)
+      colors.string = "#2DFF10"
+   end,
+})
+
+require("colorscheme-persist").setup({
+   fallback = "suannhai-rouiro",
+})

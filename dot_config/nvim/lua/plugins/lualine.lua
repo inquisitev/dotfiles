@@ -61,6 +61,10 @@ require("lualine").setup({
         },
       },
       {
+        function() return require("gitblame").get_current_blame_text() end,
+        cond = function() return require("gitblame").is_blame_text_available() end,
+      },
+      {
         lsp_status,
         cond = function()
           return lsp_status() ~= ""
@@ -68,7 +72,9 @@ require("lualine").setup({
       },
     },
 
-    lualine_x = {},
+    lualine_x = {
+      require("squish-nvim.status").lualine(),
+    },
 
     lualine_y = {
       local_date,

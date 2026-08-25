@@ -10,5 +10,6 @@ vim.pack.add({
    "https://github.com/nvimdev/zephyr-nvim",
    "https://github.com/nyoom-engineering/nyoom.nvim",
    "https://github.com/nyoom-engineering/oxocarbon.nvim",
-   "https://github.com/serhez/teide.nvim"
+   "https://github.com/serhez/teide.nvim",
+   "https://github.com/WeiTing1991/suannhai.nvim"
 })
