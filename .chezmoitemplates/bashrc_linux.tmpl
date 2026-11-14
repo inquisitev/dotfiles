@@ -116,13 +116,12 @@ if ! shopt -oq posix; then
 fi
 
 alias python='python3'
-alias chezmoi='~/tools/bin/chezmoi'
 
-source {{.chezmoi.sourceDir}}/.chezmoitemplates/linux_tools.sh
-
-{{ range .packages.linux.custom -}}
-init_{{ . }}
-{{ end -}}
+export PATH="$HOME/.local/bin:$PATH"
+# dev tools (nvim, lazygit, yazi, gh, node, rust, ...) are managed by mise
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate bash)"
+fi
 
 
 if [ -f ~/.config/bash/work_bash_rc.sh ]; then
@@ -158,6 +157,7 @@ devcontainer_enter() {
   devcontainer exec --workspace-folder . fish -l
 }
 
-
-
-
+# Throwaway container with these dotfiles fully applied; mounts $PWD at /work.
+dotfiles_sandbox() {
+  docker run --rm -it -v "$PWD:/work" -w /work "${DOTFILES_IMAGE:-ghcr.io/inquisitev/dotfiles:latest}" "$@"
+}

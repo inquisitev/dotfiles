@@ -1,8 +1,13 @@
 local map = vim.keymap.set
 
+-- hidden files/folders are included; .git itself is skipped
+local hidden_rg_args = { "--hidden", "--glob", "!**/.git/*" }
+
 map({ "n", "x" }, "<leader>tf", function()
-   require("telescope.builtin").find_files()
-end, { desc = "Find Files (Telescope)" })
+   require("telescope.builtin").find_files({
+      find_command = { "rg", "--files", "--color", "never", unpack(hidden_rg_args) },
+   })
+end, { desc = "Find Files incl. hidden (Telescope)" })
 
 map({ "n", "x" }, "<leader>tc", function()
    require("telescope.builtin").live_grep()
@@ -25,7 +30,9 @@ end, { desc = "Select Colorscheme" })
 map("n", "<leader>tb", "<cmd>Telescope buffers<cr>", { desc = "Find Buffers" })
 map("n", "<leader>tH", "<cmd>Telescope help_tags<cr>", { desc = "Help Tags" })
 map("n", "<leader>to", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
-map("n", "<leader>ts", "<cmd>Telescope grep_string<cr>", { desc = "Search Current Word" })
+map({ "n", "x" }, "<leader>ts", function()
+   require("telescope.builtin").grep_string({ additional_args = hidden_rg_args })
+end, { desc = "Search Current Word incl. hidden" })
 map("n", "<leader>tk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
 map("n", "<leader>tm", "<cmd>Telescope marks<cr>", { desc = "Marks" })
 map("n", "<leader>tr", "<cmd>Telescope registers<cr>", { desc = "Registers" })

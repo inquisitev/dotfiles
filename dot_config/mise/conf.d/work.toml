@@ -1,0 +1,3 @@
+# Only deployed when isWork = true. Add or override work-only tools here;
+# mise merges this over ../config.toml. Run `mise lock -g` after editing.
+[tools]

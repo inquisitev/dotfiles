@@ -1,10 +1,4 @@
--- conform.nvim setup using new vim.pack.add() API
-
-vim.pack.add({
-   {
-      src = "https://github.com/stevearc/conform.nvim",
-   },
-})
+vim.pack.add({ "https://github.com/stevearc/conform.nvim" })
 
 local function get_git_branch()
    local handle = io.popen("git rev-parse --abbrev-ref HEAD 2>/dev/null")
@@ -17,18 +11,19 @@ local function get_git_branch()
 end
 
 local branch = get_git_branch()
+-- only format on save on release-* branches (checked once, at startup)
 local shouldFormat = branch and branch:match("^release%-")
 
 local opts = {
    format_on_save = true
 }
 
-if shouldFormat  then
+if shouldFormat then
    opts.formatters_by_ft = vim.tbl_extend("force", opts.formatters_by_ft or {}, {
       cpp = { "uncrustify" },
       c = { "clang-format", "uncrustify" },
       qml = { "qmlformat" },
-      python = { "python_black" },
+      python = { "black" },
       java = { "google-java-format" },
       cmake = { "cmake_custom_formatter" },
       sql = { "sqlfluff" },
@@ -58,7 +53,6 @@ opts.formatters = {
             else
                cfg_path = vim.fn.expand("$HOME/.config/uncrustify/uncrustify.cfg")
             end
-            print("Uncrustify config path:", cfg_path)
          end
          return { "-c", cfg_path, "--replace", "$FILENAME" }
       end,
@@ -69,15 +63,6 @@ opts.formatters = {
       command = "cmake-format",
       args = function()
          return { "--config-file", vim.fn.expand("$HOME/.config/cmake_format/config.py"), "-i", "$FILENAME" }
-      end,
-      temp_file = false,
-      stdin = false,
-   },
-
-black_formatter = {
-      command = "black",
-      args = function()
-         return { "$FILENAME" }
       end,
       temp_file = false,
       stdin = false,

@@ -12,7 +12,13 @@ local dapui = require("dapui")
 dapui.setup()
 require("nvim-dap-virtual-text").setup()
 
-local ok, jd_debug_adapter = pcall(require, jd_debug_adapter_name)
+-- Work machines can provide their own adapter module by setting
+-- vim.g.jd_debug_adapter_name (e.g. in a work-only config file).
+local adapter_name = vim.g.jd_debug_adapter_name or rawget(_G, "jd_debug_adapter_name")
+local ok, jd_debug_adapter = false, nil
+if adapter_name then
+  ok, jd_debug_adapter = pcall(require, adapter_name)
+end
 if ok and jd_debug_adapter.is_supported_repo() then
   local target_ip = vim.fn.getenv("TARGET_IP")
   local gdb_server_port = vim.fn.getenv("GDB_SERVER_PORT")
@@ -59,23 +65,24 @@ else
     end
   end
 
+  -- project venv if there is one, else whatever python is on PATH
+  local function python_path()
+    local cwd = vim.fn.getcwd()
+    for _, venv in ipairs({ "/venv/bin/python", "/.venv/bin/python" }) do
+      if vim.fn.executable(cwd .. venv) == 1 then
+        return cwd .. venv
+      end
+    end
+    return vim.fn.exepath("python3") ~= "" and vim.fn.exepath("python3") or "python"
+  end
+
   dap.configurations.python = {
     {
       type = "python",
       request = "launch",
       name = "Launch file",
       program = "${file}",
-      pythonPath = function()
-        -- Virtual env detection
-        local cwd = vim.fn.getcwd()
-        if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
-          return cwd .. "/venv/bin/python"
-        elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
-          return cwd .. "/.venv/bin/python"
-        else
-          return "/usr/bin/python"
-        end
-      end,
+      pythonPath = python_path,
     },
     {
       type = "python",
@@ -85,16 +92,7 @@ else
       args = function()
         return vim.split(vim.fn.input("Args: "), " ")
       end,
-      pythonPath = function()
-        local cwd = vim.fn.getcwd()
-        if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
-          return cwd .. "/venv/bin/python"
-        elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
-          return cwd .. "/.venv/bin/python"
-        else
-          return "/usr/bin/python"
-        end
-      end,
+      pythonPath = python_path,
     },
   }
 

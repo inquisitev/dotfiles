@@ -1,10 +1,4 @@
-vim.pack.add({
-   "https://github.com/nvim-lualine/lualine.nvim",
-})
-
-
-vim.o.cmdheight = 0
-
+vim.pack.add({ "https://github.com/nvim-lualine/lualine.nvim" })
 
 local function lsp_status()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
@@ -37,7 +31,7 @@ end
 require("lualine").setup({
   options = {
     theme = "horizon",
-    globalstatus = true, 
+    globalstatus = true,
     icons_enabled = true,
     component_separators = { left = "│", right = "│" },
     section_separators = { left = "", right = "" },
@@ -72,9 +66,7 @@ require("lualine").setup({
       },
     },
 
-    lualine_x = {
-      require("squish-nvim.status").lualine(),
-    },
+    lualine_x = {},
 
     lualine_y = {
       local_date,

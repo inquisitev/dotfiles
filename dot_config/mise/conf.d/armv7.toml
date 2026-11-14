@@ -1,0 +1,11 @@
+# Only deployed on 32-bit ARM (armv7 Raspberry Pi OS). These tools publish no
+# armv7 binaries, so they're disabled here and yazi / tree-sitter are built from
+# crates.io with `cargo install --locked` (Cargo.lock checksums) instead.
+# Neovim has no armv7 build at all - use 64-bit Raspberry Pi OS for nvim.
+[settings]
+disable_tools = ["aqua:neovim/neovim", "aqua:sxyazi/yazi", "aqua:tree-sitter/tree-sitter"]
+
+[tools]
+"cargo:yazi-fm" = "26.9.1"
+"cargo:yazi-cli" = "26.9.1"
+"cargo:tree-sitter-cli" = "0.27.1"

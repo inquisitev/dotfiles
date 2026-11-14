@@ -1,0 +1,67 @@
+# Windows OS packages (choco / scoop / winget). Needs an elevated shell.
+# chezmoi re-runs this whenever the rendered package lists change.
+$ErrorActionPreference = "Continue"
+{{ if .noRoot -}}
+Write-Host "[packages] noRoot=true - skipping choco/scoop/winget"
+exit 0
+{{- end }}
+
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    Write-Warning "[packages] not elevated - skipping. Re-run 'chezmoi apply' from an Administrator shell to install packages."
+    if ($env:DOTFILES_STRICT -eq "1") { exit 1 }
+    exit 0
+}
+
+$failures = @()
+function Step([string]$Name, [scriptblock]$Block) {
+    Write-Host "==> $Name" -ForegroundColor Blue
+    & $Block
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "    FAILED (exit $LASTEXITCODE)" -ForegroundColor Red
+        $script:failures += $Name
+    } else {
+        Write-Host "    ok" -ForegroundColor Green
+    }
+}
+
+{{ if not .isWork -}}
+# ---------- choco (installed from winget, whose manifests pin sha256) ----------
+if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
+    Step "install chocolatey" { winget install -e --id Chocolatey.Chocolatey --accept-source-agreements --accept-package-agreements --silent }
+    $env:Path += ";$env:ProgramData\chocolatey\bin"
+}
+$chocoInstalled = (choco list --limit-output 2>$null) | ForEach-Object { ($_ -split '\|')[0] }
+{{ range .packages.personal.windows.choco -}}
+if ($chocoInstalled -notcontains {{ . | quote }}) { Step "choco {{ . }}" { choco install -y {{ . | quote }} } }
+{{ end }}
+
+# ---------- scoop ----------
+{{ if .packages.personal.windows.scoop -}}
+if (Get-Command scoop -ErrorAction SilentlyContinue) {
+{{   range .packages.personal.windows.scoop -}}
+    Step "scoop {{ . }}" { scoop install {{ . | quote }} }
+{{   end -}}
+} else {
+    Write-Warning "scoop not installed - skipping scoop packages"
+}
+{{- end }}
+
+# ---------- winget ----------
+{{ range .packages.personal.windows.winget -}}
+{{   $id := (splitList " " (trim .) | first) -}}
+winget list -e --id {{ $id }} --accept-source-agreements *> $null
+if ($LASTEXITCODE -ne 0) { Step "winget {{ trim . }}" { winget install -e --accept-source-agreements --accept-package-agreements --id {{ trim . }} } }
+{{ end }}
+
+# ---------- sqlite dll for sqlite.lua (yanky) ----------
+. "{{ joinPath .chezmoi.sourceDir ".chezmoitemplates" "windows_sqlite_setup.ps1" }}"
+{{- end }}
+
+if ($failures.Count -gt 0) {
+    Write-Host "[packages] $($failures.Count) step(s) failed:" -ForegroundColor Red
+    $failures | ForEach-Object { Write-Host "  - $_" }
+    Write-Host "Fix them, then re-run with:  chezmoi state delete-bucket --bucket=entryState; chezmoi apply"
+    if ($env:DOTFILES_STRICT -eq "1") { exit 1 }
+}
+exit 0

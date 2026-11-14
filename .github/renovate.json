@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict",
+  "dependencyDashboard": true,
+  "mise": {
+    "managerFilePatterns": ["/(^|/)dot_config/mise/config\\.toml$/", "/(^|/)dot_config/mise/conf\\.d/.+\\.toml$/"]
+  },
+  "dockerfile": {
+    "managerFilePatterns": ["/(^|/)\\.docker/Dockerfile$/"]
+  },
+  "packageRules": [
+    {
+      "description": "mise tool bumps must regenerate the lockfile: run .docker/lock.sh on the PR branch and review checksum changes",
+      "matchManagers": ["mise"],
+      "prBodyNotes": ["⚠️ Run `.docker/lock.sh` on this branch and commit `dot_config/mise/mise.lock` before merging - CI fails until the lockfile matches."]
+    }
+  ]
+}

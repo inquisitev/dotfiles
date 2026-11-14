@@ -1,0 +1,17 @@
+# yazi plugins pinned (rev + hash) in ~/.config/yazi/package.toml.
+#   yazi: {{ include "dot_config/yazi/package.toml" | sha256sum }}
+$ErrorActionPreference = "Stop"
+
+# yazi on Windows reads %AppData%\yazi\config by default; point it at the
+# chezmoi-managed ~/.config/yazi so config and plugins are shared with unix.
+$yaziHome = Join-Path $HOME ".config\yazi"
+[Environment]::SetEnvironmentVariable("YAZI_CONFIG_HOME", $yaziHome, "User")
+$env:YAZI_CONFIG_HOME = $yaziHome
+$env:Path = "$(Join-Path $env:LOCALAPPDATA 'mise\shims');$env:Path"
+
+if (Get-Command ya -ErrorAction SilentlyContinue) {
+    ya pkg install
+    if ($LASTEXITCODE -ne 0) { throw "ya pkg install failed" }
+} else {
+    Write-Host "[yazi] ya not found - skipping yazi plugins"
+}

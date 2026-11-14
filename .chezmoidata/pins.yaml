@@ -1,0 +1,19 @@
+# Pinned bootstrap downloads, verified by sha256 before anything runs.
+# Bump deliberately: update version + every checksum from the release's
+# SHASUMS256.txt, then review the diff.
+pins:
+  mise:
+    version: "2026.11.2"
+    sha256:
+      linux-x64: c914dc3be1ad3588c3a7fa8ddae86c65e77eaf1777aa4a900c215e467f4c94a4
+      linux-arm64: 4d69f304a1501441cf455f6c7f96b117a10c27a568cdda3b5d1fa8e67476b038
+      linux-armv7: 909a4a1b5eb1ee338581fed7cd45bf84e0be6c618642cefbe5ac6759aa6ace8a
+      macos-arm64: 658229370356b34be161a29ed9daf1342239b741a93e1a92d71ce040b7bb3e0c
+      macos-x64: ac3fe8f777556d5e57f14c9a525d2aa23ece3631cd350bd5b9ca0381c57aa564
+      windows-x64: 07a552fd755664057bc58cd4fabb8a9fedde77d6b68fcbc81b23714ac0ca034a
+  homebrewInstall:
+    commit: 959bdd728192d78c47287c177796c3d86d111f09
+    sha256: 5f333bbe53bc490e51e7ccb1df8779b3dd6ee73a1a7379efda216edb08ccb148
+  fisher:
+    commit: a04308be92daa6cfecdbb0ca58b1e8508664cff2 # 4.4.8
+    sha256: 0fb6c81ae3003e95b5671766fa6c25c3597066e29965b7772f6c1b007387356d

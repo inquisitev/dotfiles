@@ -1,0 +1,148 @@
+# Applies these dotfiles from scratch on every platform and verifies the result.
+# On main, the Linux images are also published to GHCR as a throwaway env:
+#   docker run --rm -it ghcr.io/inquisitev/dotfiles
+name: test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CHEZMOI_VERSION: "2.74.0"
+
+jobs:
+  linux:
+    name: linux-${{ matrix.arch }}${{ matrix.no_root == 'true' && ' (no root)' || '' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { arch: amd64, runner: ubuntu-24.04, no_root: "false" }
+          - { arch: arm64, runner: ubuntu-24.04-arm, no_root: "false" } # Raspberry Pi stand-in
+          - { arch: amd64, runner: ubuntu-24.04, no_root: "true" }
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Build (runs the real chezmoi setup)
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: .docker/Dockerfile
+          build-args: NO_ROOT=${{ matrix.no_root }}
+          secrets: gh_token=${{ github.token }}
+          load: true
+          tags: dotfiles:test
+          cache-from: type=gha,scope=${{ matrix.arch }}-${{ matrix.no_root }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}-${{ matrix.no_root }}
+
+      - name: Smoke test
+        run: docker run --rm dotfiles:test .local/share/chezmoi/.docker/smoke.sh
+
+      - name: Verify
+        run: docker run --rm dotfiles:test .local/share/chezmoi/.docker/verify.sh
+
+      - name: Log in to GHCR
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.no_root == 'false'
+        uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Publish ${{ matrix.arch }} image
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.no_root == 'false'
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: .docker/Dockerfile
+          secrets: gh_token=${{ github.token }}
+          push: true
+          provenance: mode=max
+          sbom: true
+          tags: ghcr.io/${{ github.repository_owner }}/dotfiles:${{ github.sha }}-${{ matrix.arch }}
+          cache-from: type=gha,scope=${{ matrix.arch }}-false
+
+  publish-manifest:
+    name: publish multi-arch image
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [linux, macos, windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      packages: write
+    steps:
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Combine amd64 + arm64 into :sha and :latest
+        run: |
+          img=ghcr.io/${{ github.repository_owner }}/dotfiles
+          docker buildx imagetools create \
+            -t "$img:${{ github.sha }}" -t "$img:latest" \
+            "$img:${{ github.sha }}-amd64" "$img:${{ github.sha }}-arm64"
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: ~/Library/Caches/mise
+          key: mise-macos-${{ hashFiles('dot_config/mise/mise.lock') }}
+      - name: Install pinned chezmoi
+        run: |
+          set -eu
+          curl -fsSL -o chezmoi.tgz "https://github.com/twpayne/chezmoi/releases/download/v${CHEZMOI_VERSION}/chezmoi_${CHEZMOI_VERSION}_darwin_arm64.tar.gz"
+          echo "9d89672a597a9333ab47ea5173fcececb85c04864205686a7aa5699c3d8bd98c  chezmoi.tgz" | shasum -a 256 -c -
+          mkdir -p ~/.local/bin && tar -xzf chezmoi.tgz -C ~/.local/bin chezmoi && rm chezmoi.tgz
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Apply
+        env:
+          DOTFILES_STRICT: "1"
+          MISE_GITHUB_TOKEN: ${{ github.token }}
+        run: chezmoi init --apply --no-tty --source="$GITHUB_WORKSPACE"
+      - name: Verify
+        run: .docker/verify.sh
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: ~\AppData\Local\mise\cache
+          key: mise-windows-${{ hashFiles('dot_config/mise/mise.lock') }}
+      - name: Install pinned chezmoi
+        shell: pwsh
+        run: |
+          $zip = "chezmoi.zip"
+          Invoke-WebRequest -UseBasicParsing -OutFile $zip "https://github.com/twpayne/chezmoi/releases/download/v$env:CHEZMOI_VERSION/chezmoi_$($env:CHEZMOI_VERSION)_windows_amd64.zip"
+          if ((Get-FileHash -Algorithm SHA256 $zip).Hash.ToLower() -ne "13dee2831d371c6ce2ac30fc9ae1aad4f70c68e7d44700f6129fe4b244ee7a95") { throw "chezmoi checksum mismatch" }
+          $bin = Join-Path $HOME ".local\bin"
+          Expand-Archive $zip -DestinationPath $bin -Force
+          $bin | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+      - name: Apply
+        shell: pwsh
+        env:
+          DOTFILES_STRICT: "1"
+          # The personal Windows package list is desktop apps (Steam, Discord, ...);
+          # CI only exercises mise + configs.
+          DOTFILES_NO_ROOT: "true"
+          MISE_GITHUB_TOKEN: ${{ github.token }}
+        run: chezmoi init --apply --no-tty --source="$env:GITHUB_WORKSPACE"
+      - name: Verify
+        shell: pwsh
+        run: .docker/verify.ps1
