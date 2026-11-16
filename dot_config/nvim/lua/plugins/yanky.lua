@@ -5,12 +5,13 @@ vim.pack.add({
 "https://github.com/gbprod/yanky.nvim",
 })
 
-local storage = (pcall(require, "sqlite") and "sqlite") or "memory"
+-- sqlite.defs is what actually loads libsqlite3 (plain `require("sqlite")` succeeds without it)
+local storage = (pcall(require, "sqlite.defs") and "sqlite") or "memory"
 
 require("yanky").setup({
   ring = {
     history_length = 500,
-    storage = "sqlite",
+    storage = storage, -- falls back to "memory" when libsqlite3 is unavailable (e.g. no-root installs)
     sync_with_numbered_registers = true,
     cancel_event = "update",
     ignore_registers = { "_" },

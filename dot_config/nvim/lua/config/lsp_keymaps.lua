@@ -26,10 +26,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
                vim.cmd("edit " .. vim.uri_to_fname(result))
             end
          )
-      end, { buffer = bufnr, desc = "Switch header/source" })
+      end, { buffer = ev.buf, desc = "Switch header/source" })
 
       -- See `:help vim.lsp.*` for documentation on any of the below functions
-      local bufopts = { noremap = true, silent = true, buffer = bufnr }
+      local bufopts = { silent = true, buffer = ev.buf }
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
       vim.keymap.set("n", "gd", function()
          vim.lsp.buf.definition({ reuse_win = true })

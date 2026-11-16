@@ -1,9 +1,5 @@
 local map = vim.keymap.set
 
-map({ "n", "x" }, "<leader>ty", function()
-   require("telescope").extensions.yank_history.yank_history({})
-end, { desc = "Open Yank History" })
-
 map({ "n", "x" }, "y", "<Plug>(YankyYank)", { desc = "Yank text" })
 map({ "n", "x" }, "p", "<Plug>(YankyPutAfter)", { desc = "Put yanked text after cursor" })
 map({ "n", "x" }, "P", "<Plug>(YankyPutBefore)", { desc = "Put yanked text before cursor" })

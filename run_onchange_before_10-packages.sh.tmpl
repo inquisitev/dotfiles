@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+# OS packages + login shell. The only unix step that needs sudo.
+# chezmoi re-runs this whenever the rendered content (i.e. the package lists in
+# .chezmoidata/packages.yaml) changes.
+set -uo pipefail
+{{ if .noRoot -}}
+echo "[packages] noRoot=true - skipping apt/brew and chsh (fish comes from mise instead)"
+exit 0
+{{- end }}
+
+GREEN="\033[0;32m"; RED="\033[0;31m"; BLUE="\033[0;34m"; NC="\033[0m"
+LOG_DIR="${TMPDIR:-/tmp}/dotfiles-packages"
+mkdir -p "$LOG_DIR"
+failures=()
+
+# step NAME CMD... : run a step, log to $LOG_DIR/NAME.log, keep going on failure
+step() {
+   local name="$1"; shift
+   local log="$LOG_DIR/${name//\//_}.log"
+   printf "${BLUE}==> %s${NC}\n" "$name"
+   if "$@" >"$log" 2>&1; then
+      printf "${GREEN}    ok${NC}\n"
+   else
+      printf "${RED}    FAILED - see %s${NC}\n" "$log"
+      tail -n 5 "$log" | sed 's/^/      /'
+      failures+=("$name")
+   fi
+}
+
+{{ if eq .chezmoi.os "darwin" -}}
+# ---------- macOS: Homebrew ----------
+if ! command -v brew >/dev/null 2>&1 && [ ! -x /opt/homebrew/bin/brew ]; then
+   installer="$(mktemp)"
+   curl -fsSL -o "$installer" "https://raw.githubusercontent.com/Homebrew/install/{{ .pins.homebrewInstall.commit }}/install.sh"
+   echo "{{ .pins.homebrewInstall.sha256 }}  $installer" | shasum -a 256 -c - || { echo "Homebrew installer checksum mismatch"; exit 1; }
+   NONINTERACTIVE=1 /bin/bash "$installer"
+   rm -f "$installer"
+fi
+eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)"
+
+{{ range .packages.darwin.brews -}}
+step "brew {{ . }}" brew install {{ . | quote }}
+{{ end -}}
+{{ range .packages.darwin.casks -}}
+step "cask {{ . }}" brew install --cask {{ . | quote }}
+{{ end -}}
+FISH_PATH="$(brew --prefix)/bin/fish"
+
+{{- else if eq .chezmoi.os "linux" }}
+# ---------- Debian / Ubuntu / Raspberry Pi OS: apt ----------
+sudo -v || { echo "sudo is required (or re-run chezmoi init with noRoot=true)"; exit 1; }
+export DEBIAN_FRONTEND=noninteractive
+APT="sudo -E apt-get -y -q"
+
+step "apt update" $APT update
+
+# Ubuntu: newer fish from the official fish PPA (Launchpad-signed).
+if grep -qi '^ID=ubuntu' /etc/os-release && ! ls /etc/apt/sources.list.d/ 2>/dev/null | grep -q fish-shell; then
+   step "apt software-properties-common" $APT install software-properties-common
+   step "fish PPA" sudo add-apt-repository -y ppa:fish-shell/release-4
+   step "apt update (fish PPA)" $APT update
+fi
+
+{{ range .packages.linux.apt -}}
+step "apt {{ . }}" $APT install {{ . | quote }}
+{{ end -}}
+
+{{- if .isPi }}
+# Raspberry Pi: sqlite.lua (yanky) looks for an unversioned libsqlite3.so
+if [ ! -e /usr/lib/libsqlite3.so ]; then
+   lib="$(ls /usr/lib/*-linux-gnu*/libsqlite3.so.0 2>/dev/null | head -n1)"
+   [ -n "$lib" ] && step "libsqlite3.so symlink" sudo ln -s "$lib" /usr/lib/libsqlite3.so
+fi
+{{- end }}
+FISH_PATH="$(command -v fish || echo /usr/bin/fish)"
+{{- end }}
+
+# ---------- login shell -> fish ----------
+ME="${USER:-$(id -un)}"
+if [ -x "$FISH_PATH" ]; then
+   grep -qxF "$FISH_PATH" /etc/shells || step "register fish in /etc/shells" sudo sh -c "echo '$FISH_PATH' >> /etc/shells"
+   {{ if eq .chezmoi.os "darwin" -}}
+   current_shell="$(dscl . -read "/Users/$ME" UserShell | awk '{print $2}')"
+   {{- else -}}
+   current_shell="$(getent passwd "$ME" | cut -d: -f7)"
+   {{- end }}
+   if [ "$current_shell" != "$FISH_PATH" ]; then
+      step "chsh -> fish" sudo chsh -s "$FISH_PATH" "$ME"
+   fi
+fi
+
+if [ ${#failures[@]} -gt 0 ]; then
+   printf "${RED}[packages] %d step(s) failed:${NC}\n" "${#failures[@]}"
+   printf "  - %s\n" "${failures[@]}"
+   echo "Fix them, then re-run with:  chezmoi state delete-bucket --bucket=entryState && chezmoi apply"
+   # Strict mode (CI) fails the apply; interactive installs carry on so one
+   # broken package doesn't block the rest of the setup.
+   [ "${DOTFILES_STRICT:-}" = "1" ] && exit 1
+fi
+exit 0

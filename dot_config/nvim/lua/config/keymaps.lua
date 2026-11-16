@@ -1,31 +1,32 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
 local map = vim.keymap.set
-map("n", "<S-tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
-map("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
-map("n", ";", ":", { desc = "enter command" })
-map("n", "<leader>/", "gcc", { remap = true, desc = "toggle comment" })
-map("v", "<leader>/", "gc", { remap = true, desc = "toggle comment" })
-map("n", "U", "<cmd>lua require('undotree').toggle()<cr>", { remap = true, desc = "Toggle UndoTree" })
-map("n", "<c-l>", "<c-w>l", { remap = true, desc = "Window Right" })
-map("n", "<c-k>", "<c-w>k", { remap = true, desc = "Window Up" })
-map("n", "<c-j>", "<c-w>j", { remap = true, desc = "Window Down" })
-map("n", "<c-h>", "<c-w>h", { remap = true, desc = "Window Left" })
-map("n", "H", "<cmd>bprev<CR>", { remap = true, desc = "Window Right" })
-map("n", "L", "<cmd>bnext<CR>", { remap = true, desc = "Window Up" })
-map("n", "<leader>bo", ":%bd|e#|bd#<CR>", { noremap = true, silent = true, desc = "Close other buffers" })
-map("n", "<leader>bn", ":enew<CR>", { noremap = true, silent = true, desc = "New blank buffer" })
-map("n", "<leader>x", ":bd<CR>", { noremap = true, silent = true, desc = "Close this buffer" })
-map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "exit terminal mode" })
-map("n", "<leader>[", "<cmd>tabnext<cr>", { remap = true, desc = "next tab" })
-map("n", "<leader>tn", "<cmd>tab sb<cr>", { remap = true, desc = "new tab" })
 
+-- buffers
+map("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "<S-tab>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+map("n", "L", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "H", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+map("n", "<leader>bo", "<cmd>%bd|e#|bd#<cr>", { silent = true, desc = "Close other buffers" })
+map("n", "<leader>bn", "<cmd>enew<cr>", { silent = true, desc = "New blank buffer" })
+map("n", "<leader>x", "<cmd>bd<cr>", { silent = true, desc = "Close this buffer" })
 
-map("n", "<A-j>", "<cmd>cnext<CR>", { desc = "quickfix next" })
-map("n", "<A-k>", "<cmd>cprev<CR>", { desc = "quickfix previous" })
+-- tabs
+map("n", "<leader>[", "<cmd>tabnext<cr>", { desc = "Next tab" })
+map("n", "<leader>tn", "<cmd>tab sb<cr>", { desc = "New tab" })
 
-map('n', '<leader>rr', function()
-  dofile(vim.env.MYVIMRC)
-  print("Config reloaded!")
-end, {desc = "Reload config"} )
+-- editing
+map("n", ";", ":", { desc = "Enter command" })
+map("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment" })
+map("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment" })
+map("n", "U", function() require("undotree").toggle() end, { desc = "Toggle UndoTree" })
+
+-- quickfix
+map("n", "<A-j>", "<cmd>cnext<cr>", { desc = "Quickfix next" })
+map("n", "<A-k>", "<cmd>cprev<cr>", { desc = "Quickfix previous" })
+
+-- terminal (window navigation <C-h/j/k/l> lives in plugins/nvim_tmux_navigator.lua)
+map("t", "<esc><esc>", [[<c-\><c-n>]], { desc = "Exit terminal mode" })
+
+map("n", "<leader>rr", function()
+   dofile(vim.env.MYVIMRC)
+   vim.notify("Config reloaded")
+end, { desc = "Reload config" })

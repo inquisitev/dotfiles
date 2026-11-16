@@ -1,0 +1,5 @@
+# Colors come from the leonida flavor (flavors/leonida.yazi), the neon-sunset
+# palette shared with the nvim colorscheme of the same name and lazygit.
+[flavor]
+dark = "leonida"
+light = "leonida"

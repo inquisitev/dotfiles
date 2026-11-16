@@ -1,9 +1,9 @@
 
-source {{.chezmoi.sourceDir}}/.chezmoitemplates/mac_os_tools.fish
-
-{{ range .packages.linux.custom -}}
-init_{{ . }}
-{{ end -}}
+fish_add_path -g $HOME/.local/bin
+# dev tools (nvim, lazygit, yazi, gh, node, rust, ...) are managed by mise
+if type -q mise
+    mise activate fish | source
+end
 
 if test -f ~/.config/fish/work_bash_rc.fish
     source ~/.config/fish/work_bash_rc.fish
@@ -43,6 +43,8 @@ function devcontainer_build --description "Build dev container and run setup"
     devc_setup
 end
 
-
-
-
+function dotfiles_sandbox --description "Throwaway container with these dotfiles applied; mounts \$PWD at /work"
+    set -l image ghcr.io/inquisitev/dotfiles:latest
+    set -q DOTFILES_IMAGE; and set image $DOTFILES_IMAGE
+    docker run --rm -it -v "$PWD:/work" -w /work $image $argv
+end

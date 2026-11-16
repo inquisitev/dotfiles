@@ -12,16 +12,12 @@ vim.schedule(function()
   neotest.setup({
     adapters = {
       require("neotest-python"),
-      require("neotest-squish"),
     },
     watch = { enabled = false },
     summary = {
       mappings = { watch = {} },
     },
   })
-
-  -- Custom squish watcher (w in explorer, runs on save, eye icon)
-  require("neotest-squish.watcher").setup()
 
   -- Run
   vim.keymap.set("n", "<leader>Tt", function()

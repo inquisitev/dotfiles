@@ -1,10 +1,4 @@
-vim.pack.add({
-   "https://github.com/nvim-lualine/lualine.nvim",
-})
-
-
-vim.o.cmdheight = 0
-
+vim.pack.add({ "https://github.com/nvim-lualine/lualine.nvim" })
 
 local function lsp_status()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
@@ -34,10 +28,15 @@ local function local_time_12h()
   return os.date("%-I:%M %p")
 end
 
-require("lualine").setup({
+-- leonida ships its own lualine theme; every other scheme uses horizon.
+local function theme()
+  return vim.g.colors_name == "leonida" and "leonida" or "horizon"
+end
+
+local config = {
   options = {
-    theme = "horizon",
-    globalstatus = true, 
+    theme = theme(),
+    globalstatus = true,
     icons_enabled = true,
     component_separators = { left = "│", right = "│" },
     section_separators = { left = "", right = "" },
@@ -72,9 +71,7 @@ require("lualine").setup({
       },
     },
 
-    lualine_x = {
-      require("squish-nvim.status").lualine(),
-    },
+    lualine_x = {},
 
     lualine_y = {
       local_date,
@@ -93,5 +90,16 @@ require("lualine").setup({
     lualine_y = {},
     lualine_z = {},
   },
-})
+}
 
+require("lualine").setup(config)
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("lualine_theme", { clear = true }),
+  callback = function()
+    if config.options.theme ~= theme() then
+      config.options.theme = theme()
+      require("lualine").setup(config)
+    end
+  end,
+})

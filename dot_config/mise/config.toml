@@ -1,0 +1,25 @@
+# Dev tools for every machine, installed per user by mise (no sudo).
+# Supply-chain rules:
+#   * exact versions only - never "latest" / "lts" / ranges
+#   * explicit backends (aqua/core) so no third-party asdf/vfox plugin code runs
+#   * every download is checked against mise.lock (committed); `locked` refuses
+#     anything that isn't in the lockfile
+# Update with:  mise upgrade --bump <tool>  &&  mise lock -g  -> review the diff
+# (Renovate opens these PRs automatically after a 7-day release delay.)
+
+[settings]
+paranoid = true
+locked = true
+locked_verify_provenance = true
+minimum_release_age = "7d"
+
+[tools]
+"aqua:neovim/neovim" = "0.12.6"
+"aqua:jesseduffield/lazygit" = "0.66.2"
+"aqua:sxyazi/yazi" = "26.9.1"
+"aqua:cli/cli" = "2.103.3"
+"aqua:tree-sitter/tree-sitter" = "0.27.1"
+"aqua:BurntSushi/ripgrep" = "15.2.0"
+"aqua:junegunn/fzf" = "0.74.5"
+node = "24.22.2"
+rust = "1.99.1"

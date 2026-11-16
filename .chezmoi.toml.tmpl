@@ -1,0 +1,33 @@
+{{- /* Per-machine data. Asked once on an interactive `chezmoi init`; for
+       non-interactive installs (Docker, CI) set DOTFILES_WORK / DOTFILES_NO_ROOT
+       to "true" instead. Change later with `chezmoi init` + `--promptBool`. */ -}}
+{{- $isWork := false -}}
+{{- $noRoot := false -}}
+{{- if stdinIsATTY -}}
+{{-   $isWork = promptBoolOnce . "isWork" "Is this a work machine" false -}}
+{{-   $noRoot = promptBoolOnce . "noRoot" "Skip everything that needs sudo/admin (apt, brew, choco, chsh)" false -}}
+{{- else -}}
+{{-   $isWork = or (get . "isWork" | default false) (eq (env "DOTFILES_WORK") "true") -}}
+{{-   $noRoot = or (get . "noRoot" | default false) (eq (env "DOTFILES_NO_ROOT") "true") -}}
+{{- end -}}
+
+{{- $isPi := false -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   if contains "rpi" .chezmoi.kernel.osrelease -}}
+{{-     $isPi = true -}}
+{{-   else if stat "/proc/device-tree/model" -}}
+{{-     $isPi = contains "Raspberry Pi" (include "/proc/device-tree/model") -}}
+{{-   end -}}
+{{- end -}}
+
+# Remember where the source is, so `chezmoi init --source=DIR` (CI, or a clone
+# somewhere other than ~/.local/share/chezmoi) keeps working afterwards.
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
+[data]
+isWork = {{ $isWork }}
+noRoot = {{ $noRoot }}
+isPi = {{ $isPi }}
+
+[diff]
+exclude = ["scripts"]

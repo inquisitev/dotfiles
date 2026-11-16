@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# fish plugins (fisher + bobthefish) and yazi plugins, all pinned to commits.
+# Re-runs when either plugin list changes:
+#   fish_plugins: {{ include "dot_config/fish/fish_plugins" | sha256sum }}
+#   yazi:         {{ include "dot_config/yazi/package.toml" | sha256sum }}
+set -euo pipefail
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
+
+sha256() { if command -v sha256sum >/dev/null; then sha256sum "$1"; else shasum -a 256 "$1"; fi | awk '{print $1}'; }
+
+# ---------- fish: fisher installs exactly what ~/.config/fish/fish_plugins lists ----------
+if command -v fish >/dev/null 2>&1; then
+   if ! fish -c 'type -q fisher' 2>/dev/null; then
+      tmp="$(mktemp)"
+      curl -fsSL -o "$tmp" "https://raw.githubusercontent.com/jorgebucaran/fisher/{{ .pins.fisher.commit }}/functions/fisher.fish"
+      if [ "$(sha256 "$tmp")" != "{{ .pins.fisher.sha256 }}" ]; then
+         echo "[fish] fisher.fish checksum mismatch - refusing to run it" >&2
+         exit 1
+      fi
+      # fisher update reads fish_plugins and installs fisher itself from it
+      fish -c "source $tmp; and fisher update"
+      rm -f "$tmp"
+   else
+      fish -c 'fisher update'
+   fi
+else
+   echo "[fish] fish not found - skipping fish plugins"
+fi
+
+# ---------- yazi: install the plugins locked (rev + hash) in package.toml ----------
+if command -v ya >/dev/null 2>&1; then
+   ya pkg install
+else
+   echo "[yazi] ya not found - skipping yazi plugins"
+fi

@@ -1,36 +1,37 @@
+# OS-level packages (need sudo/admin). Dev tools (nvim, lazygit, yazi, gh, node,
+# rust, tree-sitter, ripgrep, fzf) live in dot_config/mise/config.toml instead.
+# Editing a list here makes chezmoi re-run run_onchange_before_10-packages.
 packages:
   darwin:
     brews:
       - git
-      - gh
       - tree
-      - fzf
+      - fish
+      - tmux
+      - sqlite
+    casks:
+      - wezterm
   linux:
     apt:
       - git
-      - gh
+      - curl
+      - ca-certificates
+      - xz-utils
+      - unzip
+      - file
+      - build-essential
       - tree
-      - fzf
-      - ripgrep
       - tmux
+      - fish
       - sshpass
       - python-is-python3
       - pipx
       - python3-pip
       - uncrustify
       - sqlite3
-
-    # A custom installer must define an install_x and init_x in {{os}}_tools.sh, and init_x in {{os}}_tools.fish, if you use fish
-    custom:
-      - nvim
-      - rust
-      - lazygit
-      - yazi
-      - gh
-      - nvm
-      - node
-      - fish
-      - treesitter
+      - libsqlite3-dev
+      - clang
+      - clangd
   windows:
     choco:
       - spotify

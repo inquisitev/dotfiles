@@ -1,0 +1,4 @@
+# Only deployed when noRoot = true (see .chezmoiignore): fish can't come from
+# apt/brew without sudo, so mise installs a user-space build instead.
+[tools]
+"aqua:fish-shell/fish-shell" = "4.9.3"

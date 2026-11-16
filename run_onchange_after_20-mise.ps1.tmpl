@@ -1,0 +1,53 @@
+# Install mise (pinned + sha256-verified, per user, no admin) and every dev
+# tool in ~/.config/mise. Re-runs when the mise config or lockfile changes:
+#   config: {{ include "dot_config/mise/config.toml" | sha256sum }}
+#   lock:   {{ include "dot_config/mise/mise.lock" | sha256sum }}
+#   work:   {{ include "dot_config/mise/conf.d/work.toml" | sha256sum }}
+$ErrorActionPreference = "Stop"
+
+$MiseVersion = "{{ .pins.mise.version }}"
+$ExpectedSha = "{{ index .pins.mise.sha256 "windows-x64" }}"
+$BinDir = Join-Path $HOME ".local\bin"
+$Mise = Join-Path $BinDir "mise.exe"
+
+$MiseShim = Join-Path $BinDir "mise-shim.exe"
+$current = if (Test-Path $Mise) { (& $Mise --version) -split ' ' | Select-Object -First 1 } else { "" }
+# mise-shim.exe must sit next to mise.exe, or mise falls back to "file" shims
+# that PowerShell and cmd can't run.
+if ($current -ne $MiseVersion -or -not (Test-Path $MiseShim)) {
+    Write-Host "[mise] installing mise $MiseVersion (windows-x64)"
+    $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("mise-" + [guid]::NewGuid())
+    New-Item -ItemType Directory -Path $tmp | Out-Null
+    try {
+        $zip = Join-Path $tmp "mise.zip"
+        Invoke-WebRequest -UseBasicParsing -OutFile $zip `
+            -Uri "https://github.com/jdx/mise/releases/download/v$MiseVersion/mise-v$MiseVersion-windows-x64.zip"
+        $actual = (Get-FileHash -Algorithm SHA256 $zip).Hash.ToLower()
+        if ($actual -ne $ExpectedSha) {
+            throw "[mise] CHECKSUM MISMATCH - expected $ExpectedSha got $actual. Refusing to install."
+        }
+        Expand-Archive -Path $zip -DestinationPath $tmp -Force
+        New-Item -ItemType Directory -Force -Path $BinDir | Out-Null
+        Copy-Item (Join-Path $tmp "mise\bin\mise.exe") $Mise -Force
+        Copy-Item (Join-Path $tmp "mise\bin\mise-shim.exe") $MiseShim -Force
+    } finally {
+        Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
+    }
+}
+
+# Put mise and its shims on the user PATH (persisted, no admin needed)
+$shims = Join-Path $env:LOCALAPPDATA "mise\shims"
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+foreach ($dir in @($BinDir, $shims)) {
+    if (($userPath -split ';') -notcontains $dir) { $userPath = "$dir;$userPath" }
+}
+[Environment]::SetEnvironmentVariable("Path", $userPath, "User")
+$env:Path = "$BinDir;$shims;$env:Path"
+
+Write-Host "[mise] installing tools from ~/.config/mise (verified against mise.lock)"
+Push-Location $HOME
+try {
+    & $Mise install --yes
+    if ($LASTEXITCODE -ne 0) { throw "mise install failed" }
+    & $Mise reshim
+} finally { Pop-Location }

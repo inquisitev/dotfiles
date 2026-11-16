@@ -1,17 +1,32 @@
-{{ if ne .chezmoi.os "windows" }}
-.chezmoitemplates/windows_sqlite_setup_for_yanky.ps1
+# Repo-only files (dot-prefixed dirs like .docker/ and .github/ are ignored automatically)
+README.md
+install.sh
+unix-install.sh
+windows-install.ps1
+
+# ---------- per-OS ----------
+{{ if eq .chezmoi.os "windows" }}
+.bashrc
+.tmux.conf
+.config/fish
+*.sh
+{{ else }}
+AppData
+*.ps1
 {{ end }}
 
-{{ if ne .chezmoi.os "linux" }}
-linux_initial_setup.sh
-.chezmoitemplates/linux_initial_setup.sh
-.chezmoitemplates/install-nvim.sh
-bashrc_linux
-{{ end }}
-
-
+# lazygit reads ~/Library/Application Support on macOS; elsewhere it uses ~/.config
 {{ if ne .chezmoi.os "darwin" }}
-darwin_initial_setup.sh
-{{end}}
+Library
+{{ end }}
 
-
+# ---------- mise overlays (see dot_config/mise/conf.d) ----------
+{{ if or (not .noRoot) (eq .chezmoi.os "windows") }}
+.config/mise/conf.d/no-root.toml
+{{ end }}
+{{ if ne .chezmoi.arch "arm" }}
+.config/mise/conf.d/armv7.toml
+{{ end }}
+{{ if not .isWork }}
+.config/mise/conf.d/work.toml
+{{ end }}
