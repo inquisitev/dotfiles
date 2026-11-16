@@ -12,6 +12,12 @@ end
 
 export PATH="/opt/homebrew/bin:$PATH"
 
+# Docker Desktop's CLI helpers (docker-credential-desktop, used by
+# `docker login`/pull) live inside the app bundle
+if test -d /Applications/Docker.app/Contents/Resources/bin
+    fish_add_path -g -a /Applications/Docker.app/Contents/Resources/bin
+end
+
 set -g theme_powerline_fonts no
 
 function devcontainer_setup --description "Run dotfiles/ssh setup inside dev container"
