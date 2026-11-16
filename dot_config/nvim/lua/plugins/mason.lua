@@ -52,3 +52,9 @@ require("mason-tool-installer").setup({
    start_delay = 3000,
    debounce_hours = 5,
 })
+
+-- run_on_start hangs off VimEnter, but with a UI this file loads after startup
+-- (see init.lua), when VimEnter has already fired; start the check ourselves.
+if vim.v.vim_did_enter == 1 then
+   require("mason-tool-installer").run_on_start()
+end

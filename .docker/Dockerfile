@@ -49,7 +49,7 @@ RUN --mount=type=secret,id=gh_token,uid=1000 \
 # parsers, so the first `nvim` in a fresh container opens straight away.
 # Mason's LSP servers are large and still install on first start.
 RUN nvim --headless \
-      -c 'lua vim.wait(300000, function() local want = { "lua", "python", "cpp", "c", "javascript", "qmljs" }; local have = require("nvim-treesitter").get_installed(); for _, p in ipairs(want) do if not vim.tbl_contains(have, p) then return false end end; return true end, 1000)' \
+      -c 'lua vim.wait(300000, function() local want = { "lua", "python", "cpp", "c", "javascript", "qmljs", "bash", "yaml", "json" }; local have = require("nvim-treesitter").get_installed(); for _, p in ipairs(want) do if not vim.tbl_contains(have, p) then return false end end; return true end, 1000)' \
       -c 'qa!'
 
 CMD ["fish", "-l"]
