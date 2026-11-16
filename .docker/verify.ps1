@@ -35,11 +35,24 @@ foreach ($p in $lock.plugins.PSObject.Properties) {
     $have = git -C "$pack\$($p.Name)" rev-parse HEAD 2>$null
     if ($have -ne $p.Value.rev) { Write-Host "     $($p.Name): lock $($p.Value.rev), installed $have"; $bad++ }
 }
-if ($bad -eq 0) { Pass "all nvim plugins match the lockfile" } else { Fail "$bad nvim plugin(s) differ from lockfile" }
+if ($bad -eq 0) { Pass "all nvim plugins match the lockfile" } else {
+    Fail "$bad nvim plugin(s) differ from lockfile"
+    # Show where nvim looked for its config, to tell a missing/broken config
+    # link apart from failed downloads.
+    $cfg = nvim --headless -c "lua io.stdout:write(vim.fn.stdpath('config'))" -c "qa!" 2>&1 | Out-String
+    Write-Host "     stdpath('config') = $cfg"
+    $item = Get-Item (Join-Path $env:LOCALAPPDATA "nvim") -ErrorAction SilentlyContinue
+    if ($item) { Write-Host "     $($item.FullName): LinkType=$($item.LinkType) Target=$($item.Target)" } else { Write-Host "     $env:LOCALAPPDATA\nvim does not exist" }
+    Write-Host "     init.lua present: $(Test-Path (Join-Path $cfg.Trim() 'init.lua'))"
+    Write-Host "     first start output:`n$log"
+}
 
 Write-Host "== idempotent"
 $status = (chezmoi status 2>&1 | Out-String).Trim()
-if (-not $status) { Pass "chezmoi status clean" } else { Fail "chezmoi status not clean:`n$status" }
+if (-not $status) { Pass "chezmoi status clean" } else {
+    Fail "chezmoi status not clean:`n$status"
+    chezmoi diff --no-pager 2>&1 | Select-Object -First 60 | ForEach-Object { Write-Host "     $_" }
+}
 chezmoi verify
 if ($LASTEXITCODE -eq 0) { Pass "chezmoi verify" } else { Fail "chezmoi verify (managed files drifted)" }
 

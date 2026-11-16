@@ -53,7 +53,7 @@ done < <(node -e 'for (const [k, v] of Object.entries(require(process.argv[1]).p
 
 echo "== idempotent: nothing left to apply, no scripts pending"
 status="$(chezmoi status 2>&1)"
-[ -z "$status" ] && pass "chezmoi status clean" || { fail "chezmoi status not clean:"; echo "$status"; }
+[ -z "$status" ] && pass "chezmoi status clean" || { fail "chezmoi status not clean:"; echo "$status"; chezmoi diff --no-pager 2>&1 | head -n 60 | sed 's/^/     /'; }
 chezmoi verify && pass "chezmoi verify" || fail "chezmoi verify (managed files drifted)"
 
 echo
