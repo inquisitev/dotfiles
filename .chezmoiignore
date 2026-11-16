@@ -15,6 +15,11 @@ AppData
 *.ps1
 {{ end }}
 
+# lazygit reads ~/Library/Application Support on macOS; elsewhere it uses ~/.config
+{{ if ne .chezmoi.os "darwin" }}
+Library
+{{ end }}
+
 # ---------- mise overlays (see dot_config/mise/conf.d) ----------
 {{ if or (not .noRoot) (eq .chezmoi.os "windows") }}
 .config/mise/conf.d/no-root.toml

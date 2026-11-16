@@ -1,5 +1,10 @@
 vim.api.nvim_create_autocmd("ColorScheme", {
    callback = function()
+      -- leonida (colors/leonida.lua) styles all of these itself.
+      if vim.g.colors_name == "leonida" then
+         return
+      end
+
       local color = "#0cedbd"
 
       vim.api.nvim_set_hl(0, "WinSeparator", { fg = color, bg = "NONE" })

@@ -1,0 +1,41 @@
+# lazygit, themed with leonida -- the neon-sunset palette shared with the nvim
+# colorscheme (dot_config/nvim/colors/leonida.lua) and the yazi flavor.
+# On macOS and Windows lazygit looks elsewhere for its config; chezmoi links
+# those locations back to this file.
+gui:
+  nerdFontsVersion: "3"
+  border: rounded
+  theme:
+    activeBorderColor:
+      - "#ff4f8b"
+      - bold
+    inactiveBorderColor:
+      - "#5a3a7e"
+    searchingActiveBorderColor:
+      - "#ffd166"
+      - bold
+    optionsTextColor:
+      - "#2de2c6"
+    selectedLineBgColor:
+      - "#3a1f55"
+    inactiveViewSelectedLineBgColor:
+      - "#1c1029"
+    cherryPickedCommitFgColor:
+      - "#000000"
+    cherryPickedCommitBgColor:
+      - "#2de2c6"
+    markedBaseCommitFgColor:
+      - "#000000"
+    markedBaseCommitBgColor:
+      - "#ffd166"
+    unstagedChangesColor:
+      - "#ff3b5c"
+    defaultFgColor:
+      - "#f6e7f1"
+    authorColors:
+      "*": "#b07cff"
+    branchColorPatterns:
+      "^(main|master)$": "#ff4f8b"
+      "^(feature|feat)/": "#2de2c6"
+      "^(fix|bugfix|hotfix)/": "#ff7a4d"
+      "^release/": "#ffd166"

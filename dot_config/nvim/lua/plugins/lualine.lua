@@ -28,9 +28,14 @@ local function local_time_12h()
   return os.date("%-I:%M %p")
 end
 
-require("lualine").setup({
+-- leonida ships its own lualine theme; every other scheme uses horizon.
+local function theme()
+  return vim.g.colors_name == "leonida" and "leonida" or "horizon"
+end
+
+local config = {
   options = {
-    theme = "horizon",
+    theme = theme(),
     globalstatus = true,
     icons_enabled = true,
     component_separators = { left = "│", right = "│" },
@@ -85,5 +90,16 @@ require("lualine").setup({
     lualine_y = {},
     lualine_z = {},
   },
-})
+}
 
+require("lualine").setup(config)
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("lualine_theme", { clear = true }),
+  callback = function()
+    if config.options.theme ~= theme() then
+      config.options.theme = theme()
+      require("lualine").setup(config)
+    end
+  end,
+})

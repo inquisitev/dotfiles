@@ -27,6 +27,14 @@ map("n", "<leader>sh", function()
    })
 end, { desc = "Select Colorscheme" })
 
+map("n", "<leader>sb", function()
+   require("plugins.dashboard").pick_background()
+end, { desc = "Select Dashboard Background" })
+
+map("n", "<leader>sl", function()
+   require("plugins.dashboard").pick_logo()
+end, { desc = "Select Dashboard Logo" })
+
 map("n", "<leader>tb", "<cmd>Telescope buffers<cr>", { desc = "Find Buffers" })
 map("n", "<leader>tH", "<cmd>Telescope help_tags<cr>", { desc = "Help Tags" })
 map("n", "<leader>to", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })

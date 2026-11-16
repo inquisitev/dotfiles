@@ -23,7 +23,8 @@ require("suannhai").setup({
    end,
 })
 
--- remembers the last scheme picked with <leader>sh
+-- remembers the last scheme picked with <leader>sh; leonida (colors/leonida.lua,
+-- a neon-sunset scheme) is used until something else is picked
 require("colorscheme-persist").setup({
-   fallback = "suannhai-rouiro",
+   fallback = "leonida",
 })

@@ -1,0 +1,156 @@
+# leonida: neon-sunset flavor for yazi, matching the nvim colorscheme
+# (dot_config/nvim/colors/leonida.lua). Code previews use tmtheme.xml.
+#
+#   black  #000000  raised #1c1029  select #3a1f55  border #5a3a7e
+#   text   #f6e7f1  dim   #c4adcf  comment #86709c muted #5f4a75
+#   pink   #ff4f8b  hot   #ff2e88  magenta #e0329f violet #b07cff
+#   orange #ff7a4d  amber #ffa53a  gold    #ffd166
+#   teal   #2de2c6  cyan  #5ce1ff  sky     #4cb8f0 palm   #4ade9a  red #ff3b5c
+
+[app]
+overall = { fg = "#f6e7f1", bg = "#000000" }
+
+[mgr]
+cwd = { fg = "#ff4f8b", bold = true }
+
+find_keyword  = { fg = "#ffd166", bold = true, italic = true, underline = true }
+find_position = { fg = "#ff2e88", bg = "reset", bold = true, italic = true }
+
+symlink_target = { fg = "#5ce1ff", italic = true }
+
+marker_copied   = { fg = "#4ade9a", bg = "#4ade9a" }
+marker_cut      = { fg = "#ff3b5c", bg = "#ff3b5c" }
+marker_marked   = { fg = "#2de2c6", bg = "#2de2c6" }
+marker_selected = { fg = "#ffd166", bg = "#ffd166" }
+marker_symbol   = "▌"
+
+count_copied   = { fg = "#000000", bg = "#4ade9a" }
+count_cut      = { fg = "#000000", bg = "#ff3b5c" }
+count_selected = { fg = "#000000", bg = "#ffd166" }
+
+border_symbol = "│"
+border_style  = { fg = "#5a3a7e" }
+
+[tabs]
+active   = { fg = "#000000", bg = "#ff4f8b", bold = true }
+inactive = { fg = "#c4adcf", bg = "#1c1029" }
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+[mode]
+normal_main = { fg = "#000000", bg = "#ff4f8b", bold = true }
+normal_alt  = { fg = "#ff4f8b", bg = "#1c1029" }
+select_main = { fg = "#000000", bg = "#ffa53a", bold = true }
+select_alt  = { fg = "#ffa53a", bg = "#1c1029" }
+unset_main  = { fg = "#000000", bg = "#ff3b5c", bold = true }
+unset_alt   = { fg = "#ff3b5c", bg = "#1c1029" }
+
+[indicator]
+parent  = { fg = "#f6e7f1", bg = "#1c1029" }
+current = { fg = "#f6e7f1", bg = "#3a1f55", bold = true }
+preview = { bg = "#1c1029" }
+padding = { open = "", close = "" }
+
+[status]
+overall   = { fg = "#c4adcf", bg = "#000000" }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+perm_sep   = { fg = "#5f4a75" }
+perm_type  = { fg = "#2de2c6" }
+perm_read  = { fg = "#ffd166" }
+perm_write = { fg = "#ff4f8b" }
+perm_exec  = { fg = "#5ce1ff" }
+
+progress_label  = { fg = "#f6e7f1", bold = true }
+progress_normal = { fg = "#ff4f8b", bg = "#1c1029" }
+progress_error  = { fg = "#ff3b5c", bg = "#1c1029" }
+
+[which]
+border          = { fg = "#e0329f" }
+cols            = 3
+mask            = { bg = "#000000" }
+cand            = { fg = "#2de2c6" }
+rest            = { fg = "#86709c" }
+desc            = { fg = "#ff4f8b" }
+separator       = "  "
+separator_style = { fg = "#5f4a75" }
+
+[confirm]
+border     = { fg = "#e0329f" }
+title      = { fg = "#ff4f8b", bold = true }
+body       = {}
+list       = {}
+btn_yes    = { fg = "#000000", bg = "#ff4f8b", bold = true }
+btn_no     = { fg = "#c4adcf" }
+btn_labels = [ "  [Y]es  ", "  (N)o  " ]
+
+[spot]
+border   = { fg = "#e0329f" }
+title    = { fg = "#ff4f8b", bold = true }
+tbl_col  = { fg = "#2de2c6" }
+tbl_cell = { fg = "#000000", bg = "#ffd166" }
+
+[notify]
+title_info  = { fg = "#2de2c6" }
+title_warn  = { fg = "#ffa53a" }
+title_error = { fg = "#ff3b5c" }
+icon_info  = ""
+icon_warn  = ""
+icon_error = ""
+
+[pick]
+border   = { fg = "#e0329f" }
+active   = { fg = "#ff4f8b", bold = true }
+inactive = { fg = "#c4adcf" }
+
+[input]
+border   = { fg = "#ff4f8b" }
+title    = { fg = "#ff4f8b", bold = true }
+value    = { fg = "#f6e7f1" }
+selected = { bg = "#3a1f55" }
+
+[cmp]
+border   = { fg = "#e0329f" }
+active   = { fg = "#000000", bg = "#ff4f8b" }
+inactive = { fg = "#c4adcf" }
+icon_file    = ""
+icon_folder  = ""
+icon_command = ""
+
+[tasks]
+border  = { fg = "#e0329f" }
+title   = { fg = "#ff4f8b", bold = true }
+hovered = { fg = "#ffd166", bold = true }
+
+[help]
+border  = { fg = "#e0329f" }
+chord   = { fg = "#2de2c6" }
+action  = { fg = "#f6e7f1" }
+hovered = { bg = "#3a1f55", bold = true }
+
+[filetype]
+rules = [
+	# Images, media, archives, documents
+	{ mime = "**/image/*", fg = "#ffa53a" },
+	{ mime = "**/{audio,video}/*", fg = "#b07cff" },
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#ff3b5c" },
+	{ mime = "**/application/{pdf,doc,rtf}", fg = "#5ce1ff" },
+	# Code in the languages this setup is built around
+	{ url = "*.{py,pyi}", fg = "#ffd166" },
+	{ url = "*.{c,cc,cpp,cxx,h,hh,hpp,hxx}", fg = "#5ce1ff" },
+	{ url = "*.qml", fg = "#2de2c6" },
+	{ url = "*.{sh,bash,zsh,fish}", fg = "#4ade9a" },
+	{ url = "*.{yaml,yml,json,jsonc,toml}", fg = "#ff7a4d" },
+	{ url = "*.{lua,md}", fg = "#b07cff" },
+	# Virtual file system
+	{ mime = "vfs/{absent,stale}", fg = "#5f4a75" },
+	# Special files
+	{ url = "*", is = "orphan", fg = "#ff3b5c", bg = "#1c1029" },
+	{ url = "*", is = "exec", fg = "#4ade9a" },
+	{ url = "*", is = "dummy", fg = "#ff3b5c", bg = "#1c1029" },
+	{ url = "*/", is = "dummy", fg = "#ff3b5c", bg = "#1c1029" },
+	# Fallback
+	{ url = "*/", fg = "#ff4f8b" },
+	{ url = "*", fg = "#f6e7f1" },
+]

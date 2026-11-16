@@ -3,7 +3,7 @@
 -- installed automatically.) Parsers compile with the tree-sitter CLI from mise.
 vim.pack.add({ "https://github.com/nvim-treesitter/nvim-treesitter" })
 
-require("nvim-treesitter").install({ "lua", "python", "cpp", "c", "javascript", "qmljs" })
+require("nvim-treesitter").install({ "lua", "python", "cpp", "c", "javascript", "qmljs", "bash", "yaml", "json" })
 
 -- keep parsers in sync after `vim.pack.update()`
 vim.api.nvim_create_autocmd("PackChanged", {
