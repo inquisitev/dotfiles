@@ -33,7 +33,8 @@ local function modules(dir)
    local names = {}
    local path = vim.fn.stdpath("config") .. "/lua/" .. dir
    for _, file in ipairs(vim.fn.glob(path .. "/*.lua", false, true)) do
-      names[#names + 1] = file:match(".*/(.*)%.lua$")
+      -- glob returns backslash-separated paths on Windows
+      names[#names + 1] = file:match("([^/\\]+)%.lua$")
    end
    return names
 end

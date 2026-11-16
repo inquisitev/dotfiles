@@ -12,7 +12,9 @@ fail() { printf "\033[0;31mFAIL\033[0m %s\n" "$*"; fails=$((fails + 1)); }
 
 echo "== tools"
 for t in nvim lazygit yazi ya gh node npm cargo rustc tree-sitter rg fzf fish mise chezmoi; do
-   if v="$("$t" --version 2>&1 | head -n1)"; then pass "$t: $v"; else fail "$t not runnable"; fi
+   # capture everything, then keep the first line: piping into `head` can
+   # SIGPIPE a tool that prints several lines (yazi), which pipefail reports
+   if v="$("$t" --version 2>&1)"; then pass "$t: ${v%%$'\n'*}"; else fail "$t not runnable"; fi
 done
 
 echo "== mise: every configured tool installed at its pinned version"

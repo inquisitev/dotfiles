@@ -1,0 +1,4 @@
+# Check everything out with LF, on Windows too. With CRLF checkouts the files
+# chezmoi deploys differ from what tools rewrite (e.g. `ya pkg install` writes
+# package.toml back with LF), so `chezmoi status` never comes up clean.
+* text=auto eol=lf
