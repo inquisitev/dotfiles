@@ -30,6 +30,10 @@ require("mason-tool-installer").setup({
       -- built from source; needs a JDK
       { "java-language-server", condition = function() return not missing("java") end },
       "bash-language-server",
+      "shellcheck", -- bash-language-server runs it for diagnostics
+      "yaml-language-server",
+      "json-lsp",
+      "ruff", -- Python linting (LSP) next to pyright
       "vim-language-server",
       -- formatters
       "stylua",

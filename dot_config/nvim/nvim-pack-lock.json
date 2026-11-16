@@ -4,6 +4,10 @@
       "rev": "0abc8f390b278c3b4aabc4c004ac8a088b65cf24",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
+    "SchemaStore.nvim": {
+      "rev": "e8c3d2225d6bf5e2cbe414952c247d7a3411849b",
+      "src": "https://github.com/b0o/SchemaStore.nvim"
+    },
     "bufferline.nvim": {
       "rev": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3",
       "src": "https://github.com/akinsho/bufferline.nvim"
@@ -166,6 +170,10 @@
       "rev": "5f032a85be210cd1c6ac98861eb3b187ff3bd5eb",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
+    "octo.nvim": {
+      "rev": "0ddca04c02aab8ba18d2072f9b855f3806adad54",
+      "src": "https://github.com/pwntester/octo.nvim"
+    },
     "onedark.nvim": {
       "rev": "df4792accde9db0043121f32628bcf8e645d9aea",
       "src": "https://github.com/navarasu/onedark.nvim"
@@ -221,6 +229,10 @@
     "tokyonight.nvim": {
       "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
       "src": "https://github.com/folke/tokyonight.nvim"
+    },
+    "trouble.nvim": {
+      "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
+      "src": "https://github.com/folke/trouble.nvim"
     },
     "undotree": {
       "rev": "02b69aed427b848c4dca483fc5e9524b6019c296",
