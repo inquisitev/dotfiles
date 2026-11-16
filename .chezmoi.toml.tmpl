@@ -20,6 +20,10 @@
 {{-   end -}}
 {{- end -}}
 
+# Remember where the source is, so `chezmoi init --source=DIR` (CI, or a clone
+# somewhere other than ~/.local/share/chezmoi) keeps working afterwards.
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
 [data]
 isWork = {{ $isWork }}
 noRoot = {{ $noRoot }}

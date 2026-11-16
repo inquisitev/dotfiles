@@ -10,8 +10,11 @@ $ExpectedSha = "{{ index .pins.mise.sha256 "windows-x64" }}"
 $BinDir = Join-Path $HOME ".local\bin"
 $Mise = Join-Path $BinDir "mise.exe"
 
+$MiseShim = Join-Path $BinDir "mise-shim.exe"
 $current = if (Test-Path $Mise) { (& $Mise --version) -split ' ' | Select-Object -First 1 } else { "" }
-if ($current -ne $MiseVersion) {
+# mise-shim.exe must sit next to mise.exe, or mise falls back to "file" shims
+# that PowerShell and cmd can't run.
+if ($current -ne $MiseVersion -or -not (Test-Path $MiseShim)) {
     Write-Host "[mise] installing mise $MiseVersion (windows-x64)"
     $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("mise-" + [guid]::NewGuid())
     New-Item -ItemType Directory -Path $tmp | Out-Null
@@ -26,6 +29,7 @@ if ($current -ne $MiseVersion) {
         Expand-Archive -Path $zip -DestinationPath $tmp -Force
         New-Item -ItemType Directory -Force -Path $BinDir | Out-Null
         Copy-Item (Join-Path $tmp "mise\bin\mise.exe") $Mise -Force
+        Copy-Item (Join-Path $tmp "mise\bin\mise-shim.exe") $MiseShim -Force
     } finally {
         Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
     }

@@ -8,8 +8,12 @@ function Fail($m) { Write-Host "FAIL $m" -ForegroundColor Red; $script:fails++ }
 
 Write-Host "== tools"
 foreach ($t in "nvim","lazygit","yazi","ya","gh","node","npm","cargo","rustc","tree-sitter","rg","fzf","mise","chezmoi") {
-    $v = & $t --version 2>&1 | Select-Object -First 1
-    if ($LASTEXITCODE -eq 0) { Pass "${t}: $v" } else { Fail "$t not runnable" }
+    # Capture everything first: piping a native command into Select-Object
+    # -First stops it early and leaves a failing $LASTEXITCODE.
+    $out = & $t --version 2>&1
+    $code = $LASTEXITCODE
+    $v = $out | Select-Object -First 1
+    if ($code -eq 0) { Pass "${t}: $v" } else { Fail "$t not runnable: $v" }
 }
 
 Write-Host "== mise: every configured tool installed"
@@ -23,7 +27,7 @@ foreach ($p in "fast-enter","easyjump","rich-preview","relative-motions") {
 
 Write-Host "== nvim starts cleanly and installs locked plugins"
 $log = nvim --headless +qa 2>&1 | Out-String
-if ($log -match "(?m)^E\d+:|Error") { Fail "nvim reported errors:`n$log" } else { Pass "nvim first start" }
+if ($LASTEXITCODE -ne 0 -or $log -match "(?m)^E\d+:|Error") { Fail "nvim first start (exit $LASTEXITCODE):`n$log" } else { Pass "nvim first start" }
 $lock = Get-Content "$HOME\.config\nvim\nvim-pack-lock.json" -Raw | ConvertFrom-Json
 $pack = "$env:LOCALAPPDATA\nvim-data\site\pack\core\opt"
 $bad = 0
