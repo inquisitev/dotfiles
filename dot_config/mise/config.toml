@@ -21,5 +21,8 @@ minimum_release_age = "7d"
 "aqua:tree-sitter/tree-sitter" = "0.27.1"
 "aqua:BurntSushi/ripgrep" = "15.2.0"
 "aqua:junegunn/fzf" = "0.74.5"
+"aqua:herdrdev/herdr" = "0.9.5"
+# Linux only: the browser VS Code for headless boxes (no aqua entry upstream).
+"github:coder/code-server" = { version = "4.145.2", os = ["linux"] }
 node = "24.22.2"
 rust = { version = "1.99.1", profile = "minimal", components = "rustfmt,clippy" }

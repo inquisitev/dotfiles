@@ -11,7 +11,9 @@ pass() { printf "\033[0;32mok\033[0m   %s\n" "$*"; }
 fail() { printf "\033[0;31mFAIL\033[0m %s\n" "$*"; fails=$((fails + 1)); }
 
 echo "== tools"
-for t in nvim lazygit yazi ya gh node npm cargo rustc tree-sitter rg fzf fish mise chezmoi; do
+tools=(nvim lazygit yazi ya gh node npm cargo rustc tree-sitter rg fzf herdr fish mise chezmoi)
+[ "$(uname)" = Linux ] && tools+=(code-server)
+for t in "${tools[@]}"; do
    # capture everything, then keep the first line: piping into `head` can
    # SIGPIPE a tool that prints several lines (yazi), which pipefail reports
    if v="$("$t" --version 2>&1)"; then pass "$t: ${v%%$'\n'*}"; else fail "$t not runnable"; fi
