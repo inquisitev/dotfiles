@@ -1,0 +1,14 @@
+{{ if .xpra -}}
+#!/usr/bin/env bash
+# Start the xpra browser display (systemd user service). Re-runs when the unit changes:
+#   unit: {{ include "dot_config/systemd/user/xpra-display.service.tmpl" | sha256sum }} {{ .xpraDisplay | toJson | sha256sum }}
+set -euo pipefail
+if ! systemctl --user show-environment >/dev/null 2>&1; then
+   echo "[xpra] no systemd user session here (container?) - start it with: xpra start :{{ .xpraDisplay.number }}"
+   exit 0
+fi
+systemctl --user daemon-reload
+systemctl --user enable xpra-display.service
+systemctl --user restart xpra-display.service
+echo "[xpra] display :{{ .xpraDisplay.number }} at http://localhost:{{ .xpraDisplay.port }}/"
+{{ end -}}

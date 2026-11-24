@@ -3,12 +3,13 @@
 # the real chezmoi scripts.
 #   docker build -f .docker/Dockerfile -t dotfiles .
 #   docker run --rm -it dotfiles
-# Build args:  IS_WORK=true   NO_ROOT=true (user has no sudo)
+# Build args:  IS_WORK=true   NO_ROOT=true (user has no sudo)   XPRA=true
 FROM ubuntu:24.04@sha256:2198e4c65076e9cb0b3d695219df667c0e3b0072da64ca3c2648aca17dcecaf5
 
 ARG TARGETARCH
 ARG IS_WORK=false
 ARG NO_ROOT=false
+ARG XPRA=false
 ARG CHEZMOI_VERSION=2.74.0
 ARG CHEZMOI_SHA256_amd64=1b98a567f726f41540414aea4caf912699d53e248b29ccf8369cf553657b2374
 ARG CHEZMOI_SHA256_arm64=bf89495d1aab5e4fa0fc1ba9457837b34ee8dec9b787570f2de3e1c12a5835a5
@@ -42,7 +43,7 @@ COPY --chown=dev:dev . /home/dev/.local/share/chezmoi
 RUN --mount=type=secret,id=gh_token,uid=1000 \
     set -eu; \
     if [ -s /run/secrets/gh_token ]; then export MISE_GITHUB_TOKEN="$(cat /run/secrets/gh_token)"; fi; \
-    DOTFILES_STRICT=1 DOTFILES_WORK="$IS_WORK" DOTFILES_NO_ROOT="$NO_ROOT" \
+    DOTFILES_STRICT=1 DOTFILES_WORK="$IS_WORK" DOTFILES_NO_ROOT="$NO_ROOT" DOTFILES_XPRA="$XPRA" \
       chezmoi init --apply --no-tty
 
 # Pre-install nvim plugins (at the nvim-pack-lock.json commits) and treesitter

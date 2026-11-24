@@ -123,6 +123,14 @@ if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate bash)"
 fi
 
+{{- if .xpra }}
+
+# X apps go to the xpra browser display unless ssh -X already set one
+if [ -z "${DISPLAY:-}" ]; then
+  export DISPLAY=:{{ .xpraDisplay.number }}
+fi
+{{- end }}
+
 
 if [ -f ~/.config/bash/work_bash_rc.sh ]; then
   source ~/.config/bash/work_bash_rc.sh

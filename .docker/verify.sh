@@ -33,6 +33,36 @@ if [ "$(chezmoi execute-template '{{ .noRoot }}')" != "true" ]; then
    [[ "$shell" == */fish ]] && pass "login shell $shell" || fail "login shell is $shell, expected fish"
 fi
 
+if [ "$(uname)" = Linux ] && [ "$(chezmoi execute-template '{{ .noRoot }}')" != "true" ]; then
+   echo "== X11 apps and libraries"
+   for t in xauth xclip xsel xdpyinfo xeyes; do
+      command -v "$t" >/dev/null && pass "$t" || fail "$t missing"
+   done
+   libs="$(ldconfig -p)"
+   for lib in libgtk-3.so.0 libQt5Gui.so.5 libnss3.so libxcb-cursor.so.0 libasound.so.2; do
+      [[ "$libs" == *"$lib "* ]] && pass "$lib" || fail "$lib missing"
+   done
+fi
+
+if [ "$(chezmoi execute-template '{{ .xpra }}')" = "true" ]; then
+   echo "== xpra browser display"
+   num="$(chezmoi execute-template '{{ .xpraDisplay.number }}')"
+   port="$(chezmoi execute-template '{{ .xpraDisplay.port }}')"
+   size="$(chezmoi execute-template '{{ .xpraDisplay.size }}')"
+   unit="$HOME/.config/systemd/user/xpra-display.service"
+   [ -f "$unit" ] && pass "systemd user unit" || fail "missing $unit"
+   bash -ic 'echo "$DISPLAY"' 2>/dev/null | grep -qx ":$num" && pass "bash DISPLAY=:$num" || fail "bash DISPLAY not :$num"
+   [ "$(fish -c 'echo $DISPLAY')" = ":$num" ] && pass "fish DISPLAY=:$num" || fail "fish DISPLAY not :$num"
+   # Start it the way the unit does (no systemd in containers) and check it serves.
+   start="$(sed -n '/^ExecStart=/,/[^\\]$/p' "$unit" | sed 's/^ExecStart=//; s/\\$//' | tr -d '\n')"
+   $start >/tmp/xpra-verify.log 2>&1 &
+   for _ in $(seq 30); do curl -fs "http://127.0.0.1:$port/" >/dev/null && break; sleep 1; done
+   curl -fs "http://127.0.0.1:$port/" | grep -qi '<html' && pass "HTML5 client on :$port" || { fail "HTML5 client not served on :$port"; tail /tmp/xpra-verify.log; }
+   dims="$(DISPLAY=":$num" xdpyinfo 2>/dev/null | awk '/dimensions:/{print $2}')"
+   [ "$dims" = "$size" ] && pass "display :$num is $dims" || fail "display :$num is '$dims', expected $size"
+   xpra stop ":$num" >/dev/null 2>&1
+fi
+
 echo "== fish plugins"
 fish -c 'type -q fisher; and functions -q __bobthefish_glyphs' && pass "fisher + bobthefish" || fail "fish plugins missing"
 

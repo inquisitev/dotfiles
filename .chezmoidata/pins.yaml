@@ -14,6 +14,9 @@ pins:
   homebrewInstall:
     commit: 959bdd728192d78c47287c177796c3d86d111f09
     sha256: 5f333bbe53bc490e51e7ccb1df8779b3dd6ee73a1a7379efda216edb08ccb148
+  xpraKey:
+    # https://xpra.org/xpra.asc - fingerprint B4993B57323148E37977E5D873254CAD17978FAF
+    sha256: 4df3209ea4b759f0b5838b60baedb6893ec62df7abad9046462176a6e6a7ed7d
   fisher:
     commit: a04308be92daa6cfecdbb0ca58b1e8508664cff2 # 4.4.8
     sha256: 0fb6c81ae3003e95b5671766fa6c25c3597066e29965b7772f6c1b007387356d

@@ -61,9 +61,46 @@ if grep -qi '^ID=ubuntu' /etc/os-release && ! ls /etc/apt/sources.list.d/ 2>/dev
    step "apt update (fish PPA)" $APT update
 fi
 
+# apt_install A [B...]: install the first package this release has a candidate for
+apt_install() {
+   local p
+   for p in "$@"; do
+      if apt-cache policy "$p" 2>/dev/null | grep -q 'Candidate: [0-9]'; then
+         $APT install "$p"
+         return
+      fi
+   done
+   $APT install "$1"
+}
+
 {{ range .packages.linux.apt -}}
+step "apt {{ . }}" apt_install{{ range splitList "|" . }} {{ trim . | quote }}{{ end }}
+{{ end -}}
+
+{{- if .xpra }}
+# xpra: distro builds lag years behind and lack the HTML5 client, so use
+# xpra.org's repo. Its signing key is checked against pins.yaml first.
+add_xpra_repo() {
+   local key codename
+   key="$(mktemp)"
+   curl -fsSL -o "$key" https://xpra.org/xpra.asc
+   echo "{{ .pins.xpraKey.sha256 }}  $key" | sha256sum -c - || { echo "xpra key checksum mismatch"; rm -f "$key"; return 1; }
+   sudo install -m 0644 "$key" /usr/share/keyrings/xpra.asc
+   rm -f "$key"
+   codename="$(. /etc/os-release && echo "$VERSION_CODENAME")"
+   printf 'Types: deb\nURIs: https://xpra.org\nSuites: %s\nComponents: main\nSigned-By: /usr/share/keyrings/xpra.asc\n' "$codename" |
+      sudo tee /etc/apt/sources.list.d/xpra.sources >/dev/null
+}
+step "xpra apt repo" add_xpra_repo
+step "apt update (xpra)" $APT update
+{{ range .packages.linux.xpra -}}
 step "apt {{ . }}" $APT install {{ . | quote }}
 {{ end -}}
+# Keep the user's systemd instance (and so the xpra service) up without a login.
+if [ -d /run/systemd/system ]; then
+   step "loginctl enable-linger" sudo loginctl enable-linger "${USER:-$(id -un)}"
+fi
+{{- end }}
 
 {{- if .isPi }}
 # Raspberry Pi: sqlite.lua (yanky) looks for an unversioned libsqlite3.so

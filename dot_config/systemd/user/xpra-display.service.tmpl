@@ -1,0 +1,13 @@
+[Unit]
+Description=xpra browser display :{{ .xpraDisplay.number }} ({{ .xpraDisplay.size }})
+
+[Service]
+ExecStart=/usr/bin/xpra start :{{ .xpraDisplay.number }} --daemon=no \
+    --bind-tcp=127.0.0.1:{{ .xpraDisplay.port }} --html=on \
+    --resize-display={{ .xpraDisplay.size }} \
+    --systemd-run=no --mdns=no --pulseaudio=no --notifications=no
+ExecStop=/usr/bin/xpra stop :{{ .xpraDisplay.number }}
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

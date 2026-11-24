@@ -5,6 +5,12 @@ if type -q mise
     mise activate fish | source
 end
 
+{{- if .xpra }}
+
+# X apps go to the xpra browser display unless ssh -X already set one
+set -q DISPLAY; or set -gx DISPLAY :{{ .xpraDisplay.number }}
+{{- end }}
+
 if test -f ~/.config/fish/work_bash_rc.fish
     source ~/.config/fish/work_bash_rc.fish
 end

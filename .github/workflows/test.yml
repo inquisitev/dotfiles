@@ -16,7 +16,7 @@ env:
 
 jobs:
   linux:
-    name: linux-${{ matrix.arch }}${{ matrix.no_root == 'true' && ' (no root)' || '' }}
+    name: linux-${{ matrix.arch }}${{ matrix.no_root == 'true' && ' (no root)' || '' }}${{ matrix.xpra == 'true' && ' (xpra)' || '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -24,6 +24,7 @@ jobs:
           - { arch: amd64, runner: ubuntu-24.04, no_root: "false" }
           - { arch: arm64, runner: ubuntu-24.04-arm, no_root: "false" } # Raspberry Pi stand-in
           - { arch: amd64, runner: ubuntu-24.04, no_root: "true" }
+          - { arch: amd64, runner: ubuntu-24.04, no_root: "false", xpra: "true" }
     runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
@@ -39,12 +40,14 @@ jobs:
         with:
           context: .
           file: .docker/Dockerfile
-          build-args: NO_ROOT=${{ matrix.no_root }}
+          build-args: |
+            NO_ROOT=${{ matrix.no_root }}
+            XPRA=${{ matrix.xpra || 'false' }}
           secrets: gh_token=${{ github.token }}
           load: true
           tags: dotfiles:test
-          cache-from: type=gha,scope=${{ matrix.arch }}-${{ matrix.no_root }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}-${{ matrix.no_root }}
+          cache-from: type=gha,scope=${{ matrix.arch }}-${{ matrix.no_root }}${{ matrix.xpra == 'true' && '-xpra' || '' }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}-${{ matrix.no_root }}${{ matrix.xpra == 'true' && '-xpra' || '' }}
 
       - name: Smoke test
         run: docker run --rm dotfiles:test .local/share/chezmoi/.docker/smoke.sh
@@ -53,7 +56,7 @@ jobs:
         run: docker run --rm dotfiles:test .local/share/chezmoi/.docker/verify.sh
 
       - name: Log in to GHCR
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.no_root == 'false'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.no_root == 'false' && matrix.xpra != 'true'
         uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
         with:
           registry: ghcr.io
@@ -61,7 +64,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Publish ${{ matrix.arch }} image
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.no_root == 'false'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.no_root == 'false' && matrix.xpra != 'true'
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .

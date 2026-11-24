@@ -1,0 +1,11 @@
+# Default for machines whose chezmoi.toml predates the xpra prompt; the
+# per-machine value in chezmoi.toml (set by `chezmoi init`) wins.
+xpra: false
+
+# The xpra browser display (only when xpra = true). Shells export DISPLAY to
+# it, so X apps started from any terminal show up in the browser at
+#   http://localhost:<port>/      (from another machine: ssh -L <port>:localhost:<port>)
+xpraDisplay:
+  number: 100
+  port: 14500
+  size: 3840x2160
