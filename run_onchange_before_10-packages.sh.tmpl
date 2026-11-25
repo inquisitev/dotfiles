@@ -55,15 +55,26 @@ FISH_PATH="$(brew --prefix)/bin/fish"
 # ---------- Debian / Ubuntu / Raspberry Pi OS: apt ----------
 sudo -v || { echo "sudo is required (or re-run chezmoi init with noRoot=true)"; exit 1; }
 export DEBIAN_FRONTEND=noninteractive
-APT="sudo -E apt-get -y -q"
+# Retries ride out transient mirror errors (e.g. HTTP 5xx from archive.ubuntu.com).
+APT="sudo -E apt-get -y -q -o Acquire::Retries=5"
 
-step "apt update" $APT update
+# retry CMD...: up to 3 tries, 15s then 30s apart, for steps that hit the network
+retry() {
+   local n
+   for n in 1 2 3; do
+      "$@" && return 0
+      [ "$n" -lt 3 ] && sleep $((n * 15))
+   done
+   return 1
+}
+
+step "apt update" retry $APT update
 
 # Ubuntu: newer fish from the official fish PPA (Launchpad-signed).
 if grep -qi '^ID=ubuntu' /etc/os-release && ! ls /etc/apt/sources.list.d/ 2>/dev/null | grep -q fish-shell; then
    step "apt software-properties-common" $APT install software-properties-common
    step "fish PPA" sudo add-apt-repository -y ppa:fish-shell/release-4
-   step "apt update (fish PPA)" $APT update
+   step "apt update (fish PPA)" retry $APT update
 fi
 
 # apt_install A [B...]: install the first package this release has a candidate for
@@ -114,7 +125,7 @@ add_xpra_repo() {
       sudo tee /etc/apt/sources.list.d/xpra.sources >/dev/null
 }
 step "xpra apt repo" add_xpra_repo
-step "apt update (xpra)" $APT update
+step "apt update (xpra)" retry $APT update
 {{ range .packages.linux.xpra -}}
 step "apt {{ . }}" $APT install {{ . | quote }}
 {{ end -}}
