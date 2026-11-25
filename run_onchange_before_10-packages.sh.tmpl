@@ -44,6 +44,11 @@ step "brew {{ . }}" brew install {{ . | quote }}
 {{ range .packages.darwin.casks -}}
 step "cask {{ . }}" brew install --cask {{ . | quote }}
 {{ end -}}
+{{ if not .isWork -}}
+{{ range .packages.personal.darwin.casks -}}
+step "cask {{ . }}" brew install --cask {{ . | quote }}
+{{ end -}}
+{{ end -}}
 FISH_PATH="$(brew --prefix)/bin/fish"
 
 {{- else if eq .chezmoi.os "linux" }}
@@ -76,6 +81,23 @@ apt_install() {
 {{ range .packages.linux.apt -}}
 step "apt {{ . }}" apt_install{{ range splitList "|" . }} {{ trim . | quote }}{{ end }}
 {{ end -}}
+
+{{- if eq (includeTemplate "bitwarden_enabled.tmpl" .) "true" }}
+# Bitwarden desktop (SSH agent): pinned .deb, checked against pins.yaml.
+install_bitwarden() {
+   local deb
+   deb="$(mktemp --suffix=.deb)"
+   curl -fsSL -o "$deb" "https://github.com/bitwarden/clients/releases/download/desktop-v{{ .pins.bitwardenDeb.version }}/Bitwarden-{{ .pins.bitwardenDeb.version }}-amd64.deb"
+   echo "{{ .pins.bitwardenDeb.sha256 }}  $deb" | sha256sum -c - || { echo "Bitwarden .deb checksum mismatch"; rm -f "$deb"; return 1; }
+   # apt fetches local .debs as the unprivileged _apt user
+   chmod 0644 "$deb"
+   $APT install "$deb"
+   local rc=$?
+   rm -f "$deb"
+   return $rc
+}
+step "bitwarden {{ .pins.bitwardenDeb.version }}" install_bitwarden
+{{- end }}
 
 {{- if .xpra }}
 # xpra: distro builds lag years behind and lack the HTML5 client, so use

@@ -84,6 +84,9 @@ packages:
     scoop:
       - wezterm
   personal:
+    darwin:
+      casks:
+        - bitwarden
     windows:
       scoop:
       winget:

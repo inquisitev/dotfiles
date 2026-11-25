@@ -32,6 +32,16 @@ Update later with `chezmoi update`. Re-running is always safe.
 Each script re-runs only when its inputs change. If a package failed, fix it and run
 `chezmoi state delete-bucket --bucket=entryState && chezmoi apply`.
 
+## SSH keys from Bitwarden
+Personal machines (not work, not `noRoot`) get the Bitwarden desktop app, and shells use its SSH agent:
+
+| | App | `SSH_AUTH_SOCK` |
+|---|---|---|
+| macOS | Homebrew cask `bitwarden` | `~/.bitwarden-ssh-agent.sock` |
+| Linux amd64 | pinned `.deb` (`.chezmoidata/pins.yaml`) | `~/.bitwarden-ssh-agent.sock`, except in an SSH session (the forwarded agent is kept) |
+
+Turn the agent on in the app: **Settings → Enable SSH agent**. Check it with `ssh-add -l`.
+
 ## Headless Linux: GUI apps in the browser
 Every Linux box gets herdr, code-server, X11 forwarding tools, xclip/xsel and GTK/Qt/Electron runtime libs.
 Answer **yes** to the `xpra` prompt (or set `DOTFILES_XPRA=true`) to also get a 3840x2160 virtual display served to the browser:

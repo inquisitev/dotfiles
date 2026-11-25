@@ -5,6 +5,12 @@ if type -q mise
     mise activate fish | source
 end
 
+{{- if eq (includeTemplate "bitwarden_enabled.tmpl" .) "true" }}
+
+# ssh keys come from the Bitwarden desktop app's SSH agent
+set -gx SSH_AUTH_SOCK $HOME/.bitwarden-ssh-agent.sock
+{{- end }}
+
 if test -f ~/.config/fish/work_bash_rc.fish
     source ~/.config/fish/work_bash_rc.fish
 end

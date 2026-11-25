@@ -63,6 +63,23 @@ if [ "$(chezmoi execute-template '{{ .xpra }}')" = "true" ]; then
    xpra stop ":$num" >/dev/null 2>&1
 fi
 
+if [ "$(chezmoi execute-template '{{ includeTemplate "bitwarden_enabled.tmpl" . }}')" = "true" ]; then
+   echo "== Bitwarden SSH agent"
+   if [ "$(uname)" = Darwin ]; then
+      [ -d /Applications/Bitwarden.app ] && pass "Bitwarden.app" || fail "Bitwarden.app missing"
+   else
+      dpkg -s bitwarden >/dev/null 2>&1 && pass "bitwarden .deb" || fail "bitwarden .deb not installed"
+   fi
+   sock="$HOME/.bitwarden-ssh-agent.sock"
+   [ "$(bash -ic 'echo "$SSH_AUTH_SOCK"' 2>/dev/null)" = "$sock" ] && pass "bash SSH_AUTH_SOCK" || fail "bash SSH_AUTH_SOCK not $sock"
+   [ "$(fish -c 'echo $SSH_AUTH_SOCK')" = "$sock" ] && pass "fish SSH_AUTH_SOCK" || fail "fish SSH_AUTH_SOCK not $sock"
+   if [ "$(uname)" = Linux ]; then
+      fwd=/tmp/forwarded-agent.sock
+      [ "$(SSH_CONNECTION=x SSH_AUTH_SOCK=$fwd bash -ic 'echo "$SSH_AUTH_SOCK"' 2>/dev/null)" = "$fwd" ] && pass "bash keeps a forwarded agent over ssh" || fail "bash replaced the forwarded agent"
+      [ "$(SSH_CONNECTION=x SSH_AUTH_SOCK=$fwd fish -c 'echo $SSH_AUTH_SOCK')" = "$fwd" ] && pass "fish keeps a forwarded agent over ssh" || fail "fish replaced the forwarded agent"
+   fi
+fi
+
 echo "== fish plugins"
 fish -c 'type -q fisher; and functions -q __bobthefish_glyphs' && pass "fisher + bobthefish" || fail "fish plugins missing"
 

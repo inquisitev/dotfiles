@@ -5,6 +5,15 @@ if type -q mise
     mise activate fish | source
 end
 
+{{- if eq (includeTemplate "bitwarden_enabled.tmpl" .) "true" }}
+
+# ssh keys come from the Bitwarden desktop app's SSH agent, except in an ssh
+# session, where the forwarded agent is kept
+if not set -q SSH_CONNECTION
+    set -gx SSH_AUTH_SOCK $HOME/.bitwarden-ssh-agent.sock
+end
+{{- end }}
+
 {{- if .xpra }}
 
 # X apps go to the xpra browser display unless ssh -X already set one

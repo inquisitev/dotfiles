@@ -115,6 +115,12 @@ if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate bash)"
 fi
 
+{{- if eq (includeTemplate "bitwarden_enabled.tmpl" .) "true" }}
+
+# ssh keys come from the Bitwarden desktop app's SSH agent
+export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+{{- end }}
+
 
 if [ -f ~/.config/bash/work_bash_rc.sh ]; then
   source ~/.config/bash/work_bash_rc.sh
