@@ -4,7 +4,9 @@
 #   docker build -f .docker/Dockerfile -t dotfiles .
 #   docker run --rm -it dotfiles
 # Build args:  IS_WORK=true   NO_ROOT=true (user has no sudo)   XPRA=true
-FROM ubuntu:24.04@sha256:2198e4c65076e9cb0b3d695219df667c0e3b0072da64ca3c2648aca17dcecaf5
+#              BASE_IMAGE=ubuntu:26.04@sha256:d66b366dac61b575bee2aef07e9c26e8070096fbe84a3d4d3eb0da069b5d76db
+ARG BASE_IMAGE=ubuntu:24.04@sha256:2198e4c65076e9cb0b3d695219df667c0e3b0072da64ca3c2648aca17dcecaf5
+FROM $BASE_IMAGE
 
 ARG TARGETARCH
 ARG IS_WORK=false
