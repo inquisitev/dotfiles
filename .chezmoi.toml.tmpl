@@ -3,13 +3,20 @@
        to "true" instead. Change later with `chezmoi init` + `--promptBool`. */ -}}
 {{- $isWork := false -}}
 {{- $noRoot := false -}}
+{{- $xpra := false -}}
 {{- if stdinIsATTY -}}
 {{-   $isWork = promptBoolOnce . "isWork" "Is this a work machine" false -}}
 {{-   $noRoot = promptBoolOnce . "noRoot" "Skip everything that needs sudo/admin (apt, brew, choco, chsh)" false -}}
+{{-   if and (eq .chezmoi.os "linux") (not $noRoot) -}}
+{{-     $xpra = promptBoolOnce . "xpra" "Run xpra as a 4K browser display (systemd user service)" false -}}
+{{-   end -}}
 {{- else -}}
 {{-   $isWork = or (get . "isWork" | default false) (eq (env "DOTFILES_WORK") "true") -}}
 {{-   $noRoot = or (get . "noRoot" | default false) (eq (env "DOTFILES_NO_ROOT") "true") -}}
+{{-   $xpra = or (get . "xpra" | default false) (eq (env "DOTFILES_XPRA") "true") -}}
 {{- end -}}
+{{- /* xpra comes from apt, so it needs root and Linux. */ -}}
+{{- $xpra = and $xpra (eq .chezmoi.os "linux") (not $noRoot) -}}
 
 {{- $isPi := false -}}
 {{- if eq .chezmoi.os "linux" -}}
@@ -27,6 +34,7 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 [data]
 isWork = {{ $isWork }}
 noRoot = {{ $noRoot }}
+xpra = {{ $xpra }}
 isPi = {{ $isPi }}
 
 [diff]

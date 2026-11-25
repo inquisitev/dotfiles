@@ -30,3 +30,8 @@ Library
 {{ if not .isWork }}
 .config/mise/conf.d/work.toml
 {{ end }}
+
+# ---------- xpra browser display (Linux, opt-in) ----------
+{{ if not .xpra }}
+.config/systemd
+{{ end }}

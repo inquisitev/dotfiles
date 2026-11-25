@@ -1,0 +1,3 @@
+{{- /* Bitwarden desktop (and its SSH agent) on personal machines where we can
+       install it: Homebrew on macOS, the amd64 .deb on Linux. Prints true/false. */ -}}
+{{- and (not .isWork) (not .noRoot) (or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64"))) -}}

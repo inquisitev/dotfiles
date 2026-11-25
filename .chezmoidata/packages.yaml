@@ -32,6 +32,32 @@ packages:
       - libsqlite3-dev
       - clang
       - clangd
+      # X11: forwarding + test apps, clipboard, fonts
+      - xauth
+      - x11-apps
+      - x11-utils
+      - x11-xserver-utils
+      - xclip
+      - xsel
+      - fonts-dejavu
+      # GUI toolkit runtimes (GTK, Qt, Electron) so typical X apps start.
+      # Ubuntu 24.04 renamed some to *t64. apt resolves most old names itself;
+      # "a | b" installs the first one this release has (Debian-style alternatives).
+      - libgtk-3-0
+      - libqt5gui5
+      - libxcb-cursor0
+      - libxkbcommon-x11-0
+      - libnss3
+      - libasound2t64 | libasound2
+      - libxss1
+      - libxtst6
+      - libgbm1
+      - libgl1
+    # Only when xpra = true; installed from xpra.org's signed apt repo.
+    xpra:
+      - xpra-server
+      - xpra-x11
+      - xpra-html5
   windows:
     choco:
       - spotify
@@ -58,6 +84,9 @@ packages:
     scoop:
       - wezterm
   personal:
+    darwin:
+      casks:
+        - bitwarden
     windows:
       scoop:
       winget:

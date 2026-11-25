@@ -16,14 +16,21 @@ env:
 
 jobs:
   linux:
-    name: linux-${{ matrix.arch }}${{ matrix.no_root == 'true' && ' (no root)' || '' }}
+    name: linux-${{ matrix.arch }}${{ matrix.variant && format(' ({0})', matrix.variant) || '' }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { arch: amd64, runner: ubuntu-24.04, no_root: "false" }
-          - { arch: arm64, runner: ubuntu-24.04-arm, no_root: "false" } # Raspberry Pi stand-in
-          - { arch: amd64, runner: ubuntu-24.04, no_root: "true" }
+          # publish: the default 24.04 images that go to GHCR. Variants are test-only.
+          - { arch: amd64, runner: ubuntu-24.04, publish: true }
+          - { arch: arm64, runner: ubuntu-24.04-arm, publish: true } # Raspberry Pi stand-in
+          - { arch: amd64, runner: ubuntu-24.04, variant: no-root, no_root: "true" }
+          - { arch: amd64, runner: ubuntu-24.04, variant: xpra, xpra: "true" }
+          - arch: amd64
+            runner: ubuntu-24.04
+            variant: ubuntu-26.04-xpra
+            xpra: "true"
+            base_image: ubuntu:26.04@sha256:d66b366dac61b575bee2aef07e9c26e8070096fbe84a3d4d3eb0da069b5d76db
     runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
@@ -39,12 +46,15 @@ jobs:
         with:
           context: .
           file: .docker/Dockerfile
-          build-args: NO_ROOT=${{ matrix.no_root }}
+          build-args: |
+            NO_ROOT=${{ matrix.no_root || 'false' }}
+            XPRA=${{ matrix.xpra || 'false' }}
+            ${{ matrix.base_image && format('BASE_IMAGE={0}', matrix.base_image) || '' }}
           secrets: gh_token=${{ github.token }}
           load: true
           tags: dotfiles:test
-          cache-from: type=gha,scope=${{ matrix.arch }}-${{ matrix.no_root }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}-${{ matrix.no_root }}
+          cache-from: type=gha,scope=${{ matrix.arch }}-${{ matrix.variant || 'false' }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}-${{ matrix.variant || 'false' }}
 
       - name: Smoke test
         run: docker run --rm dotfiles:test .local/share/chezmoi/.docker/smoke.sh
@@ -53,7 +63,7 @@ jobs:
         run: docker run --rm dotfiles:test .local/share/chezmoi/.docker/verify.sh
 
       - name: Log in to GHCR
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.no_root == 'false'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.publish
         uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
         with:
           registry: ghcr.io
@@ -61,7 +71,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Publish ${{ matrix.arch }} image
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.no_root == 'false'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.publish
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .

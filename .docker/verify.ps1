@@ -7,7 +7,7 @@ function Pass($m) { Write-Host "ok   $m" -ForegroundColor Green }
 function Fail($m) { Write-Host "FAIL $m" -ForegroundColor Red; $script:fails++ }
 
 Write-Host "== tools"
-foreach ($t in "nvim","lazygit","yazi","ya","gh","node","npm","cargo","rustc","tree-sitter","rg","fzf","mise","chezmoi") {
+foreach ($t in "nvim","lazygit","yazi","ya","gh","node","npm","cargo","rustc","tree-sitter","rg","fzf","herdr","mise","chezmoi") {
     # Capture everything first: piping a native command into Select-Object
     # -First stops it early and leaves a failing $LASTEXITCODE.
     $out = & $t --version 2>&1

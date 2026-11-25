@@ -27,8 +27,42 @@ Update later with `chezmoi update`. Re-running is always safe.
 | mise (pinned, sha256-checked) + every dev tool in `dot_config/mise/config.toml` | `run_onchange_after_20-mise.*` | no |
 | fish plugins (`dot_config/fish/fish_plugins`) + yazi plugins (`dot_config/yazi/package.toml`) | `run_onchange_after_30-shell-plugins.*` | no |
 
+| xpra browser display: systemd user service (Linux, opt-in) | `run_onchange_after_40-xpra.*` | no |
+
 Each script re-runs only when its inputs change. If a package failed, fix it and run
 `chezmoi state delete-bucket --bucket=entryState && chezmoi apply`.
+
+## SSH keys from Bitwarden
+Personal machines (not work, not `noRoot`) get the Bitwarden desktop app, and shells use its SSH agent:
+
+| | App | `SSH_AUTH_SOCK` |
+|---|---|---|
+| macOS | Homebrew cask `bitwarden` | `~/.bitwarden-ssh-agent.sock` |
+| Linux amd64 | pinned `.deb` (`.chezmoidata/pins.yaml`) | `~/.bitwarden-ssh-agent.sock`, except in an SSH session (the forwarded agent is kept) |
+
+Turn the agent on in the app: **Settings → Enable SSH agent**. Check it with `ssh-add -l`.
+
+## Headless Linux: GUI apps in the browser
+Every Linux box gets herdr, code-server, X11 forwarding tools, xclip/xsel and GTK/Qt/Electron runtime libs.
+Answer **yes** to the `xpra` prompt (or set `DOTFILES_XPRA=true`) to also get a 3840x2160 virtual display served to the browser:
+
+| | |
+|---|---|
+| Display | `:100`, exported as `DISPLAY` in bash and fish (unless `ssh -X` already set one) |
+| Browser | `http://localhost:14500/` (localhost only) |
+| Service | `systemctl --user status xpra-display` |
+| Change | `.chezmoidata/xpra.yaml` |
+
+From another machine:
+```bash
+ssh -L 14500:localhost:14500 my-box      # then open http://localhost:14500/
+xclock &                                  # on my-box: appears in the browser
+```
+code-server is installed but not started: `code-server` serves on `http://127.0.0.1:8080/` (password in `~/.config/code-server/config.yaml`).
+To turn xpra on for a machine set up without it:
+```bash
+DOTFILES_XPRA=true chezmoi init </dev/null && chezmoi apply
+```
 
 ## Throwaway environment / testing
 ```bash

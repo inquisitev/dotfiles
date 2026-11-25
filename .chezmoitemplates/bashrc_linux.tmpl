@@ -123,6 +123,23 @@ if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate bash)"
 fi
 
+{{- if eq (includeTemplate "bitwarden_enabled.tmpl" .) "true" }}
+
+# ssh keys come from the Bitwarden desktop app's SSH agent, except in an ssh
+# session, where the forwarded agent is kept
+if [ -z "${SSH_CONNECTION:-}" ]; then
+  export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+fi
+{{- end }}
+
+{{- if .xpra }}
+
+# X apps go to the xpra browser display unless ssh -X already set one
+if [ -z "${DISPLAY:-}" ]; then
+  export DISPLAY=:{{ .xpraDisplay.number }}
+fi
+{{- end }}
+
 
 if [ -f ~/.config/bash/work_bash_rc.sh ]; then
   source ~/.config/bash/work_bash_rc.sh

@@ -11,7 +11,9 @@ pass() { printf "\033[0;32mok\033[0m   %s\n" "$*"; }
 fail() { printf "\033[0;31mFAIL\033[0m %s\n" "$*"; fails=$((fails + 1)); }
 
 echo "== tools"
-for t in nvim lazygit yazi ya gh node npm cargo rustc tree-sitter rg fzf fish mise chezmoi; do
+tools=(nvim lazygit yazi ya gh node npm cargo rustc tree-sitter rg fzf herdr fish mise chezmoi)
+[ "$(uname)" = Linux ] && tools+=(code-server)
+for t in "${tools[@]}"; do
    # capture everything, then keep the first line: piping into `head` can
    # SIGPIPE a tool that prints several lines (yazi), which pipefail reports
    if v="$("$t" --version 2>&1)"; then pass "$t: ${v%%$'\n'*}"; else fail "$t not runnable"; fi
@@ -29,6 +31,53 @@ if [ "$(chezmoi execute-template '{{ .noRoot }}')" != "true" ]; then
       shell="$(getent passwd "$(id -un)" | cut -d: -f7)"
    fi
    [[ "$shell" == */fish ]] && pass "login shell $shell" || fail "login shell is $shell, expected fish"
+fi
+
+if [ "$(uname)" = Linux ] && [ "$(chezmoi execute-template '{{ .noRoot }}')" != "true" ]; then
+   echo "== X11 apps and libraries"
+   for t in xauth xclip xsel xdpyinfo xeyes; do
+      command -v "$t" >/dev/null && pass "$t" || fail "$t missing"
+   done
+   libs="$(ldconfig -p)"
+   for lib in libgtk-3.so.0 libQt5Gui.so.5 libnss3.so libxcb-cursor.so.0 libasound.so.2; do
+      [[ "$libs" == *"$lib "* ]] && pass "$lib" || fail "$lib missing"
+   done
+fi
+
+if [ "$(chezmoi execute-template '{{ .xpra }}')" = "true" ]; then
+   echo "== xpra browser display"
+   num="$(chezmoi execute-template '{{ .xpraDisplay.number }}')"
+   port="$(chezmoi execute-template '{{ .xpraDisplay.port }}')"
+   size="$(chezmoi execute-template '{{ .xpraDisplay.size }}')"
+   unit="$HOME/.config/systemd/user/xpra-display.service"
+   [ -f "$unit" ] && pass "systemd user unit" || fail "missing $unit"
+   bash -ic 'echo "$DISPLAY"' 2>/dev/null | grep -qx ":$num" && pass "bash DISPLAY=:$num" || fail "bash DISPLAY not :$num"
+   [ "$(fish -c 'echo $DISPLAY')" = ":$num" ] && pass "fish DISPLAY=:$num" || fail "fish DISPLAY not :$num"
+   # Start it the way the unit does (no systemd in containers) and check it serves.
+   start="$(sed -n '/^ExecStart=/,/[^\\]$/p' "$unit" | sed 's/^ExecStart=//; s/\\$//' | tr -d '\n')"
+   $start >/tmp/xpra-verify.log 2>&1 &
+   for _ in $(seq 30); do curl -fs "http://127.0.0.1:$port/" >/dev/null && break; sleep 1; done
+   curl -fs "http://127.0.0.1:$port/" | grep -qi '<html' && pass "HTML5 client on :$port" || { fail "HTML5 client not served on :$port"; tail /tmp/xpra-verify.log; }
+   dims="$(DISPLAY=":$num" xdpyinfo 2>/dev/null | awk '/dimensions:/{print $2}')"
+   [ "$dims" = "$size" ] && pass "display :$num is $dims" || fail "display :$num is '$dims', expected $size"
+   xpra stop ":$num" >/dev/null 2>&1
+fi
+
+if [ "$(chezmoi execute-template '{{ includeTemplate "bitwarden_enabled.tmpl" . }}')" = "true" ]; then
+   echo "== Bitwarden SSH agent"
+   if [ "$(uname)" = Darwin ]; then
+      [ -d /Applications/Bitwarden.app ] && pass "Bitwarden.app" || fail "Bitwarden.app missing"
+   else
+      dpkg -s bitwarden >/dev/null 2>&1 && pass "bitwarden .deb" || fail "bitwarden .deb not installed"
+   fi
+   sock="$HOME/.bitwarden-ssh-agent.sock"
+   [ "$(bash -ic 'echo "$SSH_AUTH_SOCK"' 2>/dev/null)" = "$sock" ] && pass "bash SSH_AUTH_SOCK" || fail "bash SSH_AUTH_SOCK not $sock"
+   [ "$(fish -c 'echo $SSH_AUTH_SOCK')" = "$sock" ] && pass "fish SSH_AUTH_SOCK" || fail "fish SSH_AUTH_SOCK not $sock"
+   if [ "$(uname)" = Linux ]; then
+      fwd=/tmp/forwarded-agent.sock
+      [ "$(SSH_CONNECTION=x SSH_AUTH_SOCK=$fwd bash -ic 'echo "$SSH_AUTH_SOCK"' 2>/dev/null)" = "$fwd" ] && pass "bash keeps a forwarded agent over ssh" || fail "bash replaced the forwarded agent"
+      [ "$(SSH_CONNECTION=x SSH_AUTH_SOCK=$fwd fish -c 'echo $SSH_AUTH_SOCK')" = "$fwd" ] && pass "fish keeps a forwarded agent over ssh" || fail "fish replaced the forwarded agent"
+   fi
 fi
 
 echo "== fish plugins"
